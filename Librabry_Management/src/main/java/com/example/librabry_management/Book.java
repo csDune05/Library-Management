@@ -1,6 +1,9 @@
 package com.example.librabry_management;
 
-public class Document {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Book {
     private String title;
     private String author;
     private int date;
@@ -8,7 +11,7 @@ public class Document {
     private String description;
     private String id;
 
-    public Document(String title, String genre, String author, int date, String description) {
+    public Book(String title, String genre, String author, int date, String description) {
         this.title = title;
         this.id = CreateId.CreateDocId();
         this.genre = genre;
@@ -17,7 +20,7 @@ public class Document {
         this.description = description;
     }
 
-    public void viewDocument() {
+    public void viewBook() {
         System.out.println("Title: " + title);
         System.out.println("ID: " + id);
         System.out.println("Genre: " + genre);

@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Account {
-    private String id;
-    private String name;
-    private String birthdate;
-    private String phone_number;
-    private String email;
-    private String location;
-    private String password;
-    private static boolean isLoggedIn;
-
-    private static ArrayList<Account> accountList = new ArrayList<>();
+    protected String id;
+    protected String name;
+    protected String birthdate;
+    protected String phone_number;
+    protected String email;
+    protected String location;
+    protected String password;
+    protected static boolean isLoggedIn;
+    protected static ArrayList<Account> accountList = new ArrayList<>();
 
     public Account() {}
 
@@ -30,79 +29,6 @@ public class Account {
         this.location = location;
         this.password = password;
         this.isLoggedIn = false;
-    }
-
-    public static void registerAccount(String name, String birthdate, String phone_number, String email, String location, String password) {
-        if (!isLoggedIn) {
-            if (isEmailRegistered(email)) {
-                System.out.println("This email already has an account.");
-            } else {
-                Account newAccount = new Account(name, birthdate, phone_number, email, location, password);
-                accountList.add(newAccount);
-                System.out.println("Account registered successfully.");
-            }
-        }
-    }
-
-    private static boolean isEmailRegistered(String email) {
-        if (accountList.contains(email)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static void login(String email, String password) {
-        if (!isLoggedIn) {
-            for (Account account : accountList) {
-                if (account.getEmail().equals(email) && account.getPassword().equals(password)) {
-                    System.out.println("Login successful.");
-                    isLoggedIn = true;
-                }
-            }
-            System.out.println("Login failed: Incorrect username or password.");
-        }
-    }
-
-    public static void logout() {
-        isLoggedIn = false;
-        System.out.println("Logout successful.");
-    }
-
-    public void viewProfile() {
-        if (isLoggedIn) {
-            System.out.println("ID: " + this.id);
-            System.out.println("Name: " + this.name);
-            System.out.println("Birthdate: " + this.birthdate);
-            System.out.println("Phone: " + this.phone_number);
-            System.out.println("Email: " + this.email);
-            System.out.println("Location: " + this.location);
-            System.out.println("Password: " + this.password);
-        } else {
-            System.out.println("Not logged in.");
-        }
-    }
-
-    public void editProfile(String newName, String newBirthdate, String newPhone_number, String newLocation, String newPassword) {
-        if (isLoggedIn) {
-            if (newName != null) {
-                this.name = newName;
-            }
-            if (newBirthdate != null) {
-                this.birthdate = newBirthdate;
-            }
-            if (newPhone_number != null) {
-                this.phone_number = newPhone_number;
-            }
-            if (newLocation != null) {
-                this.location = newLocation;
-            }
-            if (newPassword != null) {
-                this.password = newPassword;
-            }
-            System.out.println("Edit profile successful.");
-        } else {
-            System.out.println("Not logged in.");
-        }
     }
 
     private boolean isValidBirthdate(String birthdate) {

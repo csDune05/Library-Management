@@ -1,4 +1,8 @@
 package com.example.librabry_management;
 
-public class Admin {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Admin extends User{
+
 }
