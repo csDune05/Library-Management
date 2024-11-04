@@ -1,60 +1,27 @@
 package com.example.librabry_management;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
 public class User extends Account{
 
-    private List<Book> books = new ArrayList<>();
+    public final Library library;
+    protected List<Book> Collection = new ArrayList<>();
 
-    public User() {
+    public User(Library library) {
         super();
+        this.library = library;
     }
 
-    public User(String name, String birthdate, String phone_number, String email, String location, String password) {
+    public User(String name, String birthdate, String phone_number, String email, String location, String password, Library library) {
         super(name, birthdate, phone_number, email, location, password);
-    }
-
-    public void registerAccount(String name, String birthdate, String phone_number, String email, String location, String password) {
-        if (!isLoggedIn) {
-            if (isEmailRegistered(email)) {
-                System.out.println("This email already has an account.");
-            } else {
-                Account newAccount = new Account(name, birthdate, phone_number, email, location, password);
-                accountList.add(newAccount);
-                System.out.println("Account registered successfully.");
-            }
-        }
-    }
-
-    private boolean isEmailRegistered(String email) {
-        if (accountList.contains(email)) {
-            return true;
-        }
-        return false;
-    }
-
-    public void login(String email, String password) {
-        if (!isLoggedIn) {
-            for (Account account : accountList) {
-                if (account.getEmail().equals(email) && account.getPassword().equals(password)) {
-                    System.out.println("Login successful.");
-                    isLoggedIn = true;
-                }
-            }
-            System.out.println("Login failed: Incorrect username or password.");
-        }
-    }
-
-    public void logout() {
-        isLoggedIn = false;
-        System.out.println("Logout successful.");
+        this.library = library;
     }
 
     public void viewProfile() {
         if (isLoggedIn) {
+            System.out.println("\n === User Profile ===");
             System.out.println("ID: " + this.id);
             System.out.println("Name: " + this.name);
             System.out.println("Birthdate: " + this.birthdate);
@@ -90,97 +57,95 @@ public class User extends Account{
         }
     }
 
-
-    public void addBook(Book doc) {
-        books.add(doc);
-    }
-
-    public int NumberOfBook() {
-        return books.size();
-    }
-
-    public void removeBook(String id) {
-        Book docToRemove = null;
-        for (Book doc : books) {
-            if (doc.getId().equals(id)) {
-                docToRemove = doc;
-                break;
-            }
-        }
-        if (docToRemove != null) {
-            books.remove(docToRemove);
-            CreateId.existingDocIds.remove(id);
-            System.out.println("Document with ID " + id + " removed successfully.");
-        } else {
-            System.out.println("Document with ID " + id + " not found.");
-        }
-    }
-
     public void viewAllBooks() {
-        System.out.println("=== Document List ===");
-        for (int i = 0; i < books.size(); i++) {
-            System.out.println((i + 1) + ". " + books.get(i).getInfo());
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("=== Book List ===");
+            for (int i = 0; i < library.numBooks(); i++) {
+                System.out.println((i + 1) + ". " + library.getBooksList().get(i).getInfo());
+            }
         }
     }
 
     public void searchByGenre(String genre) {
-        System.out.println("\n=== Search by Genre: " + genre + " ===");
-        List<Book> results = new ArrayList<>();
-        for (Book doc : books) {
-            if (doc.getGenre().equals(genre)) {
-                results.add(doc);
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== Search by Genre: " + genre + " ===");
+            List<Book> results = new ArrayList<>();
+            for (Book book : library.getBooksList()) {
+                if (book.getGenre().equals(genre)) {
+                    results.add(book);
+                }
             }
+            printSearchResults(results);
         }
-        printSearchResults(results);
     }
 
     public void searchByAuthor(String author) {
-        System.out.println("\n=== Search by Author: " + author + " ===");
-        List<Book> results = new ArrayList<>();
-        for (Book doc : books) {
-            if (doc.getAuthor().equals(author)) {
-                results.add(doc);
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== Search by Author: " + author + " ===");
+            List<Book> results = new ArrayList<>();
+            for (Book book : library.getBooksList()) {
+                if (book.getAuthor().equals(author)) {
+                    results.add(book);
+                }
             }
+            printSearchResults(results);
         }
-        printSearchResults(results);
     }
 
     public void searchByDate(int date) {
-        System.out.println("\n=== Search by Date: " + date + " ===");
-        List<Book> results = new ArrayList<>();
-        for (Book doc : books) {
-            if (doc.getDate() == date) {
-                results.add(doc);
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== Search by Date: " + date + " ===");
+            List<Book> results = new ArrayList<>();
+            for (Book book : library.getBooksList()) {
+                if (book.getDate() == date) {
+                    results.add(book);
+                }
             }
+            printSearchResults(results);
         }
-        printSearchResults(results);
     }
 
     public void searchByTitle(String title) {
-        System.out.println("\n=== Search by Title: " + title + " ===");
-        List<Book> results = new ArrayList<>();
-        for (Book doc : books) {
-            if (doc.getTitle().equals(title)) {
-                results.add(doc);
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== Search by Title: " + title + " ===");
+            List<Book> results = new ArrayList<>();
+            for (Book book : library.getBooksList()) {
+                if (book.getTitle().equals(title)) {
+                    results.add(book);
+                }
             }
+            printSearchResults(results);
         }
-        printSearchResults(results);
     }
 
     public void searchById(String id) {
-        System.out.println("\n=== Search by ID: " + id + " ===");
-        List<Book> results = new ArrayList<>();
-        for (Book doc : books) {
-            if (doc.getId().equalsIgnoreCase(id)) {
-                results.add(doc);
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== Search by ID: " + id + " ===");
+            List<Book> results = new ArrayList<>();
+            for (Book book : library.getBooksList()) {
+                if (book.getId().equalsIgnoreCase(id)) {
+                    results.add(book);
+                }
             }
+            printSearchResults(results);
         }
-        printSearchResults(results);
     }
 
     private void printSearchResults(List<Book> results) {
         if (results.isEmpty()) {
-            System.out.println("No documents found.");
+            System.out.println("No book found.");
         } else {
             for (int i = 0; i < results.size(); i++) {
                 System.out.println((i + 1) + ". " + results.get(i).getInfo());
@@ -188,31 +153,65 @@ public class User extends Account{
         }
     }
 
-    public void editBook(String id, String newTitle, String newGenre, String newAuthor, Integer newDate, String newDescription) {
-        boolean found = false;
-        for (Book doc : books) {
-            if (doc.getId().equals(id)) {
-                found = true;
-                if (newTitle != null) {
-                    doc.setTitle(newTitle);
+    public void addToCollection(Book book) {
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            if (!library.getBooksList().contains(book)) {
+                System.out.println("Book does not exist.");
+            } else {
+                if (!Collection.contains(book)) {
+                    Collection.add(book);
+                    System.out.println("Collection added successfully.");
+                } else {
+                    System.out.println("Collection already in your collection.");
                 }
-                if (newGenre != null) {
-                    doc.setGenre(newGenre);
-                }
-                if (newAuthor != null) {
-                    doc.setAuthor(newAuthor);
-                }
-                if (newDate != null) {
-                    doc.setDate(newDate);
-                }
-                if (newDescription != null) {
-                    doc.setDescription(newDescription);
-                }
-                break;
             }
         }
-        if (!found) {
-            System.out.println("Document with ID " + id + " not found.");
+    }
+
+    public void removeFromCollection(Book book) {
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            if (Collection.contains(book)) {
+                Collection.remove(book);
+                System.out.println("Collection removed successfully.");
+            } else {
+                System.out.println("Collection not in your collection.");
+            }
+        }
+    }
+
+    public int numsOfCollection() {
+        return Collection.size();
+    }
+
+    public void viewCollection() {
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== View Collection ===");
+            if (Collection.isEmpty()) {
+                System.out.println("Collection is empty.");
+            } else {
+                for (int i = 0; i < Collection.size(); i++) {
+                    System.out.println((i + 1) + ". " + Collection.get(i).getInfo());
+                }
+            }
+        }
+    }
+
+    public void viewBookDetails(Book book) {
+        if (!isLoggedIn) {
+            System.out.println("You are not logged in.");
+        } else {
+            System.out.println("\n=== View Book Details ===");
+            if (!library.getBooksList().contains(book)) {
+                System.out.println("Book does not exist.");
+            } else {
+                book.viewBook();
+            }
         }
     }
 }

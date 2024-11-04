@@ -11,10 +11,14 @@ public class Account {
     protected String email;
     protected String location;
     protected String password;
-    protected static boolean isLoggedIn;
-    protected static ArrayList<Account> accountList = new ArrayList<>();
+    protected boolean isLoggedIn;
 
-    public Account() {}
+    protected static ArrayList<User> userList = new ArrayList<>();
+    protected static ArrayList<Admin> adminList = new ArrayList<>();
+
+    public Account() {
+        this.isLoggedIn = false;
+    }
 
     public Account(String name, String birthdate, String phone_number, String email, String location, String password) {
         this.id = CreateId.CreateUserId();
@@ -29,6 +33,67 @@ public class Account {
         this.location = location;
         this.password = password;
         this.isLoggedIn = false;
+    }
+
+    public void register(Account account) {
+        if (!isLoggedIn) {
+            if (account instanceof Admin) {
+                for (Admin admin : adminList) {
+                    if (admin.getEmail().equals(account.email)) {
+                        System.out.println("Admin with this email already exists.");
+                        return;
+                    }
+                }
+                adminList.add((Admin) account);
+                System.out.println("Admin registered successfully.");
+            } else if (account instanceof User) {
+                for (User user : userList) {
+                    if (user.getEmail().equals(account.email)) {
+                        System.out.println("User with this email already exists.");
+                        return;
+                    }
+                }
+                userList.add((User) account);
+                System.out.println("User registered successfully.");
+            }
+        }
+    }
+
+    public void login(Account account) {
+        if (!isLoggedIn) {
+            if (account instanceof Admin) {
+                for (Admin admin : adminList) {
+                    if (admin.getEmail().equals(email) && admin.getPassword().equals(password)) {
+                        this.isLoggedIn = true;
+                        System.out.println("Admin login successful.");
+                        return;
+                    }
+                }
+            }
+
+            if (account instanceof User) {
+                for (User user : userList) {
+                    if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                        this.isLoggedIn = true;
+                        System.out.println("User login successful.");
+                        return;
+                    }
+                }
+            }
+            System.out.println("Login failed: Incorrect email or password.");
+        } else {
+            System.out.println("Already logged in.");
+        }
+    }
+
+
+    public void logout() {
+        if (isLoggedIn) {
+            this.isLoggedIn = false;
+            System.out.println("Logout successful.");
+        } else {
+            System.out.println("You are not logged in.");
+        }
     }
 
     private boolean isValidBirthdate(String birthdate) {
