@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.LoginController">
+   <children>
+      <ImageView fitHeight="272.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../c006b7fc744fa49bed1dfb3762f0d504%20(1).jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="204.0" layoutY="14.0" text="Tripple 3D" />
+      <TextField fx:id="usernameField" layoutX="233.0" layoutY="71.0" promptText="Usersname" />
+      <PasswordField fx:id="passwordField" layoutX="233.0" layoutY="104.0" promptText="Password" />
+      <CheckBox layoutX="233.0" layoutY="136.0" mnemonicParsing="false" text="Remember password">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </CheckBox>
+      <Button fx:id="loginButton" layoutX="232.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleLoginAction" prefHeight="26.0" prefWidth="160.0" text="Login" />
+      <Label layoutX="298.0" layoutY="48.0" text="Login" textAlignment="CENTER" textFill="#ff057f" />
+      <Button fx:id="cancelButton" layoutX="365.0" layoutY="239.0" mnemonicParsing="false" onAction="#handleCancelAction" text="Cancel" />
+      <Label fx:id="statusLabel" layoutX="273.0" layoutY="194.0" onDragDetected="#handleLoginAction" prefHeight="17.0" prefWidth="127.0" />
+   </children>
+</AnchorPane>
