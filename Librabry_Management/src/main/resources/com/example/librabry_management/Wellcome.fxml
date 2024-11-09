@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="741.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.WellcomeSpaceController">
+    <children>
+        <Label ellipsisString="" graphicTextGap="10.0" layoutX="32.0" layoutY="23.0" text="Tripple3D Library">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Button fx:id="HomeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" text="Home">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="AboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" text="About us">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="GetStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" text="Get Started">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="SighUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" text="Sigh up">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="LoginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" text="Log in">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Label layoutX="129.0" layoutY="173.0" prefHeight="163.0" prefWidth="487.0" text="Welcome to our library where every new page is a new Aventure!" wrapText="true">
+            <font>
+                <Font name="System Bold" size="36.0" />
+            </font>
+        </Label>
+        <Label layoutX="129.0" layoutY="324.0" prefHeight="134.0" prefWidth="355.0" text="This is a library with a wide variety of books, updated regularly, explore today and create your own space with your favorite books." wrapText="true">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="668.0" fitWidth="598.0" layoutX="591.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../Images/Books.png" />
+            </image>
+        </ImageView>
+    </children>
+</AnchorPane>
