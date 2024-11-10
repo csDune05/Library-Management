@@ -19,7 +19,7 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="AboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" onAction="#AboutUsButtonHandle" text="About us">
+        <Button fx:id="AboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" onAction="#AboutUsButtonHandle" styleClass="AboutUsButton" text="About us">
             <font>
                 <Font size="14.0" />
             </font>

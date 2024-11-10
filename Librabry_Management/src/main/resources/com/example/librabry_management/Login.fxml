@@ -22,7 +22,7 @@
             <Font size="14.0" />
          </font></Button>
       <Label layoutX="204.0" layoutY="14.0" text="Tripple 3D" />
-      <TextField fx:id="usernameField" layoutX="233.0" layoutY="71.0" promptText="Usersname">
+      <TextField fx:id="usernameField" layoutX="233.0" layoutY="71.0" promptText="Email">
          <font>
             <Font size="14.0" />
          </font></TextField>
