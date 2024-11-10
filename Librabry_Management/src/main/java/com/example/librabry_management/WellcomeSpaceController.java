@@ -1,8 +1,15 @@
 package com.example.librabry_management;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.awt.event.ActionEvent;
 
 public class WellcomeSpaceController {
     @FXML
@@ -12,11 +19,84 @@ public class WellcomeSpaceController {
     private Button AboutUsButton;
 
     @FXML
-    private Button SighUpButton;
+    private Button SignUpButton;
 
     @FXML
     private Button LoginButton;
 
     @FXML
     private Button GetStartedButton;
+
+    private Stage loginStage;
+    private Stage signUpStage;
+
+    public void AboutUsButtonHandle() {
+        try {
+            Parent AboutUsRoot = FXMLLoader.load(getClass().getResource("AboutUs.fxml"));
+            Scene aboutUsScene = new Scene(AboutUsRoot);
+
+            Stage stage = (Stage) HomeButton.getScene().getWindow();
+
+            stage.setScene(aboutUsScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openLoginStage() {
+        try {
+            if (loginStage == null) {
+                Parent loginRoot = FXMLLoader.load(getClass().getResource("Login.fxml"));
+
+                loginStage = new Stage();
+                loginStage.initModality(Modality.WINDOW_MODAL);
+                loginStage.initOwner(LoginButton.getScene().getWindow());
+                loginStage.initStyle(StageStyle.UTILITY);
+                loginStage.setTitle("Login");
+
+                Scene loginScene = new Scene(loginRoot);
+                loginStage.setScene(loginScene);
+
+                loginStage.setOnHidden(event -> loginStage = null);
+            }
+
+            loginStage.centerOnScreen();
+            loginStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void LoginButtonHandle() {
+        openLoginStage();
+    }
+
+    public void GetStartedButtonHandle() {
+        openLoginStage();
+    }
+
+    public void SignUpButtonHandle() {
+        try {
+            if (signUpStage == null) {
+                Parent loginRoot = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+
+                loginStage = new Stage();
+                loginStage.initModality(Modality.WINDOW_MODAL);
+                loginStage.initOwner(LoginButton.getScene().getWindow());
+                loginStage.initStyle(StageStyle.UTILITY);
+                loginStage.setTitle("Sign Up");
+
+                Scene loginScene = new Scene(loginRoot);
+                loginStage.setScene(loginScene);
+
+                loginStage.setOnHidden(event -> loginStage = null);
+            }
+
+            loginStage.centerOnScreen();
+            loginStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

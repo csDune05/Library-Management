@@ -10,24 +10,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="289.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.LoginController">
    <children>
       <ImageView fitHeight="272.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../c006b7fc744fa49bed1dfb3762f0d504%20(1).jpg" />
          </image>
       </ImageView>
-      <Label layoutX="204.0" layoutY="14.0" text="Tripple 3D" />
-      <TextField fx:id="usernameField" layoutX="233.0" layoutY="71.0" promptText="Usersname" />
-      <PasswordField fx:id="passwordField" layoutX="233.0" layoutY="104.0" promptText="Password" />
-      <CheckBox layoutX="233.0" layoutY="136.0" mnemonicParsing="false" text="Remember password">
+      <Button fx:id="loginButton" layoutX="248.0" layoutY="179.0" mnemonicParsing="false" onAction="#handleLoginAction" prefHeight="30.0" prefWidth="149.0" text="Login">
          <font>
-            <Font size="10.0" />
-         </font>
-      </CheckBox>
-      <Button fx:id="loginButton" layoutX="232.0" layoutY="159.0" mnemonicParsing="false" onAction="#handleLoginAction" prefHeight="26.0" prefWidth="160.0" text="Login" />
-      <Label layoutX="298.0" layoutY="48.0" text="Login" textAlignment="CENTER" textFill="#ff057f" />
-      <Button fx:id="cancelButton" layoutX="365.0" layoutY="239.0" mnemonicParsing="false" onAction="#handleCancelAction" text="Cancel" />
-      <Label fx:id="statusLabel" layoutX="273.0" layoutY="194.0" onDragDetected="#handleLoginAction" prefHeight="17.0" prefWidth="127.0" />
+            <Font size="14.0" />
+         </font></Button>
+      <Label layoutX="204.0" layoutY="14.0" text="Tripple 3D" />
+      <TextField fx:id="usernameField" layoutX="233.0" layoutY="71.0" promptText="Usersname">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <PasswordField fx:id="passwordField" layoutX="233.0" layoutY="115.0" promptText="Password">
+         <font>
+            <Font size="14.0" />
+         </font></PasswordField>
+      <CheckBox layoutX="232.0" layoutY="155.0" mnemonicParsing="false" text="Remember password" />
+      <Label layoutX="292.0" layoutY="44.0" text="Login" textAlignment="CENTER" textFill="#ff057f">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <Button fx:id="cancelButton" layoutX="380.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleCancelAction" text="Cancel" />
+      <Label fx:id="statusLabel" layoutX="265.0" layoutY="215.0" onDragDetected="#handleLoginAction" prefHeight="17.0" prefWidth="127.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
    </children>
 </AnchorPane>

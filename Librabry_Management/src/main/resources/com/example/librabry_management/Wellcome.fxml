@@ -19,22 +19,22 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="AboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" text="About us">
+        <Button fx:id="AboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" onAction="#AboutUsButtonHandle" text="About us">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="GetStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" text="Get Started">
+        <Button fx:id="GetStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" onAction="#GetStartedButtonHandle" text="Get Started">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="SighUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" text="Sigh up">
+        <Button fx:id="SighUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" onAction="#SignUpButtonHandle" text="Sigh up">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="LoginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" text="Log in">
+        <Button fx:id="LoginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" onAction="#LoginButtonHandle" text="Log in">
             <font>
                 <Font size="14.0" />
             </font>

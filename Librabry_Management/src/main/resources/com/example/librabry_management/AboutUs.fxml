@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.AboutUsSpaceController">
+    <children>
+        <Label layoutX="32.0" layoutY="23.0" text="Tripple3D Library">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Button layoutX="639.0" layoutY="21.0" mnemonicParsing="false" text="About us">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="HomeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#HomeButtonHandle" styleClass="HomeButton" text="Home">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/griz.jpg" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="543.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/panda.jpg" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="877.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/ice.jpg" />
+            </image>
+        </ImageView>
+        <Label layoutX="245.0" layoutY="273.0" text="Founder" />
+        <Label layoutX="231.0" layoutY="300.0" text="Đỗ Văn Dũng">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="595.0" layoutY="273.0" text="Founder" />
+        <Label layoutX="927.0" layoutY="273.0" text="Founder" />
+        <Label layoutX="576.0" layoutY="300.0" text="Vũ Đăng Dũng">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="897.0" layoutY="300.0" text="Nguyễn Ngọc Duy">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="177.0" layoutY="350.0" prefHeight="85.0" prefWidth="619.0" text="This is a free online book supply platform founded in 2024. We aim for a strong, civilized reading community." wrapText="true">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="177.0" layoutY="435.0" prefHeight="50.0" prefWidth="253.0" text="For further information, please contact:" wrapText="true">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="193.0" layoutY="515.0" prefHeight="38.0" prefWidth="253.0" text="Hotline: 0923021492" wrapText="true">
+            <font>
+                <Font name="System Italic" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="193.0" layoutY="477.0" prefHeight="38.0" prefWidth="253.0" text="Email: Tripple3DLibrary@gmail.com" wrapText="true">
+            <font>
+                <Font name="System Italic" size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="168.0" layoutY="575.0" prefHeight="38.0" prefWidth="253.0" text="Thanks for using our application." wrapText="true">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
