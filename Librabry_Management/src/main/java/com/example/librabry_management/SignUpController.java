@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.io.*;
+import java.util.Calendar;
 
 public class SignUpController {
     @FXML
@@ -36,6 +37,12 @@ public class SignUpController {
     private Label EmailStatusLabel;
 
     @FXML
+    private Label PhoneStatusLabel;
+
+    @FXML
+    private Label BirthdateStatusLabel;
+
+    @FXML
     private Button CancelButton;
 
     public void CancelActionHandle() {
@@ -51,13 +58,17 @@ public class SignUpController {
             isValid = false;
         }
 
-        if (BirthdateField.getText().isEmpty() || !isBirthdateValid(BirthdateField.getText())) {
+        if (BirthdateField.getText().isEmpty() || !isValidBirthdate(BirthdateField.getText())) {
             BirthdateField.setStyle("-fx-border-color: red;");
+            BirthdateStatusLabel.setStyle("-fx-border-color: red;");
+            BirthdateStatusLabel.setText("Invalid date or uncorrected dd/mm/yyyy format");
             isValid = false;
         }
 
         if (PhoneNumberField.getText().isEmpty() || !isPhoneNumberValid(PhoneNumberField.getText())) {
             PhoneNumberField.setStyle("-fx-border-color: red;");
+            PhoneStatusLabel.setStyle("-fx-border-color: red;");
+            PhoneStatusLabel.setText("Phone number must has enough 10 digits only");
             isValid = false;
         }
 
@@ -66,9 +77,14 @@ public class SignUpController {
             isValid = false;
         }
 
-        if (EmailField.getText().isEmpty() || isEmailDuplicate(EmailField.getText())) {
+        if (isEmailDuplicate(EmailField.getText())) {
             EmailField.setStyle("-fx-border-color: red;");
             EmailStatusLabel.setText("Email already exists");
+            isValid = false;
+        }
+
+        if (EmailStatusLabel.getText().isEmpty()) {
+            EmailField.setStyle("-fx-border-color: red;");
             isValid = false;
         }
 
@@ -120,8 +136,48 @@ public class SignUpController {
         return phoneNumber.matches("\\d{10}");
     }
 
-    private boolean isBirthdateValid(String birthdate) {
-        return birthdate.matches("\\d{2}/\\d{2}/\\d{4}");
+    private boolean isValidBirthdate(String birthdate) {
+        if (!birthdate.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            return false;
+        }
+
+        String[] parts = birthdate.split("/");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+
+        return isValidDate(day, month, year);
+    }
+
+    private boolean isValidDate(int day, int month, int year) {
+        if (month < 1 || month > 12) {
+            return false;
+        }
+
+        if (day < 1 || day > daysInMonth(month, year)) {
+            return false;
+        }
+
+        if (year < 0 || year > Calendar.getInstance().get(Calendar.YEAR)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private int daysInMonth(int month, int year) {
+        switch (month) {
+            case 4: case 6: case 9: case 11:
+                return 30;
+            case 2:
+                return (isLeapYear(year)) ? 29 : 28;
+            default:
+                return 31;
+        }
+    }
+
+    private boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
     private void saveToFile() throws IOException {

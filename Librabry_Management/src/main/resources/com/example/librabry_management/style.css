@@ -7,3 +7,20 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
+
+.signInButton {
+    -fx-background-color: #0A74DA;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+}
+
+.signInButton:hover {
+    -fx-background-color: #0c60b5;
+}
+
+.signInButton:pressed {
+    -fx-background-color: #084a8b;
+}

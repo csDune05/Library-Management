@@ -1,11 +1,13 @@
 package com.example.librabry_management;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,13 +16,13 @@ import java.io.IOException;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
 
     @FXML
     private PasswordField passwordField;
 
     @FXML
-    private Button loginButton;
+    private Button signinButton;
 
     @FXML
     private Button cancelButton;
@@ -29,14 +31,22 @@ public class LoginController {
     private Label statusLabel;
 
     @FXML
-    public void handleLoginAction() {
-        String username = usernameField.getText();
+    private Button signupButton;
+
+    @FXML
+    private CheckBox staysignedin;
+
+    private Stage signUpStage;
+
+    @FXML
+    public void SignInButtonHandle() {
+        String username = emailField.getText();
         String password = passwordField.getText();
 
         if (isLoginValid(username, password)) {
-            statusLabel.setText("Login Successful");
+            statusLabel.setText("Login Successful!");
         } else {
-            statusLabel.setText("Login Failed");
+            statusLabel.setText("Email or Password is incorrect!");
         }
     }
 
@@ -60,6 +70,30 @@ public class LoginController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void SignUpButtonHandle() {
+        try {
+            if (signUpStage == null) {
+                Parent signupRoot = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+
+                signUpStage = new Stage();
+                signUpStage.initModality(Modality.WINDOW_MODAL);
+                signUpStage.initOwner(signinButton.getScene().getWindow());
+                signUpStage.initStyle(StageStyle.UTILITY);
+                signUpStage.setTitle("Sign Up");
+
+                Scene loginScene = new Scene(signupRoot);
+                signUpStage.setScene(loginScene);
+
+                signUpStage.setOnHidden(event -> signUpStage = null);
+            }
+
+            signUpStage.centerOnScreen();
+            signUpStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

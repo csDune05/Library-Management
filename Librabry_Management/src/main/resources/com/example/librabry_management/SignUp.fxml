@@ -8,32 +8,47 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="571.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.SignUpController">
+<AnchorPane prefHeight="626.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.SignUpController">
     <children>
-        <ImageView fitHeight="585.0" fitWidth="414.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="628.0" fitWidth="495.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../../../../../../java/btht_oop/Librabry_Management/src/main/Images/signupspace.jpg" />
+                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/signupspace.jpg" />
             </image>
         </ImageView>
-        <Label layoutX="163.0" layoutY="41.0" text="Sign Up" textFill="WHITE">
+        <Label layoutX="683.0" layoutY="27.0" text="SIGN" textFill="#0a74da">
             <font>
-                <Font name="System Bold" size="24.0" />
+                <Font name="System Bold" size="28.0" />
             </font>
         </Label>
-        <Button fx:id="CreateAccountButton" layoutX="151.0" layoutY="531.0" mnemonicParsing="false" onAction="#CreateAccountButtonHandle" text="Create Account" />
-        <TextField fx:id="NameField" layoutX="81.0" layoutY="124.0" opacity="0.8" prefHeight="35.0" prefWidth="238.0" promptText="Name" />
-        <TextField fx:id="BirthdateField" layoutX="81.0" layoutY="190.0" opacity="0.8" prefHeight="35.0" prefWidth="238.0" promptText="Birthdate: dd/mm/yy" />
-        <TextField fx:id="PasswordField" layoutX="81.0" layoutY="457.0" opacity="0.8" prefHeight="35.0" prefWidth="238.0" promptText="Password" />
-        <TextField fx:id="PhoneNumberField" layoutX="82.0" layoutY="255.0" opacity="0.8" prefHeight="35.0" prefWidth="238.0" promptText="Phone Number" />
-        <TextField fx:id="LocationField" layoutX="81.0" layoutY="323.0" opacity="0.8" prefHeight="35.0" prefWidth="238.0" promptText="Location" />
-        <TextField fx:id="EmailField" layoutX="82.0" layoutY="390.0" opacity="0.8" prefHeight="35.0" prefWidth="238.0" promptText="Email" />
-        <Button fx:id="CancelButton" layoutX="342.0" layoutY="543.0" mnemonicParsing="false" onAction="#CancelActionHandle" text="Cancle" />
-        <Label fx:id="statusLabel" layoutX="126.0" layoutY="504.0" prefHeight="17.0" prefWidth="148.0" textFill="#0070ff">
+        <Label layoutX="763.0" layoutY="27.0" text="UP">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+        <Button fx:id="CreateAccountButton" layoutX="603.0" layoutY="523.0" mnemonicParsing="false" onAction="#CreateAccountButtonHandle" prefHeight="40.0" prefWidth="294.0" styleClass="signInButton" stylesheets="@style.css" text="SIGN UP" />
+        <TextField fx:id="NameField" layoutX="603.0" layoutY="88.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Name" />
+        <TextField fx:id="BirthdateField" layoutX="604.0" layoutY="160.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Birthdate: dd/mm/yy" />
+        <TextField fx:id="PasswordField" layoutX="604.0" layoutY="445.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Password" />
+        <TextField fx:id="PhoneNumberField" layoutX="604.0" layoutY="235.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Phone Number" />
+        <TextField fx:id="LocationField" layoutX="604.0" layoutY="304.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Location" />
+        <TextField fx:id="EmailField" layoutX="604.0" layoutY="378.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Email" />
+        <Button fx:id="CancelButton" layoutX="926.0" layoutY="584.0" mnemonicParsing="false" onAction="#CancelActionHandle" prefHeight="28.0" prefWidth="67.0" text="Cancle" />
+        <Label fx:id="statusLabel" layoutX="667.0" layoutY="498.0" prefHeight="17.0" prefWidth="148.0" textFill="#0070ff">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="EmailStatusLabel" layoutX="126.0" layoutY="373.0" prefHeight="17.0" prefWidth="148.0" textFill="#ff0000ed">
+        <Label fx:id="EmailStatusLabel" layoutX="667.0" layoutY="344.0" prefHeight="17.0" prefWidth="148.0" textFill="#ff0000ed">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label fx:id="PhoneStatusLabel" layoutX="603.0" layoutY="209.0" prefHeight="17.0" prefWidth="294.0" textFill="#ff0000ed">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label fx:id="BirthdateStatusLabel" layoutX="604.0" layoutY="136.0" prefHeight="17.0" prefWidth="294.0" textFill="#ff0000ed">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
