@@ -43,9 +43,9 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <ImageView fitHeight="678.0" fitWidth="438.0" layoutX="612.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="678.0" fitWidth="438.0" layoutX="606.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/signinspace.jpg" />
+            <Image url="@Images/signinspace.jpg" />
          </image>
       </ImageView>
       <Label layoutX="311.0" layoutY="66.0" text="IN" textAlignment="CENTER" textFill="#0a74da">
@@ -63,22 +63,22 @@
       <Line endX="-25.0" layoutX="471.0" layoutY="448.0" opacity="0.4" startX="-100.0" />
       <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="171.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/gg.png" />
+            <Image url="@Images/gg.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="55.0" fitWidth="59.0" layoutX="237.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/fb.png" />
+            <Image url="@Images/fb.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="302.0" layoutY="485.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/twitter.png" />
+            <Image url="@Images/twitter.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="48.0" fitWidth="59.0" layoutX="348.0" layoutY="479.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/in.png" />
+            <Image url="@Images/in.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#afd8ff" height="48.0" layoutX="136.0" layoutY="565.0" opacity="0.5" stroke="WHITE" strokeType="INSIDE" width="310.0" />

@@ -26,17 +26,17 @@
         </Button>
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/griz.jpg" />
+                <Image url="@Images/griz.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="543.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/panda.jpg" />
+                <Image url="@Images/panda.jpg" />
             </image>
         </ImageView>
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="877.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../../../../../../GitHub/Library-Management/Librabry_Management/src/main/Images/ice.jpg" />
+                <Image url="@Images/ice.jpg" />
             </image>
         </ImageView>
         <Label layoutX="245.0" layoutY="273.0" text="Founder" />
