@@ -13,7 +13,7 @@ public class TestApplication extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Wellcome.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.setTitle("Wellcome");
+            primaryStage.setTitle("Welcome");
             primaryStage.setScene(scene);
             scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             primaryStage.sceneProperty().addListener((obs, oldScene, newScene) -> {

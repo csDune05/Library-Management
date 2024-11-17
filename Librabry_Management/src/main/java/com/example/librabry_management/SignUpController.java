@@ -1,14 +1,17 @@
 package com.example.librabry_management;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.io.*;
+import java.net.URL;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
-public class SignUpController {
+public class SignUpController implements Initializable {
     @FXML
     private TextField NameField;
 
@@ -231,5 +234,31 @@ public class SignUpController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        BirthdateField.textProperty().addListener((observable, oldValue, newValue) -> {
+            newValue = newValue.replaceAll("[^\\d/]", "");
+
+            if (newValue.length() > 2 && !newValue.contains("/")) {
+                newValue = newValue.substring(0, 2) + "/" + newValue.substring(2);
+            }
+            if (newValue.length() > 5 && newValue.charAt(5) != '/') {
+                newValue = newValue.substring(0, 5) + "/" + newValue.substring(5);
+            }
+
+            if (newValue.length() > 10) {
+                newValue = newValue.substring(0, 10);
+            }
+            BirthdateField.setText(newValue);
+        });
+
+        PhoneNumberField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 10) {
+                newValue = newValue.substring(0, 10);
+            }
+            PhoneNumberField.setText(newValue);
+        });
     }
 }
