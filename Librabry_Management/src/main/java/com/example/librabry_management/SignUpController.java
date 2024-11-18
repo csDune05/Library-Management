@@ -86,8 +86,9 @@ public class SignUpController implements Initializable {
             isValid = false;
         }
 
-        if (EmailStatusLabel.getText().isEmpty()) {
+        if (EmailField.getText().isEmpty()) {
             EmailField.setStyle("-fx-border-color: red;");
+            EmailStatusLabel.setText("Invalid email address");
             isValid = false;
         }
 

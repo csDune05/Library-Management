@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="387.0" prefWidth="105.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tài khoản" />
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Dashboard" />
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Library loan" />
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Books" />
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Members" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <HBox prefHeight="74.0" prefWidth="591.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="95.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/D.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="titleLabel" prefHeight="98.0" prefWidth="120.0" styleClass="titleLabel" text="Dashboard">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="timeFilterComboBox" prefHeight="29.0" prefWidth="103.0" promptText="Weekly" styleClass="timeFilterComboBox" />
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

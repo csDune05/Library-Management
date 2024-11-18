@@ -24,3 +24,15 @@
 .signInButton:pressed {
     -fx-background-color: #084a8b;
 }
+
+.titleLabel {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.timeFilterComboBox {
+    -fx-font-size: 14px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ddd;
+}
