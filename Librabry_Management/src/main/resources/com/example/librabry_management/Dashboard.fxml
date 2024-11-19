@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -25,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
    <children>
       <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
          <children>
@@ -118,10 +111,17 @@
          <children>
             <HBox alignment="CENTER">
                <children>
-                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                  <ImageView fitHeight="47.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/bookborrow.png" />
+                     </image>
+                  </ImageView>
+                  <VBox alignment="CENTER" prefHeight="62.0" prefWidth="71.0">
                      <children>
-                        <Label prefHeight="21.0" prefWidth="72.0" text="Borrowed" textFill="GREY" />
+                        <Label prefHeight="21.0" prefWidth="65.0" text="Borrowed" textFill="GREY">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label style="-fx-font-weight: bold;" text="142" />
                      </children>
                   </VBox>
@@ -129,10 +129,17 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
                <children>
-                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                  <ImageView fitHeight="49.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/overdue.png" />
+                     </image>
+                  </ImageView>
+                  <VBox alignment="CENTER" prefHeight="61.0" prefWidth="52.0">
                      <children>
-                        <Label prefHeight="21.0" prefWidth="77.0" text="Overdue" textFill="GREY" />
+                        <Label prefHeight="21.0" prefWidth="77.0" text="Overdue" textFill="GREY">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label style="-fx-font-weight: bold;" text="8" />
                      </children>
                   </VBox>
@@ -140,21 +147,35 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
                <children>
-                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                  <ImageView fitHeight="43.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/visitors.png" />
+                     </image>
+                  </ImageView>
                   <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
                      <children>
-                        <Label text="Visitors" textFill="GREY" />
+                        <Label text="Visitors" textFill="GREY">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label style="-fx-font-weight: bold;" text="532" />
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="118.0">
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="130.0">
                <children>
-                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                  <ImageView fitHeight="49.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/newmember.png" />
+                     </image>
+                  </ImageView>
+                  <VBox alignment="CENTER" prefHeight="74.0" prefWidth="93.0">
                      <children>
-                        <Label text="New member" textFill="GREY" />
+                        <Label prefHeight="17.0" prefWidth="85.0" text="New member" textFill="GREY">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label style="-fx-font-weight: bold;" text="42" />
                      </children>
                   </VBox>
@@ -162,7 +183,7 @@
             </HBox>
          </children>
       </HBox>
-      <Label layoutX="203.0" layoutY="139.0" prefHeight="40.0" prefWidth="151.0" stylesheets="@style.css" text="Visitor &amp; Borrower">
+      <Label layoutX="194.0" layoutY="139.0" prefHeight="40.0" prefWidth="178.0" stylesheets="@style.css" text="Visitor &amp; Borrower">
          <font>
             <Font size="20.0" />
          </font>

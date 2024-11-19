@@ -37,6 +37,7 @@ public class LoginController {
     private CheckBox staysignedin;
 
     private Stage signUpStage;
+    private Stage DashboardStage;
 
     @FXML
     public void SignInButtonHandle() {
@@ -105,16 +106,18 @@ public class LoginController {
 
     private void openDashboard() {
         try {
-            Parent dashboardRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
-            Scene dashboardScene = new Scene(dashboardRoot);
+            if (DashboardStage == null) {
+                Parent dashboardRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+                Scene dashboardScene = new Scene(dashboardRoot);
 
-            Stage currentStage = (Stage) signinButton.getScene().getWindow();
-            currentStage.close();
+                Stage currentStage = (Stage) signinButton.getScene().getWindow();
+                currentStage.close();
 
-            Stage dashboardStage = new Stage();
-            dashboardStage.setTitle("Dashboard");
-            dashboardStage.setScene(dashboardScene);
-            dashboardStage.show();
+                Stage dashboardStage = new Stage();
+                dashboardStage.setTitle("Dashboard");
+                dashboardStage.setScene(dashboardScene);
+                dashboardStage.show();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
