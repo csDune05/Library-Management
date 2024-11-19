@@ -96,17 +96,17 @@
             <TextField prefHeight="25.0" prefWidth="178.0" promptText="Search " />
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="89.0" prefWidth="747.0">
+      <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="89.0" prefWidth="747.0" spacing="30.0">
          <children>
-            <Label fx:id="titleLabel" prefHeight="97.0" prefWidth="181.0" styleClass="titleLabel" text="Dashboard">
+            <Label fx:id="titleLabel" prefHeight="89.0" prefWidth="196.0" styleClass="titleLabel" text="Dashboard">
                <font>
-                  <Font size="36.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Label>
             <ComboBox fx:id="timeFilterComboBox" prefHeight="26.0" prefWidth="102.0" promptText="Weekly" styleClass="timeFilterComboBox" />
          </children>
       </HBox>
-      <BarChart fx:id="visitorChart" layoutX="150.0" layoutY="159.0" legendSide="TOP" legendVisible="false" prefHeight="233.0" prefWidth="631.0">
+      <BarChart fx:id="visitorChart" layoutX="194.0" layoutY="168.0" legendSide="TOP" legendVisible="false" prefHeight="227.0" prefWidth="658.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" fx:id="xAxis" />
          </xAxis>
@@ -114,15 +114,15 @@
             <NumberAxis fx:id="yAxis" side="LEFT" />
          </yAxis>
       </BarChart>
-      <HBox alignment="CENTER" layoutX="252.0" layoutY="83.0" prefHeight="47.0" prefWidth="544.0" spacing="30.0">
+      <HBox alignment="TOP_CENTER" layoutX="194.0" layoutY="84.0" prefHeight="56.0" prefWidth="658.0" spacing="70.0" style="-fx-background-color: #F5F5F5;">
          <children>
             <HBox alignment="CENTER">
                <children>
                   <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
                   <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="98.75" text="Borrowed" />
-                        <Label text="142" />
+                        <Label prefHeight="21.0" prefWidth="72.0" text="Borrowed" textFill="GREY" />
+                        <Label style="-fx-font-weight: bold;" text="142" />
                      </children>
                   </VBox>
                </children>
@@ -132,8 +132,8 @@
                   <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
                   <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
                      <children>
-                        <Label text="Overdue" />
-                        <Label text="8" />
+                        <Label prefHeight="21.0" prefWidth="77.0" text="Overdue" textFill="GREY" />
+                        <Label style="-fx-font-weight: bold;" text="8" />
                      </children>
                   </VBox>
                </children>
@@ -143,8 +143,8 @@
                   <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
                   <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
                      <children>
-                        <Label text="Visitors" />
-                        <Label text="532" />
+                        <Label text="Visitors" textFill="GREY" />
+                        <Label style="-fx-font-weight: bold;" text="532" />
                      </children>
                   </VBox>
                </children>
@@ -154,22 +154,22 @@
                   <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
                   <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
                      <children>
-                        <Label text="New mb" />
-                        <Label text="42" />
+                        <Label text="New member" textFill="GREY" />
+                        <Label style="-fx-font-weight: bold;" text="42" />
                      </children>
                   </VBox>
                </children>
             </HBox>
          </children>
       </HBox>
-      <Label layoutX="194.0" layoutY="136.0" prefHeight="40.0" prefWidth="151.0" text="Visitor &amp; Borrower">
+      <Label layoutX="203.0" layoutY="139.0" prefHeight="40.0" prefWidth="151.0" stylesheets="@style.css" text="Visitor &amp; Borrower">
          <font>
-            <Font size="18.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="410.0" layoutY="149.0" text="Visitor" />
-      <Label layoutX="501.0" layoutY="149.0" text="Borrower" />
-      <Circle fill="#ff1f1f" layoutX="394.0" layoutY="159.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#ffa11f" layoutX="488.0" layoutY="159.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="437.0" layoutY="149.0" stylesheets="@style.css" text="Visitor" />
+      <Label layoutX="532.0" layoutY="149.0" text="Borrower" />
+      <Circle fill="#ff1f1f" layoutX="417.0" layoutY="159.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#ffa11f" layoutX="514.0" layoutY="159.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

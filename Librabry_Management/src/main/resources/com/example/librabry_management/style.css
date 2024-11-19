@@ -53,3 +53,18 @@
 .button-base:pressed {
     -fx-background-color: #084a8b;
 }
+
+.label-legend {
+    -fx-font-size: 18px;
+    -fx-text-fill: #ffffff;
+}
+
+.label-title {
+    -fx-font-size: 15px;
+    -fx-text-fill: #ffffff;
+}
+
+.label-bold {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
