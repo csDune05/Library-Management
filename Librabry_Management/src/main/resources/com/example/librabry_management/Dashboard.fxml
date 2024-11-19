@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,45 +17,44 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
    <left>
-      <VBox prefHeight="301.0" prefWidth="126.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="619.0" prefWidth="147.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tài khoản" />
+            <ImageView fitHeight="144.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/D.jpg" />
+               </image>
+            </ImageView>
+            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Account" />
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Dashboard" />
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Library loan" />
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Books" />
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Members" />
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </VBox>
    </left>
-   <top>
-      <HBox prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="104.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/D.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="titleLabel" prefHeight="98.0" prefWidth="120.0" styleClass="titleLabel" text="Dashboard">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="timeFilterComboBox" prefHeight="29.0" prefWidth="103.0" promptText="Weekly" styleClass="timeFilterComboBox" />
-         </children>
-      </HBox>
-   </top>
    <right>
-      <VBox prefHeight="268.0" prefWidth="174.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="700.0" prefWidth="325.0" BorderPane.alignment="CENTER" />
    </right>
-   <bottom>
-      <HBox onDragDetected="#initialize" prefHeight="166.0" prefWidth="819.0" BorderPane.alignment="CENTER" />
-   </bottom>
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="141.0" prefWidth="395.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="715.0" prefWidth="645.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="544.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="titleLabel" prefHeight="97.0" prefWidth="181.0" styleClass="titleLabel" text="Dashboard">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="timeFilterComboBox" prefHeight="26.0" prefWidth="102.0" promptText="Weekly" styleClass="timeFilterComboBox" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="544.0" spacing="30.0">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -99,15 +101,47 @@
                      </children>
                   </HBox>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <BarChart fx:id="visitorChart" prefHeight="237.0" prefWidth="544.0" title="Visitor &amp; Borrower.">
+            <HBox prefHeight="59.0" prefWidth="544.0">
+               <children>
+                  <Label prefHeight="40.0" prefWidth="151.0" text="Visitor &amp; Borrower">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <BarChart fx:id="visitorChart" prefHeight="233.0" prefWidth="631.0">
               <xAxis>
-                <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+                <CategoryAxis side="BOTTOM" fx:id="xAxis" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" fx:id="yAxis" />
+                <NumberAxis fx:id="yAxis" side="LEFT" />
               </yAxis>
             </BarChart>
+            <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="728.0">
+               <children>
+                  <Label prefHeight="34.0" prefWidth="233.0" text="Overdue book Loans">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" text="see all" />
+               </children>
+            </HBox>
+            <TableView fx:id="overdueTableView" prefHeight="261.0" prefWidth="643.0">
+              <columns>
+                <TableColumn fx:id="idColumn" prefWidth="101.68525695800781" text="ID" />
+                <TableColumn fx:id="memberColumn" prefWidth="145.81475830078125" text="Member" />
+                  <TableColumn fx:id="titleColumn" prefWidth="116.47708129882812" text="Tittle" />
+                  <TableColumn fx:id="authorColumn" prefWidth="116.24081420898438" text="Author" />
+                  <TableColumn fx:id="overdueColumn" prefWidth="116.5048828125" text="Overdue" />
+                  <TableColumn fx:id="returnDateColumn" prefWidth="131.268798828125" text="Return Date" />
+              </columns>
+            </TableView>
          </children>
       </VBox>
    </center>

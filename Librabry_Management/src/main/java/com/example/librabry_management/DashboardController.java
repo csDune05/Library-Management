@@ -1,5 +1,6 @@
 package com.example.librabry_management;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -7,6 +8,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class DashboardController {
 
@@ -25,6 +29,27 @@ public class DashboardController {
     private ComboBox<String> timeFilterComboBox;
 
     @FXML
+    private TableView<LoanRecord> overdueTableView;
+
+    @FXML
+    private TableColumn<LoanRecord, String> idColumn;
+
+    @FXML
+    private TableColumn<LoanRecord, String> memberColumn;
+
+    @FXML
+    private TableColumn<LoanRecord, String> titleColumn;
+
+    @FXML
+    private TableColumn<LoanRecord, String> authorColumn;
+
+    @FXML
+    private TableColumn<LoanRecord, String> overdueColumn;
+
+    @FXML
+    private TableColumn<LoanRecord, String> returnDateColumn;
+
+    @FXML
     public void initialize() {
 
         titleLabel.setText("Dashboard");
@@ -38,27 +63,54 @@ public class DashboardController {
 
         xAxis.setLabel("Days");
         xAxis.setCategories(FXCollections.observableArrayList(
-                "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+                "Mon 12", "Tue 13", "Wed 14", "Thu 15", "Fri 16", "Sat 17", "Sun 18"
         ));
-
 
         yAxis.setLabel("Count");
         yAxis.setLowerBound(0);
-        yAxis.setUpperBound(200);
-        yAxis.setTickUnit(50);
+        yAxis.setUpperBound(120);
+        yAxis.setTickUnit(20);
+
 
         XYChart.Series<String, Number> visitors = new XYChart.Series<>();
         visitors.setName("Visitors");
-        visitors.getData().add(new XYChart.Data<>("Mon", 100));
-        visitors.getData().add(new XYChart.Data<>("Tue", 120));
-        visitors.getData().add(new XYChart.Data<>("Wed", 80));
+        visitors.getData().add(new XYChart.Data<>("Mon 12", 60));
+        visitors.getData().add(new XYChart.Data<>("Tue 13", 40));
+        visitors.getData().add(new XYChart.Data<>("Wed 14", 50));
+        visitors.getData().add(new XYChart.Data<>("Thu 15", 70));
+        visitors.getData().add(new XYChart.Data<>("Fri 16", 100));
+        visitors.getData().add(new XYChart.Data<>("Sat 17", 90));
+        visitors.getData().add(new XYChart.Data<>("Sun 18", 85));
 
         XYChart.Series<String, Number> borrowers = new XYChart.Series<>();
         borrowers.setName("Borrowers");
-        borrowers.getData().add(new XYChart.Data<>("Mon", 50));
-        borrowers.getData().add(new XYChart.Data<>("Tue", 60));
-        borrowers.getData().add(new XYChart.Data<>("Wed", 40));
+        borrowers.getData().add(new XYChart.Data<>("Mon 12", 20));
+        borrowers.getData().add(new XYChart.Data<>("Tue 13", 10));
+        borrowers.getData().add(new XYChart.Data<>("Wed 14", 15));
+        borrowers.getData().add(new XYChart.Data<>("Thu 15", 30));
+        borrowers.getData().add(new XYChart.Data<>("Fri 16", 70));
+        borrowers.getData().add(new XYChart.Data<>("Sat 17", 60));
+        borrowers.getData().add(new XYChart.Data<>("Sun 18", 55));
 
         visitorChart.getData().addAll(visitors, borrowers);
+
+        // Cấu hình các cột của TableView
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        memberColumn.setCellValueFactory(new PropertyValueFactory<>("member"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        overdueColumn.setCellValueFactory(new PropertyValueFactory<>("overdue"));
+        returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
+
+        // Thêm dữ liệu vào TableView
+        ObservableList<LoanRecord> overdueList = FXCollections.observableArrayList(
+                new LoanRecord("88934231", "Danielle Rusadi", "The Midnight Line", "Lee Child", "2 days", "Jun 14, 2022"),
+                new LoanRecord("88934231", "Eleanor Amantis", "Henry V", "William Shakespeare", "2 days", "Jun 10, 2022"),
+                new LoanRecord("88934233", "Michael Smith", "1984", "George Orwell", "3 days", "Jun 12, 2022"),
+                new LoanRecord("88934234", "Anna Johnson", "Pride and Prejudice", "Jane Austen", "5 days", "Jun 8, 2022"),
+                new LoanRecord("88934235", "John Doe", "To Kill a Mockingbird", "Harper Lee", "1 day", "Jun 15, 2022")
+        );
+
+        overdueTableView.setItems(overdueList);
     }
 }
