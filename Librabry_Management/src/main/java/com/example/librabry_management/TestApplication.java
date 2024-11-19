@@ -16,18 +16,21 @@ public class TestApplication extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Wellcome.fxml"));
             Parent root = loader.load();
 
+            Stage welcomeStage = new Stage();
             Scene scene = new Scene(root);
-            primaryStage.setTitle("Welcome");
-            primaryStage.setScene(scene);
+            welcomeStage.setTitle("Welcome");
+            welcomeStage.setScene(scene);
+
+            StageManager.setWelcomeStage(welcomeStage);
 
             scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-            primaryStage.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            welcomeStage.sceneProperty().addListener((obs, oldScene, newScene) -> {
                 if (newScene != null && newScene.getStylesheets().isEmpty()) {
                     newScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
                 }
             });
 
-            primaryStage.show();
+            welcomeStage.show();
         } catch(Exception e) {
             e.printStackTrace();
         }

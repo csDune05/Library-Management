@@ -62,6 +62,7 @@ public class WellcomeSpaceController {
             }
 
             loginStage.centerOnScreen();
+            StageManager.setLoginStage(loginStage);
             loginStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();

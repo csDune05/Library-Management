@@ -116,6 +116,8 @@ public class LoginController {
                 Stage dashboardStage = new Stage();
                 dashboardStage.setTitle("Dashboard");
                 dashboardStage.setScene(dashboardScene);
+                StageManager.setDashboardStage(dashboardStage);
+                StageManager.closeStage();
                 dashboardStage.show();
             }
         } catch (IOException e) {
