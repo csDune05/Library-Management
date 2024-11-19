@@ -45,6 +45,8 @@ public class LoginController {
 
         if (isLoginValid(username, password)) {
             statusLabel.setText("Login Successful!");
+
+
         } else {
             statusLabel.setText("Email or Password is incorrect!");
         }

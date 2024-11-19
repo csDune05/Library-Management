@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,12 +11,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
    <left>
-      <VBox prefHeight="387.0" prefWidth="105.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="301.0" prefWidth="126.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Tài khoản" />
             <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Dashboard" />
@@ -24,9 +27,9 @@
       </VBox>
    </left>
    <top>
-      <HBox prefHeight="74.0" prefWidth="591.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="64.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="95.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="104.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Images/D.jpg" />
                </image>
@@ -40,4 +43,72 @@
          </children>
       </HBox>
    </top>
+   <right>
+      <VBox prefHeight="268.0" prefWidth="174.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <HBox onDragDetected="#initialize" prefHeight="166.0" prefWidth="819.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="141.0" prefWidth="395.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="544.0">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="98.75" text="Borrowed" />
+                              <Label text="142" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
+                     <children>
+                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                           <children>
+                              <Label text="Overdue" />
+                              <Label text="8" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
+                     <children>
+                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                           <children>
+                              <Label text="Visitors" />
+                              <Label text="532" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="118.0">
+                     <children>
+                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                           <children>
+                              <Label text="New mb" />
+                              <Label text="42" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <BarChart fx:id="visitorChart" prefHeight="237.0" prefWidth="544.0" title="Visitor &amp; Borrower.">
+              <xAxis>
+                <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" fx:id="yAxis" />
+              </yAxis>
+            </BarChart>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
