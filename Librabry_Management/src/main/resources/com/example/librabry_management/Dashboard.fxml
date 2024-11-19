@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -18,7 +25,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
    <children>
       <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
          <children>
@@ -99,7 +106,7 @@
             <ComboBox fx:id="timeFilterComboBox" prefHeight="26.0" prefWidth="102.0" promptText="Weekly" styleClass="timeFilterComboBox" />
          </children>
       </HBox>
-      <BarChart fx:id="visitorChart" layoutX="150.0" layoutY="159.0" prefHeight="233.0" prefWidth="631.0">
+      <BarChart fx:id="visitorChart" layoutX="150.0" layoutY="159.0" legendSide="TOP" legendVisible="false" prefHeight="233.0" prefWidth="631.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" fx:id="xAxis" />
          </xAxis>
@@ -155,10 +162,14 @@
             </HBox>
          </children>
       </HBox>
-      <Label layoutX="187.0" layoutY="129.0" prefHeight="40.0" prefWidth="151.0" text="Visitor &amp; Borrower">
+      <Label layoutX="194.0" layoutY="136.0" prefHeight="40.0" prefWidth="151.0" text="Visitor &amp; Borrower">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <Label layoutX="410.0" layoutY="149.0" text="Visitor" />
+      <Label layoutX="501.0" layoutY="149.0" text="Borrower" />
+      <Circle fill="#ff1f1f" layoutX="394.0" layoutY="159.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#ffa11f" layoutX="488.0" layoutY="159.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>

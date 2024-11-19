@@ -61,12 +61,10 @@ public class DashboardController {
             System.out.println("Selected filter: " + selectedValue);
         });
 
-        xAxis.setLabel("Days");
         xAxis.setCategories(FXCollections.observableArrayList(
                 "Mon 12", "Tue 13", "Wed 14", "Thu 15", "Fri 16", "Sat 17", "Sun 18"
         ));
 
-        yAxis.setLabel("Count");
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(120);
         yAxis.setTickUnit(20);
