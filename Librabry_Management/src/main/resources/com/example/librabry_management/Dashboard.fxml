@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -9,140 +8,165 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
-   <left>
-      <VBox alignment="TOP_CENTER" prefHeight="619.0" prefWidth="147.0" spacing="20.0" BorderPane.alignment="CENTER">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
+   <children>
+      <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
          <children>
-            <ImageView fitHeight="144.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/D.jpg" />
+                  <Image url="@Images/avatar.png" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Account" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Dashboard" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Library loan" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Books" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Members" />
+            <Button mnemonicParsing="false" prefHeight="73.0" prefWidth="149.0" styleClass="button-base" stylesheets="@style.css" text="Home">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="My Library">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Profile">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Progress">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="98.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Settings">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
          </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
       </VBox>
-   </left>
-   <right>
-      <VBox prefHeight="700.0" prefWidth="325.0" BorderPane.alignment="CENTER" />
-   </right>
-   <center>
-      <VBox alignment="TOP_CENTER" prefHeight="715.0" prefWidth="645.0" BorderPane.alignment="CENTER">
+      <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="27.0" startX="-101.0" startY="-27.0" />
+      <Line endX="950.0" layoutX="250.0" layoutY="83.0" startX="-100.0" />
+      <Line endX="53.0" endY="-70.5" layoutX="844.0" layoutY="154.0" startX="53.0" startY="546.5" />
+      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="1030.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/avatar.png" />
+         </image>
+      </ImageView>
+      <ComboBox cache="true" cacheHint="SPEED" layoutX="1100.0" layoutY="32.0" prefHeight="25.0" prefWidth="70.0" />
+      <BarChart fx:id="visitorChart" layoutX="150.0" layoutY="439.0" prefHeight="233.0" prefWidth="631.0">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="yAxis" side="LEFT" />
+         </yAxis>
+      </BarChart>
+      <TableView fx:id="overdueTableView" layoutX="150.0" layoutY="439.0" prefHeight="261.0" prefWidth="747.0">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="101.68525695800781" text="ID" />
+            <TableColumn fx:id="memberColumn" prefWidth="145.81475830078125" text="Member" />
+            <TableColumn fx:id="titleColumn" prefWidth="116.47708129882812" text="Tittle" />
+            <TableColumn fx:id="authorColumn" prefWidth="116.24081420898438" text="Author" />
+            <TableColumn fx:id="overdueColumn" prefWidth="116.5048828125" text="Overdue" />
+            <TableColumn fx:id="returnDateColumn" prefWidth="147.0" text="Return Date" />
+         </columns>
+      </TableView>
+      <HBox alignment="CENTER_LEFT" layoutX="150.0" layoutY="392.0" prefHeight="43.0" prefWidth="747.0" spacing="10.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="titleLabel" prefHeight="97.0" prefWidth="181.0" styleClass="titleLabel" text="Dashboard">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="timeFilterComboBox" prefHeight="26.0" prefWidth="102.0" promptText="Weekly" styleClass="timeFilterComboBox" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="544.0" spacing="30.0">
-               <children>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="98.75" text="Borrowed" />
-                              <Label text="142" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
-                     <children>
-                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
-                           <children>
-                              <Label text="Overdue" />
-                              <Label text="8" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
-                     <children>
-                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
-                           <children>
-                              <Label text="Visitors" />
-                              <Label text="532" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="118.0">
-                     <children>
-                        <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
-                        <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
-                           <children>
-                              <Label text="New mb" />
-                              <Label text="42" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
-            <HBox prefHeight="59.0" prefWidth="544.0">
-               <children>
-                  <Label prefHeight="40.0" prefWidth="151.0" text="Visitor &amp; Borrower">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <BarChart fx:id="visitorChart" prefHeight="233.0" prefWidth="631.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" fx:id="xAxis" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis fx:id="yAxis" side="LEFT" />
-              </yAxis>
-            </BarChart>
-            <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="728.0">
-               <children>
-                  <Label prefHeight="34.0" prefWidth="233.0" text="Overdue book Loans">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Button mnemonicParsing="false" text="see all" />
-               </children>
-            </HBox>
-            <TableView fx:id="overdueTableView" prefHeight="261.0" prefWidth="643.0">
-              <columns>
-                <TableColumn fx:id="idColumn" prefWidth="101.68525695800781" text="ID" />
-                <TableColumn fx:id="memberColumn" prefWidth="145.81475830078125" text="Member" />
-                  <TableColumn fx:id="titleColumn" prefWidth="116.47708129882812" text="Tittle" />
-                  <TableColumn fx:id="authorColumn" prefWidth="116.24081420898438" text="Author" />
-                  <TableColumn fx:id="overdueColumn" prefWidth="116.5048828125" text="Overdue" />
-                  <TableColumn fx:id="returnDateColumn" prefWidth="131.268798828125" text="Return Date" />
-              </columns>
-            </TableView>
+            <Label prefHeight="34.0" prefWidth="233.0" text="Overdue book Loans">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" text="see all" />
+            <TextField prefHeight="25.0" prefWidth="178.0" promptText="Search " />
          </children>
-      </VBox>
-   </center>
-</BorderPane>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="89.0" prefWidth="747.0">
+         <children>
+            <Label fx:id="titleLabel" prefHeight="97.0" prefWidth="181.0" styleClass="titleLabel" text="Dashboard">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="timeFilterComboBox" prefHeight="26.0" prefWidth="102.0" promptText="Weekly" styleClass="timeFilterComboBox" />
+         </children>
+      </HBox>
+      <BarChart fx:id="visitorChart" layoutX="150.0" layoutY="159.0" prefHeight="233.0" prefWidth="631.0">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="yAxis" side="LEFT" />
+         </yAxis>
+      </BarChart>
+      <HBox alignment="CENTER" layoutX="252.0" layoutY="83.0" prefHeight="47.0" prefWidth="544.0" spacing="30.0">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="98.75" text="Borrowed" />
+                        <Label text="142" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
+               <children>
+                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                     <children>
+                        <Label text="Overdue" />
+                        <Label text="8" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="39.0" prefWidth="118.0">
+               <children>
+                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                     <children>
+                        <Label text="Visitors" />
+                        <Label text="532" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="118.0">
+               <children>
+                  <Circle fill="DODGERBLUE" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+                  <VBox alignment="CENTER" prefHeight="39.0" prefWidth="56.0">
+                     <children>
+                        <Label text="New mb" />
+                        <Label text="42" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <Label layoutX="187.0" layoutY="129.0" prefHeight="40.0" prefWidth="151.0" text="Visitor &amp; Borrower">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

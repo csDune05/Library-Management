@@ -63,14 +63,12 @@ public class SignUpController implements Initializable {
 
         if (BirthdateField.getText().isEmpty() || !isValidBirthdate(BirthdateField.getText())) {
             BirthdateField.setStyle("-fx-border-color: red;");
-            BirthdateStatusLabel.setStyle("-fx-border-color: red;");
             BirthdateStatusLabel.setText("Invalid date or uncorrected dd/mm/yyyy format");
             isValid = false;
         }
 
         if (PhoneNumberField.getText().isEmpty() || !isPhoneNumberValid(PhoneNumberField.getText())) {
             PhoneNumberField.setStyle("-fx-border-color: red;");
-            PhoneStatusLabel.setStyle("-fx-border-color: red;");
             PhoneStatusLabel.setText("Phone number must has enough 10 digits only");
             isValid = false;
         }

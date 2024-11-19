@@ -36,3 +36,20 @@
     -fx-background-color: #fff;
     -fx-border-color: #ddd;
 }
+
+.button-base {
+    -fx-background-color: #0A74DA;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+}
+
+.button-base:hover {
+    -fx-background-color: #0c60b5;
+}
+
+.button-base:pressed {
+    -fx-background-color: #084a8b;
+}
