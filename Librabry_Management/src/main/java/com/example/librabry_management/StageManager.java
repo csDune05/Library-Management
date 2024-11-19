@@ -19,13 +19,19 @@ public class StageManager {
         dashboardStage = stage;
     }
 
-    public static void closeStage() {
+    public static void closeWelcomeStage() {
         if (welcomeStage != null) {
             welcomeStage.close();
         }
+    }
+
+    public static void closeLoginStage() {
         if (loginStage != null) {
             loginStage.close();
         }
     }
 
+    public static void openWelcomeStage() {
+        welcomeStage.show();
+    }
 }

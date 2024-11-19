@@ -70,6 +70,7 @@ public class DashboardController {
                 confirmationAlert.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         optionsComboBox.getScene().getWindow().hide();
+                        StageManager.openWelcomeStage();
                     } else {
                         optionsComboBox.setValue(null);
                     }
