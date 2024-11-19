@@ -6,11 +6,9 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class DashboardController {
 
@@ -27,6 +25,9 @@ public class DashboardController {
 
     @FXML
     private ComboBox<String> timeFilterComboBox;
+
+    @FXML
+    private ComboBox<String> optionsComboBox;
 
     @FXML
     private TableView<LoanRecord> overdueTableView;
@@ -55,6 +56,26 @@ public class DashboardController {
         titleLabel.setText("Dashboard");
 
         timeFilterComboBox.getItems().addAll("Weekly", "Monthly", "Yearly");
+        optionsComboBox.getItems().addAll("Dashboard", "My Profile", "Log out");
+
+        // bắt sự kiện nếu Options là log out thì thoát.
+        optionsComboBox.setOnAction(event -> {
+            String selectedOption = optionsComboBox.getValue();
+            if (selectedOption.equals("Log out")) {
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Confirmation");
+                confirmationAlert.setHeaderText("Are you sure you want to log out?");
+                confirmationAlert.setContentText("Press OK to log out, or Cancel to stay.");
+
+                confirmationAlert.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        optionsComboBox.getScene().getWindow().hide();
+                    } else {
+                        optionsComboBox.setValue(null);
+                    }
+                });
+            }
+        });
 
         timeFilterComboBox.setOnAction(event -> {
             String selectedValue = timeFilterComboBox.getValue();
