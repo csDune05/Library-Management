@@ -45,8 +45,7 @@ public class LoginController {
 
         if (isLoginValid(username, password)) {
             statusLabel.setText("Login Successful!");
-
-
+            openDashboard();
         } else {
             statusLabel.setText("Email or Password is incorrect!");
         }
@@ -102,5 +101,22 @@ public class LoginController {
     public void handleCancelAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
+    }
+
+    private void openDashboard() {
+        try {
+            Parent dashboardRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+            Scene dashboardScene = new Scene(dashboardRoot);
+
+            Stage currentStage = (Stage) signinButton.getScene().getWindow();
+            currentStage.close();
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.setTitle("Dashboard");
+            dashboardStage.setScene(dashboardScene);
+            dashboardStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
