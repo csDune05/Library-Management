@@ -78,8 +78,12 @@
                        <Button fx:id="searchButton" onAction="#performSearch" text="Search" />
                    </children>
                 </HBox>
-
-                <TilePane fx:id="tilePane" hgap="10" prefColumns="4" prefHeight="0.0" prefWidth="894.0" vgap="10" />
+            <ScrollPane hbarPolicy="NEVER" prefHeight="569.0" prefWidth="797.0">
+               <content>
+      
+                      <TilePane fx:id="tilePane" hgap="10" prefColumns="4" prefHeight="0.0" prefWidth="894.0" vgap="10" />
+               </content>
+            </ScrollPane>
             </children>
         </VBox>
       <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="29.0" opacity="0.2" startX="-101.0" startY="-27.0" />

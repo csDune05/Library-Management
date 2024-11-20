@@ -13,7 +13,7 @@ public class GoogleBooksApi {
         OkHttpClient client = new OkHttpClient();
 
         // Tạo URL yêu cầu
-        String url = BASE_URL + "?q=" + query.replace(" ", "+") + "&maxResults=10&key=" + API_KEY;
+        String url = BASE_URL + "?q=" + query.replace(" ", "+") + "&maxResults=20&key=" + API_KEY;
 
         Request request = new Request.Builder()
                 .url(url)

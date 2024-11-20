@@ -70,8 +70,8 @@ public class BookController {
     private VBox createBookCard(BookTest book) {
         ImageView thumbnail = new ImageView();
         thumbnail.setImage(new Image(book.getThumbnailUrl(), 120, 180, true, true));
-        thumbnail.setFitWidth(120);
-        thumbnail.setFitHeight(180);
+        thumbnail.setFitWidth(110);
+        thumbnail.setFitHeight(160);
 
         Label title = new Label(book.getTitle());
         title.setWrapText(true);
@@ -95,7 +95,7 @@ public class BookController {
         card.setPadding(new Insets(10));
         card.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5px; -fx-background-color: #f9f9f9;");
         card.setPrefWidth(150);
-        card.setPrefHeight(250);
+        card.setPrefHeight(270);
         card.setAlignment(Pos.CENTER);
         return card;
     }
