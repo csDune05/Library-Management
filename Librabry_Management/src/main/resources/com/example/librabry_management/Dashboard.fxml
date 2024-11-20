@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -18,7 +25,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
    <children>
       <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
          <children>
@@ -32,7 +39,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
+            <Button fx:id="Books" mnemonicParsing="false" onAction="#BooksButtonHandler" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
                <font>
                   <Font size="18.0" />
                </font>

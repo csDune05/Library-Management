@@ -2,6 +2,9 @@ package com.example.librabry_management;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -9,6 +12,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+import java.awt.event.ActionEvent;
 
 public class DashboardController {
 
@@ -51,6 +56,24 @@ public class DashboardController {
     private TableColumn<LoanRecord, String> returnDateColumn;
 
     @FXML
+    private Button Books;
+
+    @FXML
+    public void BooksButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("Book.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) Books.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void initialize() {
 
         titleLabel.setText("Dashboard");
@@ -90,7 +113,6 @@ public class DashboardController {
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(120);
         yAxis.setTickUnit(20);
-
 
         XYChart.Series<String, Number> visitors = new XYChart.Series<>();
         visitors.setName("Visitors");

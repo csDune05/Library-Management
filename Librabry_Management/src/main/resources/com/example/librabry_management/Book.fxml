@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.BookController">
+    <children>
+        <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
+            <children>
+                <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/avatar.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButtonHandler" prefHeight="73.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Home">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="149.0" stylesheets="@style.css" text="Books">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="HomeButton" />
+                        <String fx:value="button-base" />
+                    </styleClass>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="My Library">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Profile">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Progress">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="98.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Settings">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+
+        <Line endX="950.0" layoutX="250.0" layoutY="86.0" opacity="0.2" startX="-100.0" />
+
+        <HBox alignment="CENTER_LEFT" layoutX="160.0" prefHeight="89.0" prefWidth="747.0" spacing="30.0">
+            <children>
+                <Label fx:id="titleLabel" prefHeight="89.0" prefWidth="196.0" styleClass="titleLabel" text="    Books" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="36.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+
+        <ComboBox fx:id="categoryComboBox" layoutX="1055.0" layoutY="32.0" prefHeight="31.0" prefWidth="127.0" promptText="Option" />
+
+        <Line endX="53.0" endY="-70.5" layoutX="894.0" layoutY="156.0" opacity="0.2" startX="53.0" startY="546.5" />
+
+        <!-- Phần giữa: Thay đổi để hiển thị sách -->
+        <VBox layoutX="150.0" layoutY="87.0" prefHeight="612.0" prefWidth="797.0" spacing="20.0">
+            <children>
+                <HBox prefHeight="22.0" prefWidth="766.0" spacing="10">
+                   <children>
+                       <TextField fx:id="searchField" promptText="Enter book title or author" />
+                       <Button fx:id="searchButton" onAction="#performSearch" text="Search" />
+                   </children>
+                </HBox>
+
+                <TilePane fx:id="tilePane" hgap="10" prefColumns="4" prefHeight="0.0" prefWidth="894.0" vgap="10" />
+            </children>
+        </VBox>
+      <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="29.0" opacity="0.2" startX="-101.0" startY="-27.0" />
+      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="985.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/avatar.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>

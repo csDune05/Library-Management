@@ -17,6 +17,9 @@ public class Book {
         this.description = description;
     }
 
+    public Book(String title, String author) {
+    }
+
     public void viewBook() {
         System.out.println("Title: " + title);
         System.out.println("ID: " + id);
