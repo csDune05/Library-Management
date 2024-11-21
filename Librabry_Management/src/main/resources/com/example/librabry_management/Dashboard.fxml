@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -25,21 +18,21 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.librabry_management.DashboardController">
    <children>
       <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
          <children>
             <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/avatar.png" />
+                  <Image url="@Images/logo.png" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" prefHeight="73.0" prefWidth="149.0" styleClass="button-base" stylesheets="@style.css" text="Home">
+            <Button mnemonicParsing="false" prefHeight="10.0" prefWidth="149.0" styleClass="button-base" stylesheets="@style.css" text="Home">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="Books" mnemonicParsing="false" onAction="#BooksButtonHandler" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
+            <Button fx:id="booksButton" mnemonicParsing="false" onAction="#BooksButtonHandler" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
                <font>
                   <Font size="18.0" />
                </font>
@@ -59,7 +52,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="98.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Settings">
+            <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="126.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
                <font>
                   <Font size="18.0" />
                </font>
