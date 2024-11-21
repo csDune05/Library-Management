@@ -10,6 +10,8 @@ module com.example.librabry_management {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
     requires java.desktop;
+    requires com.zaxxer.hikari;
+
     requires java.prefs;
     requires json;
     opens com.example.Controller to javafx.fxml;

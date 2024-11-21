@@ -1,11 +1,12 @@
 package com.example.Controller;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -18,7 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.util.List;
 import com.example.librabry_management.*;
 
 
@@ -77,6 +77,12 @@ public class BookController {
     @FXML
     public void initialize() {
         DatabaseHelper.createTable();
+        // Lấy 10 sách trong database
+        List<Book> books = DatabaseHelper.getDefaultBooks();
+        // Hiển thị sách trong giao diện
+        for (Book book : books) {
+            tilePane.getChildren().add(createBookCard(book));
+        }
         searchButton.setOnAction(e -> performSearch());
         optionsComboBox.getItems().addAll("My Profile", "Log out");
 
@@ -104,41 +110,66 @@ public class BookController {
     @FXML
     public void performSearch() {
         String query = searchField.getText();
-        ObservableList<BookTest> books;
 
-        // Tìm trong cơ sở dữ liệu trước
-        List<BookTest> dbBooks = DatabaseHelper.searchBooks(query);
-        if (!dbBooks.isEmpty()) {
-            books = FXCollections.observableArrayList(new LinkedHashSet<>(dbBooks)); // Lọc trùng lặp
-        } else {
-            // Nếu không tìm thấy, gọi Google Books API
-            String jsonResponse = GoogleBooksApi.searchBooks(query);
-            if (jsonResponse != null) {
-                List<BookTest> apiBooks = JsonParserEx.parseBooks(jsonResponse);
+        // Tạo Task để xử lý công việc nặng
+        Task<ObservableList<VBox>> searchTask = new Task<>() {
+            @Override
+            protected ObservableList<VBox> call() {
+                ObservableList<VBox> bookCards = FXCollections.observableArrayList();
 
-                // Lưu dữ liệu mới vào cơ sở dữ liệu
-                ExecutorService executor = Executors.newFixedThreadPool(4);
-                for (BookTest book : apiBooks) {
-                    executor.execute(() -> DatabaseHelper.saveBook(book, query));
+                try {
+                    // 1. Tìm kiếm trong cơ sở dữ liệu
+                    List<Book> dbBooks = DatabaseHelper.searchBooks(query);
+
+                    if (!dbBooks.isEmpty()) {
+                        // Nếu tìm thấy trong DB
+                        for (Book book : dbBooks) {
+                            bookCards.add(createBookCard(book));
+                        }
+                    } else {
+                        // Nếu không có trong DB, gọi Google Books API
+                        String jsonResponse = GoogleBooksApi.searchBooks(query);
+                        if (jsonResponse != null) {
+                            List<Book> apiBooks = JsonParserEx.parseBooks(jsonResponse);
+
+                            // Lưu sách từ API vào DB
+                            ExecutorService saveExecutor = Executors.newFixedThreadPool(4);
+                            for (Book book : apiBooks) {
+                                saveExecutor.submit(() -> DatabaseHelper.saveBook(book, query));
+                                bookCards.add(createBookCard(book));
+                            }
+                            saveExecutor.shutdown();
+                            saveExecutor.awaitTermination(2, TimeUnit.SECONDS);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                executor.shutdown();
 
-                // Hợp nhất và lọc dữ liệu từ API và DB
-                Set<BookTest> uniqueBooks = new LinkedHashSet<>(apiBooks);
-                uniqueBooks.addAll(dbBooks); // Hợp nhất với dữ liệu DB
-                books = FXCollections.observableArrayList(uniqueBooks); // Chuyển thành ObservableList
-            } else {
-                books = FXCollections.observableArrayList();
+                return bookCards;
             }
-        }
+        };
 
-        tilePane.getChildren().clear();
-        for (BookTest book : books) {
-            tilePane.getChildren().add(createBookCard(book));
-        }
+        // Cập nhật giao diện khi hoàn tất
+        searchTask.setOnSucceeded(event -> {
+            tilePane.getChildren().clear();
+            tilePane.getChildren().addAll(searchTask.getValue());
+        });
+
+        // Hiển thị lỗi nếu xảy ra
+        searchTask.setOnFailed(event -> {
+            Throwable exception = searchTask.getException();
+            if (exception != null) exception.printStackTrace();
+        });
+
+        // Chạy Task trên ExecutorService
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(searchTask);
+        executor.shutdown();
     }
 
-    private VBox createBookCard(BookTest book) {
+
+    private VBox createBookCard(Book book) {
         ImageView thumbnail = new ImageView();
         thumbnail.setImage(new Image(book.getThumbnailUrl(), 120, 180, true, true));
         thumbnail.setFitWidth(110);
