@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -152,8 +154,11 @@ public class BookController {
 
         // Cập nhật giao diện khi hoàn tất
         searchTask.setOnSucceeded(event -> {
-            tilePane.getChildren().clear();
-            tilePane.getChildren().addAll(searchTask.getValue());
+            // Đảm bao giao diện cap nhat tren JavaFx Application Thread
+            Platform.runLater(() -> {
+                tilePane.getChildren().clear();
+                tilePane.getChildren().addAll(searchTask.getValue());
+            });
         });
 
         // Hiển thị lỗi nếu xảy ra
