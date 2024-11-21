@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import java.util.Objects;
+
 public class LibrarySearchApp extends Application {
 
     @Override
@@ -18,40 +20,5 @@ public class LibrarySearchApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Google Books Search");
         primaryStage.show();
-    }
-}
-
-class BookTest {
-    private final String title;
-    private final String author;
-    private final String description;
-    private final String thumbnailUrl;
-
-    // Constructor
-    public BookTest(String title, String author, String description, String thumbnailUrl) {
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    // Getter cho tiêu đề
-    public String getTitle() {
-        return title;
-    }
-
-    // Getter cho tác giả
-    public String getAuthor() {
-        return author;
-    }
-
-    // Getter cho mô tả
-    public String getDescription() {
-        return description != null ? description : "No description available.";
-    }
-
-    // Getter cho URL ảnh bìa
-    public String getThumbnailUrl() {
-        return thumbnailUrl != null ? thumbnailUrl : "https://via.placeholder.com/120x180.png?text=No+Image";
     }
 }

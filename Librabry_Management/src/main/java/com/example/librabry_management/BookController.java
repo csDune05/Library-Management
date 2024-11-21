@@ -1,5 +1,9 @@
 package com.example.librabry_management;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.List;
 
 public class BookController {
@@ -86,17 +89,24 @@ public class BookController {
         // Tìm trong cơ sở dữ liệu trước
         List<BookTest> dbBooks = DatabaseHelper.searchBooks(query);
         if (!dbBooks.isEmpty()) {
-            books = FXCollections.observableArrayList(dbBooks); // Nếu tìm thấy, sử dụng dữ liệu từ DB
+            books = FXCollections.observableArrayList(new LinkedHashSet<>(dbBooks)); // Lọc trùng lặp
         } else {
             // Nếu không tìm thấy, gọi Google Books API
             String jsonResponse = GoogleBooksApi.searchBooks(query);
             if (jsonResponse != null) {
-                books = JsonParserEx.parseBooks(jsonResponse);
+                List<BookTest> apiBooks = JsonParserEx.parseBooks(jsonResponse);
 
                 // Lưu dữ liệu mới vào cơ sở dữ liệu
-                for (BookTest book : books) {
-                    DatabaseHelper.saveBook(book, query);
+                ExecutorService executor = Executors.newFixedThreadPool(4);
+                for (BookTest book : apiBooks) {
+                    executor.execute(() -> DatabaseHelper.saveBook(book, query));
                 }
+                executor.shutdown();
+
+                // Hợp nhất và lọc dữ liệu từ API và DB
+                Set<BookTest> uniqueBooks = new LinkedHashSet<>(apiBooks);
+                uniqueBooks.addAll(dbBooks); // Hợp nhất với dữ liệu DB
+                books = FXCollections.observableArrayList(uniqueBooks); // Chuyển thành ObservableList
             } else {
                 books = FXCollections.observableArrayList();
             }
