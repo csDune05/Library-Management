@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 public class LoginController {
     @FXML
@@ -36,13 +37,43 @@ public class LoginController {
     @FXML
     private CheckBox staysignedin;
 
+    private Preferences prefs;
+
     private Stage signUpStage;
     private Stage DashboardStage;
+
+    @FXML
+    public void initialize() {
+        // Tải Preferences
+        prefs = Preferences.userNodeForPackage(LoginController.class);
+
+        // Kiểm tra trạng thái Remember Me
+        String savedUsername = prefs.get("username", "");
+        String savedPassword = prefs.get("password", "");
+        boolean rememberMe = prefs.getBoolean("rememberMe", false);
+
+        if (rememberMe) {
+            emailField.setText(savedUsername);
+            passwordField.setText(savedPassword);
+            staysignedin.setSelected(true);
+        }
+    }
 
     @FXML
     public void SignInButtonHandle() {
         String username = emailField.getText();
         String password = passwordField.getText();
+
+        // Kiểm tra trạng thái checkbox
+        if (staysignedin.isSelected()) {
+            prefs.put("username", username);
+            prefs.put("password", password);
+            prefs.putBoolean("rememberMe", true);
+        } else {
+            prefs.remove("username");
+            prefs.remove("password");
+            prefs.putBoolean("rememberMe", false);
+        }
 
         if (isLoginValid(username, password)) {
             statusLabel.setText("Login Successful!");
