@@ -91,7 +91,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="89.0" prefWidth="747.0" spacing="30.0">
          <children>
-            <Label fx:id="titleLabel" prefHeight="89.0" prefWidth="196.0" styleClass="titleLabel" text="Dashboard">
+            <Label fx:id="titleLabel" alignment="BASELINE_CENTER" prefHeight="89.0" prefWidth="196.0" styleClass="titleLabel" text="Dashboard">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
