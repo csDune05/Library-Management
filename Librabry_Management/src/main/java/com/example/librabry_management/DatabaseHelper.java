@@ -6,9 +6,9 @@ import java.util.List;
 import com.example.Controller.*;
 
 public class DatabaseHelper {
-    private static final String DB_URL = "jdbc:mysql://localhost:3310/My_Library";
+    private static final String DB_URL = "jdbc:mysql://localhost:Your_Port/My_Library";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "#Matkhau01234";
+    private static final String DB_PASSWORD = "Your_Password";
 
     // Kết nối cơ sở dữ liệu
     public static Connection connect() {
