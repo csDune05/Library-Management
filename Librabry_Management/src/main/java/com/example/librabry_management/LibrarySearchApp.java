@@ -11,7 +11,7 @@ public class LibrarySearchApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Tải giao diện từ FXML
-        Parent root = FXMLLoader.load(getClass().getResource("BookView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Book.fxml"));
 
         // Tạo Scene và hiển thị Stage
         Scene scene = new Scene(root, 800, 600);

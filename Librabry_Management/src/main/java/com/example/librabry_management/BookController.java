@@ -7,10 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
@@ -34,6 +31,9 @@ public class BookController {
     private TilePane tilePane;
 
     @FXML
+    private ComboBox<String> optionsComboBox;
+
+    @FXML
     public void homeButtonHandler() {
         try {
             Parent homeRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
@@ -51,6 +51,27 @@ public class BookController {
     @FXML
     public void initialize() {
         searchButton.setOnAction(e -> performSearch());
+        optionsComboBox.getItems().addAll("My Profile", "Log out");
+
+        // bắt sự kiện nếu Options là log out thì thoát.
+        optionsComboBox.setOnAction(event -> {
+            String selectedOption = optionsComboBox.getValue();
+            if (selectedOption.equals("Log out")) {
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Confirmation");
+                confirmationAlert.setHeaderText("Are you sure you want to log out?");
+                confirmationAlert.setContentText("Press OK to log out, or Cancel to stay.");
+
+                confirmationAlert.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        optionsComboBox.getScene().getWindow().hide();
+                        StageManager.openWelcomeStage();
+                    } else {
+                        optionsComboBox.setValue(null);
+                    }
+                });
+            }
+        });
     }
 
     @FXML

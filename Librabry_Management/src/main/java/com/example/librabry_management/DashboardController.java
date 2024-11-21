@@ -1,4 +1,5 @@
 package com.example.librabry_management;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -79,7 +80,7 @@ public class DashboardController {
         titleLabel.setText("Dashboard");
 
         timeFilterComboBox.getItems().addAll("Weekly", "Monthly", "Yearly");
-        optionsComboBox.getItems().addAll("Dashboard", "My Profile", "Log out");
+        optionsComboBox.getItems().addAll("My Profile", "Log out");
 
         // bắt sự kiện nếu Options là log out thì thoát.
         optionsComboBox.setOnAction(event -> {
