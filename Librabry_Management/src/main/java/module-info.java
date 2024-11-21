@@ -1,4 +1,5 @@
 module com.example.librabry_management {
+    requires java.sql;
     requires com.google.gson;
     requires javafx.controls;
     requires javafx.fxml;

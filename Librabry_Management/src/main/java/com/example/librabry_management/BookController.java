@@ -1,5 +1,6 @@
 package com.example.librabry_management;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class BookController {
     @FXML
@@ -50,20 +53,37 @@ public class BookController {
 
     @FXML
     public void initialize() {
+        DatabaseHelper.createTable();
         searchButton.setOnAction(e -> performSearch());
     }
 
     @FXML
-    private void performSearch() {
+    public void performSearch() {
         String query = searchField.getText();
-        String jsonResponse = GoogleBooksApi.searchBooks(query);
+        ObservableList<BookTest> books;
 
-        if (jsonResponse != null) {
-            ObservableList<BookTest> books = JsonParserEx.parseBooks(jsonResponse);
-            tilePane.getChildren().clear();
-            for (BookTest book : books) {
-                tilePane.getChildren().add(createBookCard(book));
+        // Tìm trong cơ sở dữ liệu trước
+        List<BookTest> dbBooks = DatabaseHelper.searchBooks(query);
+        if (!dbBooks.isEmpty()) {
+            books = FXCollections.observableArrayList(dbBooks); // Nếu tìm thấy, sử dụng dữ liệu từ DB
+        } else {
+            // Nếu không tìm thấy, gọi Google Books API
+            String jsonResponse = GoogleBooksApi.searchBooks(query);
+            if (jsonResponse != null) {
+                books = JsonParserEx.parseBooks(jsonResponse);
+
+                // Lưu dữ liệu mới vào cơ sở dữ liệu
+                for (BookTest book : books) {
+                    DatabaseHelper.saveBook(book, query);
+                }
+            } else {
+                books = FXCollections.observableArrayList();
             }
+        }
+
+        tilePane.getChildren().clear();
+        for (BookTest book : books) {
+            tilePane.getChildren().add(createBookCard(book));
         }
     }
 
