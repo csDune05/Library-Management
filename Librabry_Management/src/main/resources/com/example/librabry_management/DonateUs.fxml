@@ -11,7 +11,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.DonateUsController">
    <children>
       <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
@@ -75,7 +74,13 @@
             <Image url="@Images/donate1.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="196.0" fitWidth="241.0" layoutX="546.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="196.0" fitWidth="241.0" layoutX="917.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="292.0" fitWidth="202.0" layoutX="511.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/donate2.jpg" />
+         </image></ImageView>
+      <ImageView fitHeight="228.0" fitWidth="179.0" layoutX="846.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/donate3.jpg" />
+         </image></ImageView>
    </children>
 </AnchorPane>
