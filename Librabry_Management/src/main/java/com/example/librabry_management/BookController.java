@@ -28,6 +28,9 @@ public class BookController {
     private Button homeButton;
 
     @FXML
+    private Button donateUsButton;
+
+    @FXML
     private TextField searchField;
 
     @FXML
@@ -48,6 +51,21 @@ public class BookController {
             Stage stage = (Stage) homeButton.getScene().getWindow();
 
             stage.setScene(homeScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void DonateUsButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("DonateUs.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) homeButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

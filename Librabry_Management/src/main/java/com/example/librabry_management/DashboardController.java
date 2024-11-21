@@ -57,7 +57,10 @@ public class DashboardController {
     private TableColumn<LoanRecord, String> returnDateColumn;
 
     @FXML
-    private Button Books;
+    private Button booksButton;
+
+    @FXML
+    private Button donateUsButton;
 
     @FXML
     public void BooksButtonHandler() {
@@ -65,7 +68,21 @@ public class DashboardController {
             Parent booksRoot = FXMLLoader.load(getClass().getResource("Book.fxml"));
             Scene booksScene = new Scene(booksRoot);
 
-            Stage stage = (Stage) Books.getScene().getWindow();
+            Stage stage = (Stage) booksButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DonateUsButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("DonateUs.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) booksButton.getScene().getWindow();
 
             stage.setScene(booksScene);
             stage.show();
