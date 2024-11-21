@@ -99,7 +99,7 @@ public class User extends Account{
         }
     }
 
-    public void searchByDate(int date) {
+    public void searchByDate(String date) {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
         } else {

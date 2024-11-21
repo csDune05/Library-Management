@@ -43,7 +43,7 @@ public class Admin extends User {
         }
     }
 
-    public void editBookInLibrary(String id, String newTitle, String newGenre, String newAuthor, Integer newDate, String newDescription) {
+    public void editBookInLibrary(String id, String newTitle, String newGenre, String newAuthor, String newDate, String newDescription) {
         if (!isLoggedIn) {
             System.out.println("You are not logged in");
         } else {

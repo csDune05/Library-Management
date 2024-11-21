@@ -14,11 +14,9 @@ public class GoogleBooksApi {
         OkHttpClient client = new OkHttpClient();
 
         // Tạo URL yêu cầu
-        String url = BASE_URL + "?q=" + query.replace(" ", "+") + "&maxResults=40&key=" + API_KEY;
+        String url = BASE_URL + "?q=" + query.replace(" ", "+") + "&maxResults=10&key=" + API_KEY;
 
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+        Request request = new Request.Builder().url(url).build();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
@@ -30,15 +28,6 @@ public class GoogleBooksApi {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        String jsonResponse = searchBooks("Library Management");
-        if (jsonResponse != null) {
-            System.out.println(jsonResponse);
-        } else {
-            System.out.println("No data received from API.");
-        }
     }
 }
 

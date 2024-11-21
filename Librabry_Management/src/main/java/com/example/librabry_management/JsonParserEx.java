@@ -1,6 +1,6 @@
 package com.example.librabry_management;
 
-import com.example.librabry_management.BookTest;
+import com.example.librabry_management.Book;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,8 +11,8 @@ import com.example.Controller.*;
 
 public class JsonParserEx {
 
-    public static ObservableList<BookTest> parseBooks(String jsonResponse) {
-        ObservableList<BookTest> books = FXCollections.observableArrayList();
+    public static ObservableList<Book> parseBooks(String jsonResponse) {
+        ObservableList<Book> books = FXCollections.observableArrayList();
 
         try {
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -32,7 +32,7 @@ public class JsonParserEx {
                             : null;
 
                     // Thêm sách vào danh sách
-                    books.add(new BookTest(title, author, description, thumbnailUrl));
+                    books.add(new Book(title, author, description, thumbnailUrl));
                 }
             }
         } catch (Exception e) {

@@ -3,21 +3,77 @@ package com.example.librabry_management;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import com.example.Controller.*;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class DatabaseHelper {
-    private static final String DB_URL = "jdbc:mysql://localhost:Your_Port/My_Library";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "Your_Password";
+public class DatabaseHelper extends Application {
 
-    // Kết nối cơ sở dữ liệu
-    public static Connection connect() {
-        try {
-            return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    private static HikariDataSource dataSource;
+
+    static {
+        // Cấu hình HikariCP
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
+        config.setUsername("root"); // Tên người dùng
+        config.setPassword("#Matkhau01234"); // Mật khẩu
+        config.setMaximumPoolSize(20); // Số kết nối tối đa
+        config.setMinimumIdle(10); // Số kết nối tối thiểu
+        config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
+        config.setMaxLifetime(1800000); // Thời gian sống tối đa của kết nối (30 phút)
+        config.setConnectionTimeout(0); // Thời gian chờ kết nối (0 giây)
+        config.setLeakDetectionThreshold(2000); // Phát hiện rò rỉ kết nối trong 2 giây
+        config.addDataSourceProperty("housekeepingPeriodMs", "60000");
+
+        dataSource = new HikariDataSource(config); // Tạo nguồn kết nối
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("SELECT 1")) {
+            pstmt.execute();
+            System.out.println("HikariCP warm-up completed.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+    }
+
+    // Hàm kết nối với cơ sở dữ liệu
+    public static Connection connect() throws SQLException {
+        return dataSource.getConnection(); // Lấy kết nối từ pool
+    }
+
+    // Đóng dataSource khi ứng dụng dừng
+    public static void shutdown() {
+        if (dataSource != null) {
+            dataSource.close();
+        }
+    }
+
+    /**
+     * Get 10 books when open Books.
+     */
+    public static List<Book> getDefaultBooks() {
+        String sql = "SELECT * FROM books LIMIT 10";
+        List<Book> books = new ArrayList<>();
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("thumbnail_url")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return books;
     }
 
     // Tạo bảng nếu chưa tồn tại
@@ -42,7 +98,7 @@ public class DatabaseHelper {
 
 
     // Lưu sách vào cơ sở dữ liệu
-    public static void saveBook(BookTest book, String query) {
+    public static void saveBook(Book book, String query) {
         String sql = """
             INSERT INTO books (title, author, description, thumbnail_url)
             VALUES (?, ?, ?, ?)
@@ -63,18 +119,18 @@ public class DatabaseHelper {
 
 
     // Tìm kiếm sách trong cơ sở dữ liệu
-    public static List<BookTest> searchBooks(String query) {
+    public static List<Book> searchBooks(String query) {
         // Cập nhật câu lệnh SQL để tìm theo cột title
-        String sql = "SELECT * FROM books WHERE title LIKE ?";
-        List<BookTest> books = new ArrayList<>();
+        String sql = "SELECT * FROM books WHERE title LIKE ?" + "LIMIT 10;";
+        List<Book> books = new ArrayList<>();
         try (Connection conn = connect()) {
             assert conn != null;
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 // Tìm kiếm tiêu đề có chứa chuỗi query
-                pstmt.setString(1, "%" + query + "%");
+                pstmt.setString(1,  "%" + query + "%");
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    books.add(new BookTest(
+                    books.add(new Book(
                             rs.getString("title"),
                             rs.getString("author"),
                             rs.getString("description"),
@@ -87,5 +143,17 @@ public class DatabaseHelper {
         }
         return books;
     }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
+    }
+
+    @Override
+    public void stop() throws Exception {
+        DatabaseHelper.shutdown(); // Đóng nguồn kết nối khi ứng dụng dừng
+        super.stop();
+    }
+
 
 }
