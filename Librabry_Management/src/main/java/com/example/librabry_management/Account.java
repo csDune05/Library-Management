@@ -3,6 +3,7 @@ package com.example.librabry_management;
 import com.example.Controller.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Account {
     protected String id;
@@ -64,7 +65,7 @@ public class Account {
         if (!isLoggedIn) {
             if (account instanceof Admin) {
                 for (Admin admin : adminList) {
-                    if (admin.getEmail().equals(email) && admin.getPassword().equals(password)) {
+                    if (Objects.equals(admin.getEmail(), email) && admin.getPassword().equals(password)) {
                         this.isLoggedIn = true;
                         System.out.println("Admin login successful.");
                         return;
