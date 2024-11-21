@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,6 +28,12 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordField;
+
+    @FXML
+    private TextField passwordTextField; // Trường để hiển thị mật khẩu
+
+    @FXML
+    private Button togglePasswordButton; // Nút để ẩn/hiện mật khẩu
 
     @FXML
     private Button signinButton;
@@ -87,6 +94,39 @@ public class LoginController {
             } else {
                 accountListView.setItems(accountList);
                 accountListView.setVisible(accountList.size() > 0);
+            }
+        });
+
+        // Sự kiện hiển thị hoặc ẩn mật khẩu
+        togglePasswordButton.setOnAction(event -> {
+            if (passwordField.isVisible()) {
+                // Đổi sang hiển thị mật khẩu
+                passwordTextField.setText(passwordField.getText());
+                passwordField.setVisible(false);
+                passwordField.setManaged(false);
+                passwordTextField.setVisible(true);
+                passwordTextField.setManaged(true);
+                togglePasswordButton.setText("🙈"); // Đổi biểu tượng sang "ẩn mật khẩu"
+            } else {
+                // Đổi sang ẩn mật khẩu
+                passwordField.setText(passwordTextField.getText());
+                passwordTextField.setVisible(false);
+                passwordTextField.setManaged(false);
+                passwordField.setVisible(true);
+                passwordField.setManaged(true);
+                togglePasswordButton.setText("👁"); // Đổi biểu tượng sang "hiển mật khẩu"
+            }
+        });
+
+        // Đồng bộ hóa nội dung giữa passwordField và passwordTextField
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (passwordField.isVisible()) {
+                passwordTextField.setText(newValue);
+            }
+        });
+        passwordTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (passwordTextField.isVisible()) {
+                passwordField.setText(newValue);
             }
         });
 
@@ -155,7 +195,7 @@ public class LoginController {
     @FXML
     public void SignInButtonHandle() throws JSONException {
         String username = emailField.getText();
-        String password = passwordField.getText();
+        String password = passwordField.isVisible() ? passwordField.getText() : passwordTextField.getText();
 
         if (isLoginValid(username, password)) {
             statusLabel.setText("Login Successful!");

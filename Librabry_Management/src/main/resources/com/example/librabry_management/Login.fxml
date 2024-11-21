@@ -96,6 +96,8 @@
          <font>
             <Font size="14.0" />
          </font></Button>
-      <ListView fx:id="accountListView" layoutX="140.0" layoutY="197.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="togglePasswordButton" layoutX="474.0" layoutY="227.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="39.0" text="👁" />
+      <TextField fx:id="passwordTextField" layoutX="139.0" layoutY="218.0" prefHeight="43.0" prefWidth="310.0" promptText="Password" />
+      <ListView fx:id="accountListView" layoutX="137.0" layoutY="197.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
