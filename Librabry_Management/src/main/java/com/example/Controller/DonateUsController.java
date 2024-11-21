@@ -61,7 +61,7 @@ public class DonateUsController {
 
     public void HomeButtonHandle() {
         try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
             Scene homeScene = new Scene(homeRoot);
 
             Stage stage = (Stage) homeButton.getScene().getWindow();
