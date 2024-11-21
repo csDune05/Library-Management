@@ -1,6 +1,5 @@
-package com.example.librabry_management;
+package com.example.Controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import com.example.librabry_management.*;
 import java.io.IOException;
 
 public class AboutUsSpaceController {
@@ -19,7 +18,7 @@ public class AboutUsSpaceController {
 
     public void HomeButtonHandle() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Wellcome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/Wellcome.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) HomeButton.getScene().getWindow();

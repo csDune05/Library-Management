@@ -1,4 +1,4 @@
-package com.example.librabry_management;
+package com.example.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +13,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import com.example.librabry_management.*;
+
 
 public class DonateUsController {
     @FXML
@@ -73,7 +75,7 @@ public class DonateUsController {
 
     public void BooksButtonHandle() {
         try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("Book.fxml"));
+            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Book.fxml"));
             Scene homeScene = new Scene(homeRoot);
 
             Stage stage = (Stage) homeButton.getScene().getWindow();

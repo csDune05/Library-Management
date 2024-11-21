@@ -3,6 +3,7 @@ package com.example.librabry_management;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.Controller.*;
 
 public class DatabaseHelper {
     private static final String DB_URL = "jdbc:mysql://localhost:3310/My_Library";

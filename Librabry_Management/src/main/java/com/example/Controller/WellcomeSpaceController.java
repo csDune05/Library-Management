@@ -1,4 +1,4 @@
-package com.example.librabry_management;
+package com.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,8 +8,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.awt.event.ActionEvent;
+import com.example.librabry_management.*;
 
 public class WellcomeSpaceController {
     @FXML
@@ -32,7 +31,7 @@ public class WellcomeSpaceController {
 
     public void AboutUsButtonHandle() {
         try {
-            Parent AboutUsRoot = FXMLLoader.load(getClass().getResource("AboutUs.fxml"));
+            Parent AboutUsRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/AboutUs.fxml"));
             Scene aboutUsScene = new Scene(AboutUsRoot);
 
             Stage stage = (Stage) HomeButton.getScene().getWindow();
@@ -47,7 +46,7 @@ public class WellcomeSpaceController {
     public void openLoginStage() {
         try {
             if (loginStage == null) {
-                Parent loginRoot = FXMLLoader.load(getClass().getResource("Login.fxml"));
+                Parent loginRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Login.fxml"));
 
                 loginStage = new Stage();
                 loginStage.initModality(Modality.WINDOW_MODAL);
@@ -80,7 +79,7 @@ public class WellcomeSpaceController {
     public void SignUpButtonHandle() {
         try {
             if (signUpStage == null) {
-                Parent loginRoot = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+                Parent loginRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/SignUp.fxml"));
 
                 loginStage = new Stage();
                 loginStage.initModality(Modality.WINDOW_MODAL);

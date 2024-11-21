@@ -1,4 +1,4 @@
-package com.example.librabry_management;
+package com.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+import com.example.librabry_management.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -77,7 +77,7 @@ public class LoginController {
     public void SignUpButtonHandle() {
         try {
             if (signUpStage == null) {
-                Parent signupRoot = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+                Parent signupRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/SignUp.fxml"));
 
                 signUpStage = new Stage();
                 signUpStage.initModality(Modality.WINDOW_MODAL);
@@ -107,7 +107,7 @@ public class LoginController {
     private void openDashboard() {
         try {
             if (DashboardStage == null) {
-                Parent dashboardRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+                Parent dashboardRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
                 Scene dashboardScene = new Scene(dashboardRoot);
 
                 Stage currentStage = (Stage) signinButton.getScene().getWindow();

@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-
+import com.example.Controller.*;
 import java.util.Objects;
 
 public class LibrarySearchApp extends Application {

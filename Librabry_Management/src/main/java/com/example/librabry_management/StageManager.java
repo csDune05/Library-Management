@@ -1,6 +1,7 @@
 package com.example.librabry_management;
 
 import javafx.stage.Stage;
+import com.example.Controller.*;
 
 public class StageManager {
     private static Stage welcomeStage;

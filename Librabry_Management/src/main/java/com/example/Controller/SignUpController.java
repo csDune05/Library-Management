@@ -1,4 +1,4 @@
-package com.example.librabry_management;
+package com.example.Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import com.example.librabry_management.*;
 
 public class SignUpController implements Initializable {
     @FXML

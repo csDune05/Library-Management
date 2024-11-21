@@ -9,7 +9,8 @@ module com.example.librabry_management {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires java.desktop;
-
+    opens com.example.Controller to javafx.fxml;
     opens com.example.librabry_management to javafx.fxml;
     exports com.example.librabry_management;
+    exports com.example.Controller;
 }

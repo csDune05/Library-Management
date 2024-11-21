@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import java.util.Objects;
+import com.example.Controller.*;
+
 
 public class BookTest {
     private final String title;

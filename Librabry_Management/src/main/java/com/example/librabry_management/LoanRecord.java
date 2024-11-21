@@ -1,4 +1,5 @@
 package com.example.librabry_management;
+import com.example.Controller.*;
 
 public class LoanRecord {
     private String id;

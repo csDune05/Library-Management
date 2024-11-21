@@ -1,4 +1,4 @@
-package com.example.librabry_management;
+package com.example.Controller;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -19,6 +19,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.List;
+import com.example.librabry_management.*;
+
 
 public class BookController {
     @FXML
@@ -45,7 +47,7 @@ public class BookController {
     @FXML
     public void homeButtonHandler() {
         try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
             Scene homeScene = new Scene(homeRoot);
 
             Stage stage = (Stage) homeButton.getScene().getWindow();
@@ -60,7 +62,7 @@ public class BookController {
     @FXML
     public void DonateUsButtonHandler() {
         try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("DonateUs.fxml"));
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/DonateUs.fxml"));
             Scene booksScene = new Scene(booksRoot);
 
             Stage stage = (Stage) homeButton.getScene().getWindow();
