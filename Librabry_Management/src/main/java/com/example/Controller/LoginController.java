@@ -1,5 +1,6 @@
 package com.example.Controller;
 
+import com.example.librabry_management.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -205,6 +206,7 @@ public class LoginController {
             }
 
             openDashboard();
+            StageManager.closeWelcomeStage();
         } else {
             statusLabel.setText("Email or Password is incorrect!");
         }
