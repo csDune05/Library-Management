@@ -62,6 +62,25 @@ public class DashboardController {
     private Button donateUsButton;
 
     @FXML
+    private Button profileButton;
+
+    @FXML
+    public void ProfileButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
     public void BooksButtonHandler() {
         try {
             Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Book.fxml"));
