@@ -99,6 +99,7 @@ public class SignUpController implements Initializable {
         if (isValid) {
             try {
                 saveToFile();
+                updateMemberCount();
                 resetAllFields();
                 statusLabel.setText("Create account successful");
             } catch (IOException e) {
@@ -230,7 +231,44 @@ public class SignUpController implements Initializable {
 
         try (FileWriter writer = new FileWriter(file, false)) {
             writer.write("");
+            resetMemberCount();
             System.out.println("Delete all data in file: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int readMemberCount() throws IOException {
+        File countFile = new File("countMembers.txt");
+        if (!countFile.exists()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
+                writer.write("0");
+            }
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(countFile))) {
+            return Integer.parseInt(reader.readLine().trim());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    private void updateMemberCount() throws IOException {
+        int currentCount = readMemberCount();
+        currentCount++;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("countMembers.txt"))) {
+            writer.write(String.valueOf(currentCount));
+        }
+    }
+
+    private static void resetMemberCount() {
+        File countFile = new File("countMembers.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
+            writer.write("0");
+            System.out.println("Reset member count to 0 in file: " + countFile.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }

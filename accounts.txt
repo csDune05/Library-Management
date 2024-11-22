@@ -1,2 +1,4 @@
 23021504@vnu.edu.vn,12345678,Vietnam,0396751966,11/11/2005,duy
 dung@gmail.com,matkhau123,Vietnam,0384327855,21/01/2005,Dung
+test1@gmail.com,test1,bacninh,0123456789,05/06/2005,Test1
+23021492@vnu.edu.vn,23021492,Bacninh,0378013205,05/06/2005,Dung
