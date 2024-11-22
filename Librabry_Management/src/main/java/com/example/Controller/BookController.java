@@ -32,6 +32,9 @@ public class BookController {
     private Button homeButton;
 
     @FXML
+    private Button profileButton;
+
+    @FXML
     private Button donateUsButton;
 
     @FXML
@@ -60,6 +63,23 @@ public class BookController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void ProfileButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     @FXML
     public void DonateUsButtonHandler() {
