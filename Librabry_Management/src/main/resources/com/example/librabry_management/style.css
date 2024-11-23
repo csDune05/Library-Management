@@ -68,3 +68,16 @@
     -fx-faint-focus-color: transparent;
     -fx-background-color: transparent;
 }
+
+.button-base1 {
+    -fx-background-color: #0A74DA;
+    -fx-text-fill: white;
+}
+
+.button-base1:hover {
+    -fx-background-color: #0c60b5;
+}
+
+.button-base1:pressed {
+    -fx-background-color: #084a8b;
+}

@@ -4,13 +4,23 @@ import java.util.Objects;
 
 
 public class Book {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String title;
     private String author;
     private String description;
     private String thumbnailUrl;
-    private String id;
-    private String Genre;
+    private String rating;
     private String datePublished;
+    private String publisher;
 
     @Override
     public boolean equals(Object o) {
@@ -25,11 +35,14 @@ public class Book {
         return Objects.hash(title, author);
     }
     // Constructor
-    public Book(String title, String author, String description, String thumbnailUrl) {
+    public Book(String title, String author, String description, String thumbnailUrl, String rating, String datePublished, String publisher) {
         this.title = title;
         this.author = author;
         this.description = description;
         this.thumbnailUrl = thumbnailUrl;
+        this.rating = rating;
+        this.datePublished = datePublished;
+        this.publisher = publisher;
     }
 
     // Getter cho tiêu đề
@@ -52,16 +65,20 @@ public class Book {
         return thumbnailUrl != null ? thumbnailUrl : "https://via.placeholder.com/120x180.png?text=No+Image";
     }
 
-    public String getId() {
-        return String.format("%.0f",(Math.random() * 1000000));
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public void setTitle(String newTitle) {
         title = newTitle;
     }
 
-    public void setGenre(String newGenre) {
-        Genre = newGenre;
+    public void setRating(String newRating) {
+        rating = newRating;
     }
 
     public void setAuthor(String newAuthor) {
@@ -85,10 +102,10 @@ public class Book {
     }
 
     public String getDate() {
-        return "2024";
+        return datePublished;
     }
 
-    public String getGenre() {
-        return Genre;
+    public String getRating() {
+        return rating;
     }
 }

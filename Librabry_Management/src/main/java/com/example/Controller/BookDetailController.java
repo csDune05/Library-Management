@@ -29,7 +29,7 @@ public class BookDetailController {
     private Label bookYear;
 
     @FXML
-    private Label bookId;
+    private Label bookPublisher;
 
     @FXML
     private TextFlow bookDescription;
@@ -45,6 +45,9 @@ public class BookDetailController {
 
     @FXML
     private Button donateUsButton;
+
+    @FXML
+    private Label ratingStarLabel;
 
     @FXML
     public void bookButtonHandler() {
@@ -104,7 +107,8 @@ public class BookDetailController {
         bookTitle.setText(book.getTitle()); // Tiêu đề
         bookAuthor.setText(book.getAuthor()); // Tác giả
         bookYear.setText(book.getDate()); // Năm sáng tác
-        bookId.setText(book.getId()); // Mã sách
+        bookPublisher.setText(book.getPublisher() == null ? "Unknown Publisher" : book.getPublisher()); // Mã sách
+        ratingStarLabel.setText(book.getRating() == null ? "Unrated" : book.getRating() + "★");
 
         String Description = "Description: ";
         Text descriptionTextTitle = new Text(Description + "\n");

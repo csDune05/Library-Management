@@ -2,6 +2,8 @@ package com.example.librabry_management;
 
 import com.example.Controller.*;
 
+import java.util.concurrent.Flow;
+
 public class Admin extends User {
     public Admin(Library library) {
         super(library);
@@ -43,7 +45,7 @@ public class Admin extends User {
         }
     }
 
-    public void editBookInLibrary(String id, String newTitle, String newGenre, String newAuthor, String newDate, String newDescription) {
+    public void editBookInLibrary(String newTitle, String newAuthor, String newDate, String newDescription, String newPublisher) {
         if (!isLoggedIn) {
             System.out.println("You are not logged in");
         } else {
@@ -54,8 +56,8 @@ public class Admin extends User {
                     if (newTitle != null) {
                         book.setTitle(newTitle);
                     }
-                    if (newGenre != null) {
-                        book.setGenre(newGenre);
+                    if (newPublisher != null) {
+                        book.setPublisher(newPublisher);
                     }
                     if (newAuthor != null) {
                         book.setAuthor(newAuthor);

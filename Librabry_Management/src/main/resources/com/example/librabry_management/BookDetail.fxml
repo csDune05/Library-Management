@@ -49,7 +49,7 @@
             </children>
         </VBox>
         <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="27.0" opacity="0.2" startX="-101.0" startY="-27.0" />
-        <Line endX="950.0" layoutX="250.0" layoutY="82.0" opacity="0.2" startX="-100.0" />
+        <Line endX="950.0" layoutX="250.0" layoutY="81.0" opacity="0.2" startX="-100.0" />
         <Line endX="53.0" endY="-70.5" layoutX="844.0" layoutY="154.0" opacity="0.2" startX="53.0" startY="546.5" />
       <Line endX="645.0" layoutX="250.0" layoutY="290.0" opacity="0.2" startX="-100.0" />
         <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="985.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
@@ -68,40 +68,40 @@
             <Font name="System Bold" size="27.0" />
          </font>
       </Label>
-      <Label fx:id="bookTitle" layoutX="323.0" layoutY="91.0" prefHeight="31.0" prefWidth="553.0" text="Dế mèn phiêu lưu kí">
+      <Label fx:id="bookTitle" layoutX="323.0" layoutY="85.0" prefHeight="31.0" prefWidth="553.0" text="Dế mèn phiêu lưu kí">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="323.0" layoutY="130.0" text="Tác giả:">
+      <Label layoutX="323.0" layoutY="121.0" text="Tác giả:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="323.0" layoutY="164.0" text="Năm sáng tác:">
+      <Label layoutX="323.0" layoutY="152.0" text="Năm sáng tác:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="323.0" layoutY="198.0" text="Mã sách:">
+      <Label layoutX="323.0" layoutY="183.0" text="Nhà xuất bản:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="322.0" layoutY="238.0" mnemonicParsing="false" text="Mượn sách" />
-      <Button layoutX="450.0" layoutY="238.0" mnemonicParsing="false" text="Trả sách" />
-      <Button layoutX="562.0" layoutY="238.0" mnemonicParsing="false" text="Đánh giá" />
-      <Label fx:id="bookAuthor" layoutX="390.0" layoutY="130.0" text="Label">
+      <Button layoutX="323.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
+      <Button layoutX="535.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
+      <Button layoutX="736.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Đánh giá" />
+      <Label fx:id="bookAuthor" layoutX="390.0" layoutY="121.0" text="Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="bookYear" layoutX="443.0" layoutY="164.0" text="Label">
+      <Label fx:id="bookYear" layoutX="443.0" layoutY="152.0" text="Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="bookId" layoutX="399.0" layoutY="198.0" text="Label">
+      <Label fx:id="bookPublisher" layoutX="440.0" layoutY="183.0" text="Label">
          <font>
             <Font size="18.0" />
          </font>
@@ -111,5 +111,14 @@
             <TextFlow fx:id="bookDescription" prefHeight="383.0" prefWidth="698.0" style="-fx-border-color: transparent;" textAlignment="JUSTIFY" />
          </content>
       </ScrollPane>
+      <Label layoutX="323.0" layoutY="214.0" text="Đánh giá: ">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="ratingStarLabel" layoutX="405.0" layoutY="214.0" text="Label" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

@@ -16,9 +16,9 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình HikariCP
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library"); // URL kết nối
         config.setUsername("root"); // Tên người dùng
-        config.setPassword("#Matkhau01234"); // Mật khẩu
+        config.setPassword("Your_Password"); // Mật khẩu
         config.setMaximumPoolSize(20); // Số kết nối tối đa
         config.setMinimumIdle(10); // Số kết nối tối thiểu
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
@@ -66,7 +66,10 @@ public class DatabaseHelper extends Application {
                         rs.getString("title"),
                         rs.getString("author"),
                         rs.getString("description"),
-                        rs.getString("thumbnail_url")
+                        rs.getString("thumbnail_url"),
+                        rs.getString("publisher"),
+                        rs.getString("published_date"),
+                        rs.getString("average_rating")
                 ));
             }
         } catch (SQLException e) {
@@ -85,6 +88,9 @@ public class DatabaseHelper extends Application {
                   author VARCHAR(255),
                   description TEXT,
                   thumbnail_url TEXT,
+                  publisher TEXT,
+                  published_date TEXT,
+                  average_rating TEXT,
                   UNIQUE (title, author)
               );
             """;
@@ -100,17 +106,23 @@ public class DatabaseHelper extends Application {
     // Lưu sách vào cơ sở dữ liệu
     public static void saveBook(Book book, String query) {
         String sql = """
-            INSERT INTO books (title, author, description, thumbnail_url)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO books (title, author, description, thumbnail_url, publisher, published_date, average_rating)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
                 description = VALUES(description),
-                thumbnail_url = VALUES(thumbnail_url);
+                thumbnail_url = VALUES(thumbnail_url),
+                publisher = VALUES(publisher),
+                published_date = VALUES(published_date),
+                average_rating = VALUES(average_rating);
             """;
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, book.getTitle());
             pstmt.setString(2, book.getAuthor());
             pstmt.setString(3, book.getDescription());
             pstmt.setString(4, book.getThumbnailUrl());
+            pstmt.setString(5, book.getPublisher());
+            pstmt.setString(6, book.getDate());
+            pstmt.setString(7, book.getRating());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -134,7 +146,10 @@ public class DatabaseHelper extends Application {
                             rs.getString("title"),
                             rs.getString("author"),
                             rs.getString("description"),
-                            rs.getString("thumbnail_url")
+                            rs.getString("thumbnail_url"),
+                            rs.getString("publisher"),
+                            rs.getString("published_date"),
+                            rs.getString("average_rating")
                     ));
                 }
             }

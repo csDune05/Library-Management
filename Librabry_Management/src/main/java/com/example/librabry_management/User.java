@@ -69,21 +69,6 @@ public class User extends Account{
         }
     }
 
-    public void searchByGenre(String genre) {
-        if (!isLoggedIn) {
-            System.out.println("You are not logged in.");
-        } else {
-            System.out.println("\n=== Search by Genre: " + genre + " ===");
-            List<Book> results = new ArrayList<>();
-            for (Book book : library.getBooksList()) {
-                if (book.getGenre().equals(genre)) {
-                    results.add(book);
-                }
-            }
-            printSearchResults(results);
-        }
-    }
-
     public void searchByAuthor(String author) {
         if (!isLoggedIn) {
             System.out.println("You are not logged in.");
@@ -122,21 +107,6 @@ public class User extends Account{
             List<Book> results = new ArrayList<>();
             for (Book book : library.getBooksList()) {
                 if (book.getTitle().equals(title)) {
-                    results.add(book);
-                }
-            }
-            printSearchResults(results);
-        }
-    }
-
-    public void searchById(String id) {
-        if (!isLoggedIn) {
-            System.out.println("You are not logged in.");
-        } else {
-            System.out.println("\n=== Search by ID: " + id + " ===");
-            List<Book> results = new ArrayList<>();
-            for (Book book : library.getBooksList()) {
-                if (book.getId().equalsIgnoreCase(id)) {
                     results.add(book);
                 }
             }

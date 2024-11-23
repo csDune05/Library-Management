@@ -30,9 +30,11 @@ public class JsonParserEx {
                     String thumbnailUrl = volumeInfo.has("imageLinks")
                             ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString()
                             : null;
-
+                    String publisher = volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : null;
+                    String publishedDate = volumeInfo.has("publishedDate") ? volumeInfo.get("publishedDate").getAsString() : null;
+                    String averageRating = volumeInfo.has("averageRating") ? volumeInfo.get("averageRating").getAsString() : null;
                     // Thêm sách vào danh sách
-                    books.add(new Book(title, author, description, thumbnailUrl));
+                    books.add(new Book(title, author, description, thumbnailUrl, publisher, publishedDate, averageRating));
                 }
             }
         } catch (Exception e) {
