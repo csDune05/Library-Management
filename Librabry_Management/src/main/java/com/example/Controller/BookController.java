@@ -51,6 +51,12 @@ public class BookController {
     @FXML
     private ComboBox<String> optionsComboBox;
 
+    private Scene bookScene;
+
+    public Scene getBookScene() {
+        return bookScene;
+    }
+
     @FXML
     public void myLibraryButtonHandler() {
         try {
@@ -109,6 +115,10 @@ public class BookController {
 
     @FXML
     public void initialize() {
+        Platform.runLater(() -> {
+            bookScene = homeButton.getScene();
+        });
+
         DatabaseHelper.createTable();
         // Lấy 10 sách trong database
         List<Book> books = DatabaseHelper.getDefaultBooks();
@@ -232,6 +242,7 @@ public class BookController {
 
                 // Truyền dữ liệu sách vào BookDetailController
                 detailController.setBookDetail(book);
+                detailController.setBookController(this);
 
                 // Hiển thị giao diện mới
                 Stage stage = (Stage) knowMoreButton.getScene().getWindow();

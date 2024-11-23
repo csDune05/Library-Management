@@ -53,6 +53,25 @@ public class BookDetailController {
     private Button myLibraryButton;
 
     @FXML
+    private Button backButton;
+
+    private BookController bookController;
+
+    public void setBookController(BookController bookController) {
+        this.bookController = bookController;
+    }
+
+    @FXML
+    public void backButtonHandler() {
+        if (bookController != null) {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+
+            stage.setScene(bookController.getBookScene());
+            stage.show();
+        }
+    }
+
+    @FXML
     public void myLibraryButtonHandler() {
         try {
             Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
