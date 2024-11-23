@@ -60,6 +60,21 @@ public class DonateUsController {
     }
 
     @FXML
+    public void myLibraryButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void ProfileButtonHandler() {
         try {
             Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));

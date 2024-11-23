@@ -16,9 +16,9 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình HikariCP
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library"); // URL kết nối
         config.setUsername("root"); // Tên người dùng
-        config.setPassword("#Matkhau01234"); // Mật khẩu
+        config.setPassword("Your_Password"); // Mật khẩu
         config.setMaximumPoolSize(20); // Số kết nối tối đa
         config.setMinimumIdle(10); // Số kết nối tối thiểu
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
@@ -169,6 +169,4 @@ public class DatabaseHelper extends Application {
         DatabaseHelper.shutdown(); // Đóng nguồn kết nối khi ứng dụng dừng
         super.stop();
     }
-
-
 }

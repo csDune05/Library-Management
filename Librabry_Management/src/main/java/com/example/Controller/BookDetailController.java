@@ -50,6 +50,24 @@ public class BookDetailController {
     private Label ratingStarLabel;
 
     @FXML
+    private Button myLibraryButton;
+
+    @FXML
+    public void myLibraryButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void bookButtonHandler() {
         try {
             Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Book.fxml"));

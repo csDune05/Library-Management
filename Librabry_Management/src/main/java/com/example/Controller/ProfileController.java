@@ -26,6 +26,24 @@ public class ProfileController {
     private ComboBox<String> optionsComboBox;
 
     @FXML
+    private Button myLibraryButton;
+
+    @FXML
+    public void myLibraryButtonHandler() {
+        try {
+            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            Stage stage = (Stage) myLibraryButton.getScene().getWindow();
+
+            stage.setScene(booksScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void homeButtonHandler() {
         try {
             Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
