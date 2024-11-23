@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
+    <children>
+        <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
+            <children>
+                <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/logo.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButtonHandler" prefHeight="10.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Home">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="bookButton" mnemonicParsing="false" onAction="#bookButtonHandler" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="My Library">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="profileButton" mnemonicParsing="false" onAction="#profileButtonHandler" prefHeight="64.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Profile">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Progress">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#donateUsButtonHandler" prefHeight="126.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+        <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="27.0" opacity="0.2" startX="-101.0" startY="-27.0" />
+        <Line endX="950.0" layoutX="250.0" layoutY="82.0" opacity="0.2" startX="-100.0" />
+        <Line endX="53.0" endY="-70.5" layoutX="844.0" layoutY="154.0" opacity="0.2" startX="53.0" startY="546.5" />
+      <Line endX="645.0" layoutX="250.0" layoutY="290.0" opacity="0.2" startX="-100.0" />
+        <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="985.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Images/avatar.png" />
+            </image>
+        </ImageView>
+        <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1055.0" layoutY="32.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
+      <ImageView fx:id="bookImage" fitHeight="210.0" fitWidth="152.0" layoutX="150.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/Example.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="158.0" layoutY="1.0" prefHeight="81.0" prefWidth="152.0" text="Infomation" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="bookTitle" layoutX="323.0" layoutY="91.0" prefHeight="31.0" prefWidth="553.0" text="Dế mèn phiêu lưu kí">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="323.0" layoutY="130.0" text="Tác giả:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="323.0" layoutY="164.0" text="Năm sáng tác:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="323.0" layoutY="198.0" text="Mã sách:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="322.0" layoutY="238.0" mnemonicParsing="false" text="Mượn sách" />
+      <Button layoutX="450.0" layoutY="238.0" mnemonicParsing="false" text="Trả sách" />
+      <Button layoutX="562.0" layoutY="238.0" mnemonicParsing="false" text="Đánh giá" />
+      <Label fx:id="bookAuthor" layoutX="390.0" layoutY="130.0" text="Label">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="bookYear" layoutX="443.0" layoutY="164.0" text="Label">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="bookId" layoutX="399.0" layoutY="198.0" text="Label">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ScrollPane hbarPolicy="NEVER" layoutX="159.0" layoutY="291.0" prefHeight="406.0" prefWidth="727.0" style="-: ;" styleClass="scroll-base" stylesheets="@style.css">
+         <content>
+            <TextFlow fx:id="bookDescription" prefHeight="383.0" prefWidth="698.0" style="-fx-border-color: transparent;" textAlignment="JUSTIFY" />
+         </content>
+      </ScrollPane>
+    </children>
+</AnchorPane>

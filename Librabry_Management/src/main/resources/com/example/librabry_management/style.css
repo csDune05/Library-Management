@@ -61,3 +61,10 @@
 .button-base:pressed {
     -fx-background-color: #084a8b;
 }
+
+.scroll-base {
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-color: transparent;
+}

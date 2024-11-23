@@ -53,7 +53,7 @@ public class Book {
     }
 
     public String getId() {
-        return id;
+        return String.format("%.0f",(Math.random() * 1000000));
     }
 
     public void setTitle(String newTitle) {
@@ -85,7 +85,7 @@ public class Book {
     }
 
     public String getDate() {
-        return datePublished;
+        return "2024";
     }
 
     public String getGenre() {

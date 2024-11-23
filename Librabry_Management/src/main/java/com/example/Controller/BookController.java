@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,9 +53,7 @@ public class BookController {
         try {
             Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
             Scene homeScene = new Scene(homeRoot);
-
             Stage stage = (Stage) homeButton.getScene().getWindow();
-
             stage.setScene(homeScene);
             stage.show();
         } catch (Exception e) {
@@ -69,9 +66,7 @@ public class BookController {
         try {
             Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
             Scene booksScene = new Scene(booksRoot);
-
             Stage stage = (Stage) profileButton.getScene().getWindow();
-
             stage.setScene(booksScene);
             stage.show();
         } catch (Exception e) {
@@ -86,9 +81,7 @@ public class BookController {
         try {
             Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/DonateUs.fxml"));
             Scene booksScene = new Scene(booksRoot);
-
             Stage stage = (Stage) homeButton.getScene().getWindow();
-
             stage.setScene(booksScene);
             stage.show();
         } catch (Exception e) {
@@ -161,7 +154,7 @@ public class BookController {
                                 bookCards.add(createBookCard(book));
                             }
                             saveExecutor.shutdown();
-                            saveExecutor.awaitTermination(2, TimeUnit.SECONDS);
+                            saveExecutor.awaitTermination(5, TimeUnit.SECONDS);
                         }
                     }
                 } catch (Exception e) {
@@ -211,11 +204,24 @@ public class BookController {
         knowMoreButton.setPrefWidth(120);
         knowMoreButton.setPrefHeight(30);
         knowMoreButton.setOnAction(e -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Book Details");
-            alert.setHeaderText(book.getTitle());
-            alert.setContentText("Author: " + book.getAuthor() + "\n\nDescription: " + book.getDescription());
-            alert.showAndWait();
+            try {
+                // Load FXML và controller mới
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
+                Parent root = loader.load();
+
+                // Lấy controller của BookDetail
+                BookDetailController detailController = loader.getController();
+
+                // Truyền dữ liệu sách vào BookDetailController
+                detailController.setBookDetail(book);
+
+                // Hiển thị giao diện mới
+                Stage stage = (Stage) knowMoreButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         VBox card = new VBox(5, thumbnail, title, knowMoreButton);
