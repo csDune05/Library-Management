@@ -1,4 +1,4 @@
 package com.example.Controller;
 
-public class MyProfileController {
+public class MyLibraryController {
 }
