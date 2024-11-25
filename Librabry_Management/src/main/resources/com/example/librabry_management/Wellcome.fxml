@@ -59,6 +59,9 @@
             <Image url="@Images/LogoMenu.png" />
          </image>
       </ImageView>
-      <Button fx:id="MusicToggleButton" layoutX="908.0" layoutY="20.0" mnemonicParsing="false" onAction="#MusicToggleButtonHandle" prefHeight="27.0" prefWidth="73.0" text="Music Off" />
+      <Button fx:id="MusicToggleButton" layoutX="889.0" layoutY="21.0" mnemonicParsing="false" onAction="#MusicToggleButtonHandle" prefHeight="30.0" prefWidth="88.0" text="Music Off">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
     </children>
 </AnchorPane>

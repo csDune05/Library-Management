@@ -27,5 +27,6 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <Button fx:id="cancelButton" layoutX="507.0" layoutY="234.0" mnemonicParsing="false" onAction="#CancelActionHandle" text="Cancel" />
    </children>
 </AnchorPane>

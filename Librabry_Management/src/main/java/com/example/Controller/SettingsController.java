@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 public class SettingsController {
     @FXML
@@ -12,6 +13,9 @@ public class SettingsController {
 
     @FXML
     private Button offButton;
+
+    @FXML
+    private Button cancelButton;
 
     private MediaPlayer musicPlayer;
 
@@ -39,5 +43,10 @@ public class SettingsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void CancelActionHandle() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
 }
