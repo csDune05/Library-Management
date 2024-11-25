@@ -157,19 +157,37 @@ public class BookDetailController implements Initializable {
 
     @FXML
     public void borrowBookHandler() {
-        int userId = MainStaticObjectControl.getCurrentUserId();
+        int userId = MainStaticObjectControl.getCurrentUserId(); // Lấy user_id hiện tại
         if (userId > 0) {
-            int bookId = getCurrentBookId();
-            DatabaseHelper.borrowBook(userId, bookId);
+            int bookId = getCurrentBookId(); // Lấy book_id của sách hiện tại
+            if (bookId > 0) {
+                if (!DatabaseHelper.isBookAlreadyBorrowed(userId, bookId)) {
+                    DatabaseHelper.borrowBook(userId, bookId);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Borrow Book");
-            alert.setContentText("Book borrowed successfully!");
-            alert.showAndWait();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Mượn sách");
+                    alert.setContentText("Sách đã được mượn thành công!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Mượn sách");
+                    alert.setContentText("Bạn đã mượn sách này rồi.");
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Mượn sách");
+                alert.setContentText("Không tìm thấy sách để mượn.");
+                alert.showAndWait();
+            }
         } else {
-            System.out.println("No user logged in.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Mượn sách");
+            alert.setContentText("Không tìm thấy thông tin tài khoản. Vui lòng đăng nhập lại.");
+            alert.showAndWait();
         }
     }
+
 
     private int getCurrentBookId() {
         try (Connection conn = DatabaseHelper.connect();

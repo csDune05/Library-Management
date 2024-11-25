@@ -330,6 +330,24 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
+        String sql = "SELECT COUNT(*) FROM user_books WHERE user_id = ? AND book_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, bookId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Trả về true nếu sách đã được mượn
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Mặc định trả về false nếu có lỗi xảy ra
+    }
+
+
 
     @Override
     public void start(Stage stage) throws Exception {
