@@ -16,9 +16,9 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình HikariCP
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library"); // URL kết nối
         config.setUsername("root"); // Tên người dùng
-        config.setPassword("#Matkhau01234"); // Mật khẩu
+        config.setPassword("Your_Password"); // Mật khẩu
         config.setMaximumPoolSize(20); // Số kết nối tối đa
         config.setMinimumIdle(10); // Số kết nối tối thiểu
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
@@ -219,69 +219,6 @@ public class DatabaseHelper extends Application {
         }
     }
 
-    public static boolean doesUserExist(int userId) {
-        String sql = "SELECT COUNT(*) FROM users WHERE id = ?";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0; // Nếu có ít nhất 1 bản ghi thì user tồn tại
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-
-    public static void addBookToUserLibrary(int userId, Book book) {
-        if (!doesUserExist(userId)) {
-            throw new IllegalArgumentException("User ID does not exist in the users table.");
-        }
-
-        String insertBookSql = """
-        INSERT INTO books (title, author, description, thumbnail_url, publisher, published_date, average_rating)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE 
-            description = VALUES(description),
-            thumbnail_url = VALUES(thumbnail_url),
-            publisher = VALUES(publisher),
-            published_date = VALUES(published_date),
-            average_rating = VALUES(average_rating);
-        """;
-
-        String insertUserBookSql = """
-        INSERT INTO user_books (user_id, book_id)
-        VALUES (?, (SELECT id FROM books WHERE title = ? AND author = ?))
-        ON DUPLICATE KEY UPDATE borrowed_at = CURRENT_TIMESTAMP;
-        """;
-
-        try (Connection conn = connect()) {
-            // Thêm sách vào bảng books nếu chưa tồn tại
-            try (PreparedStatement pstmt = conn.prepareStatement(insertBookSql)) {
-                pstmt.setString(1, book.getTitle());
-                pstmt.setString(2, book.getAuthor());
-                pstmt.setString(3, book.getDescription());
-                pstmt.setString(4, book.getThumbnailUrl());
-                pstmt.setString(5, book.getPublisher());
-                pstmt.setString(6, book.getDate());
-                pstmt.setString(7, book.getRating());
-                pstmt.executeUpdate();
-            }
-
-            // Thêm bản ghi vào bảng user_books
-            try (PreparedStatement pstmt = conn.prepareStatement(insertUserBookSql)) {
-                pstmt.setInt(1, userId);
-                pstmt.setString(2, book.getTitle());
-                pstmt.setString(3, book.getAuthor());
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static List<Book> getBooksForUser(int userId) {
         String sql = """
         SELECT b.title, b.author, b.description, b.thumbnail_url, b.publisher, 
@@ -328,6 +265,37 @@ public class DatabaseHelper extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean returnBook(int userId, int bookId) {
+        String sql = "DELETE FROM user_books WHERE user_id = ? AND book_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, bookId);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public static int getBookId(String title, String author) {
+        String sql = "SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1;";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, author);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Trả về -1 nếu không tìm thấy sách
     }
 
     public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
