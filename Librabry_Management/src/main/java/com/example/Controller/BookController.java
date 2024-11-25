@@ -123,27 +123,8 @@ public class BookController {
             tilePane.getChildren().add(createBookCard(book));
         }
         searchButton.setOnAction(e -> performSearch());
-        optionsComboBox.getItems().addAll("My Profile", "Log out");
 
-        // bắt sự kiện nếu Options là log out thì thoát.
-        optionsComboBox.setOnAction(event -> {
-            String selectedOption = optionsComboBox.getValue();
-            if (selectedOption.equals("Log out")) {
-                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmationAlert.setTitle("Confirmation");
-                confirmationAlert.setHeaderText("Are you sure you want to log out?");
-                confirmationAlert.setContentText("Press OK to log out, or Cancel to stay.");
-
-                confirmationAlert.showAndWait().ifPresent(response -> {
-                    if (response == ButtonType.OK) {
-                        optionsComboBox.getScene().getWindow().hide();
-                        MainStaticObjectControl.openWelcomeStage();
-                    } else {
-                        optionsComboBox.setValue(null);
-                    }
-                });
-            }
-        });
+        MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
     }
 
     @FXML
