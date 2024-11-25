@@ -15,6 +15,13 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>22.0.1</version> <!-- Đổi thành phiên bản JavaFX bạn đang sử dụng -->
+        </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>

@@ -1,5 +1,7 @@
 package com.example.Controller;
 
+import com.example.librabry_management.MainStaticObjectControl;
+import com.example.librabry_management.TestApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +10,10 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import com.example.librabry_management.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.net.URL;
 
 public class WellcomeSpaceController {
     @FXML
@@ -26,8 +31,14 @@ public class WellcomeSpaceController {
     @FXML
     private Button GetStartedButton;
 
+    @FXML
+    private Button MusicToggleButton;
+
     private Stage loginStage;
     private Stage signUpStage;
+
+    private MediaPlayer mediaPlayer;
+    private boolean isMusicPlaying = true;
 
     public void AboutUsButtonHandle() {
         try {
@@ -97,6 +108,22 @@ public class WellcomeSpaceController {
             loginStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void MusicToggleButtonHandle() {
+
+        MediaPlayer mediaPlayer = TestApplication.getMediaPlayer();
+
+        if (mediaPlayer != null) {
+            if (isMusicPlaying) {
+                mediaPlayer.pause();
+                MusicToggleButton.setText("Music On");
+            } else {
+                mediaPlayer.play();
+                MusicToggleButton.setText("Music Off");
+            }
+            isMusicPlaying = !isMusicPlaying;
         }
     }
 }
