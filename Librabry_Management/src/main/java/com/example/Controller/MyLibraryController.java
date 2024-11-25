@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -124,7 +125,12 @@ public class MyLibraryController {
         title.setMaxWidth(120);
         title.setPrefHeight(40);
 
-        VBox card = new VBox(5, thumbnail, title);
+        Button returnButton = new Button("Return Book");
+        returnButton.setStyle("-fx-background-color: #ff6347; -fx-text-fill: white;"); // Style cho nút
+        returnButton.setPrefWidth(120);
+        returnButton.setOnAction(event -> handleReturnBook(book)); // Gắn sự kiện cho nút
+
+        VBox card = new VBox(5, thumbnail, title, returnButton);
         card.setPadding(new Insets(10));
         card.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5px; -fx-background-color: #f9f9f9;");
         card.setPrefWidth(150);
@@ -132,6 +138,8 @@ public class MyLibraryController {
         card.setAlignment(Pos.CENTER);
         return card;
     }
+
+
 
     @FXML
     public void initialize() {
@@ -156,19 +164,39 @@ public class MyLibraryController {
         }
     }
 
-    // Add sách vào thư viện
-    public void addBookToLibrary(Book book) {
-        if (!borrowedBooks.contains(book)) {
-            borrowedBooks.add(book);
-            updateLibraryView();
+    private void handleReturnBook(Book book) {
+        int userId = MainStaticObjectControl.getCurrentUserId();
+        if (userId > 0) {
+            int bookId = DatabaseHelper.getBookId(book.getTitle(), book.getAuthor());
+            if (bookId != -1) {
+                boolean success = DatabaseHelper.returnBook(userId, bookId);
+                if (success) {
+                    borrowedBooks.remove(book);
+                    tilePane.getChildren().removeIf(node -> {
+                        if (node instanceof VBox) {
+                            VBox card = (VBox) node;
+                            Label titleLabel = (Label) card.getChildren().get(1); // Tiêu đề ở vị trí thứ 2
+                            return titleLabel.getText().equals(book.getTitle());
+                        }
+                        return false;
+                    });
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Return Book");
+                    alert.setContentText("Book returned successfully!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Failed to return the book. Please try again.");
+                    alert.showAndWait();
+                }
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Invalid user information.");
+            alert.showAndWait();
         }
     }
 
-    // Delete sách khỏi thư viện
-    public void removeBookFromLibrary(Book book) {
-        if (borrowedBooks.contains(book)) {
-            borrowedBooks.remove(book);
-            updateLibraryView();
-        }
-    }
 }
