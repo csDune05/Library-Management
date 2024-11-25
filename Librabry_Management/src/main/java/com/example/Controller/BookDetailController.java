@@ -64,6 +64,25 @@ public class BookDetailController implements Initializable {
     private Button myLibraryButton;
 
     @FXML
+    private Button backButton;
+
+    private BookController bookController;
+
+    public void setBookController(BookController bookController) {
+        this.bookController = bookController;
+    }
+
+    @FXML
+    public void backButtonHandler() {
+        if (bookController != null) {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+
+            stage.setScene(bookController.getBookScene());
+            stage.show();
+        }
+    }
+
+    @FXML
     private Button borrowBook;
 
     @FXML
