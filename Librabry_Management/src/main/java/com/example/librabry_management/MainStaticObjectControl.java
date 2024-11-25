@@ -6,12 +6,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainStaticObjectControl {
     private static Stage welcomeStage;
     private static Stage loginStage;
     private static Stage dashboardStage;
+    private static Stage settingsStage;
+    private static MediaPlayer musicPlayer;
     private static int currentUserId; // Lưu user_id của người dùng đăng nhập
 
     public static int getCurrentUserId() {
@@ -51,9 +55,10 @@ public class MainStaticObjectControl {
     }
 
     public static void configureOptionsComboBox(ComboBox<String> optionsComboBox) {
-        optionsComboBox.getItems().addAll("My Profile", "Log out");
+        optionsComboBox.getItems().addAll("My Profile", "Log out", "Settings");
         optionsComboBox.setOnAction(event -> {
             String selectedOption = optionsComboBox.getValue();
+            // Xử lý log out
             if ("Log out".equals(selectedOption)) {
                 Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmationAlert.setTitle("Confirmation");
@@ -69,15 +74,14 @@ public class MainStaticObjectControl {
                     }
                 });
             }
-            // Xử lý cho "My Profile" hoặc các tùy chọn khác nếu cần
+            // Xử lý cho "My Profile"
             else if ("My Profile".equals(selectedOption)) {
                 // Điều hướng sang giao diện Profile
-                try {
-                    Stage currentStage = (Stage) optionsComboBox.getScene().getWindow();
-                    MainStaticObjectControl.openProfileStage(currentStage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                openProfileStage((Stage) optionsComboBox.getScene().getWindow());
+            }
+            // Xử lý cho "Settings"
+            else if ("Settings".equals(selectedOption)) {
+                openSettingsStage();
             }
         });
     }
@@ -90,5 +94,30 @@ public class MainStaticObjectControl {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void openSettingsStage() {
+        try {
+            if (settingsStage == null) {
+                settingsStage = new Stage();
+                Parent settingsRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Settings.fxml"));
+                settingsStage.setScene(new Scene(settingsRoot));
+                settingsStage.setTitle("Settings");
+                settingsStage.setResizable(false);
+                settingsStage.initModality(Modality.APPLICATION_MODAL);
+            }
+            settingsStage.centerOnScreen();
+            settingsStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static MediaPlayer getMusicPlayer() {
+        return TestApplication.getMediaPlayer();
+    }
+
+    public static void setMusicPlayer(MediaPlayer player) {
+        musicPlayer = player;
     }
 }
