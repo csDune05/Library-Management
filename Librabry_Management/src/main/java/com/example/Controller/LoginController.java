@@ -201,13 +201,6 @@ public class LoginController {
         if (isLoginValid(username, password)) {
             statusLabel.setText("Login Successful!");
             saveAccount(username, password, staysignedin.isSelected());
-            try {
-                updateVisitCount();
-            } catch (IOException e) {
-                e.printStackTrace();
-                statusLabel.setText("Error updating visit count");
-            }
-
             openDashboard();
             MainStaticObjectControl.closeWelcomeStage();
         } else {
@@ -263,36 +256,6 @@ public class LoginController {
 
         prefs.put("accounts", accounts.toString());
         loadSavedAccounts();
-    }
-
-    private int readVisitCount() throws IOException {
-        File countFile = new File("countVisit.txt");
-
-        if (!countFile.exists()) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
-                writer.write("0");
-            }
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(countFile))) {
-            String line = reader.readLine();
-            if (line == null || line.trim().isEmpty()) {
-                return 0;
-            }
-            return Integer.parseInt(line.trim());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    private void updateVisitCount() throws IOException {
-        int currentCount = readVisitCount();
-        currentCount++;
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("countVisit.txt"))) {
-            writer.write(String.valueOf(currentCount));
-        }
     }
 
     @FXML

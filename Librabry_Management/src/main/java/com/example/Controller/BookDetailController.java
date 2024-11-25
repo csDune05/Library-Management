@@ -159,8 +159,7 @@ public class BookDetailController implements Initializable {
     public void borrowBookHandler() {
         int userId = MainStaticObjectControl.getCurrentUserId();
         if (userId > 0) {
-            // Giả sử bạn đã có bookId từ thông tin sách
-            int bookId = getCurrentBookId(); // Hàm này trả về id của sách hiện tại
+            int bookId = getCurrentBookId();
             DatabaseHelper.borrowBook(userId, bookId);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
