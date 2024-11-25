@@ -109,7 +109,6 @@ public class BookController {
 
     @FXML
     public void initialize() {
-        DatabaseHelper.createTable();
         // Lấy 10 sách trong database
         List<Book> books = DatabaseHelper.getDefaultBooks();
         // Hiển thị sách trong giao diện
@@ -131,7 +130,7 @@ public class BookController {
                 confirmationAlert.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         optionsComboBox.getScene().getWindow().hide();
-                        StageManager.openWelcomeStage();
+                        MainStaticObjectControl.openWelcomeStage();
                     } else {
                         optionsComboBox.setValue(null);
                     }

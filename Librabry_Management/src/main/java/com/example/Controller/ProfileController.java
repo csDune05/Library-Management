@@ -1,6 +1,6 @@
 package com.example.Controller;
 
-import com.example.librabry_management.StageManager;
+import com.example.librabry_management.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -104,7 +104,7 @@ public class ProfileController {
                 confirmationAlert.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         optionsComboBox.getScene().getWindow().hide();
-                        StageManager.openWelcomeStage();
+                        MainStaticObjectControl.openWelcomeStage();
                     } else {
                         optionsComboBox.setValue(null);
                     }

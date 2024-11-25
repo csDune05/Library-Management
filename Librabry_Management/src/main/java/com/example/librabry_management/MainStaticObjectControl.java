@@ -1,12 +1,20 @@
 package com.example.librabry_management;
 
 import javafx.stage.Stage;
-import com.example.Controller.*;
 
-public class StageManager {
+public class MainStaticObjectControl {
     private static Stage welcomeStage;
     private static Stage loginStage;
     private static Stage dashboardStage;
+    private static int currentUserId; // Lưu user_id của người dùng đăng nhập
+
+    public static int getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public static void setCurrentUserId(int userId) {
+        currentUserId = userId;
+    }
 
     public static void setWelcomeStage(Stage stage) {
         welcomeStage = stage;

@@ -8,6 +8,7 @@ import com.example.Controller.*;
 public class User extends Account{
 
     public final Library library;
+
     protected List<Book> Collection = new ArrayList<>();
 
     public User(Library library) {

@@ -6,8 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import java.io.*;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import com.example.librabry_management.*;
@@ -98,43 +101,62 @@ public class SignUpController implements Initializable {
 
         if (isValid) {
             try {
-                saveToFile();
-                updateMemberCount();
+                DatabaseHelper.saveUser(
+                        NameField.getText(),
+                        EmailField.getText(),
+                        PasswordField.getText(),
+                        formatBirthdate(BirthdateField.getText()),
+                        PhoneNumberField.getText(),
+                        LocationField.getText()
+                );
                 resetAllFields();
-                statusLabel.setText("Create account successful");
-            } catch (IOException e) {
-                statusLabel.setText("Create account failed");
+                statusLabel.setText("Account created successfully!");
+            } catch (Exception e) {
+                statusLabel.setText("Failed to create account!");
                 e.printStackTrace();
             }
         } else {
-            statusLabel.setText("Create account failed");
+            statusLabel.setText("Failed to create account!");
         }
     }
 
     private void resetAllFields() {
+        NameField.clear();
+        BirthdateField.clear();
+        PhoneNumberField.clear();
+        LocationField.clear();
+        EmailField.clear();
+        PasswordField.clear();
+
         NameField.setStyle(null);
         BirthdateField.setStyle(null);
         PhoneNumberField.setStyle(null);
         LocationField.setStyle(null);
         EmailField.setStyle(null);
         PasswordField.setStyle(null);
+
+        EmailStatusLabel.setText("");
+        PhoneStatusLabel.setText("");
+        BirthdateStatusLabel.setText("");
+        statusLabel.setText("");
     }
 
-    private boolean isEmailDuplicate(String email) {
-        File accountsList = new File("accounts.txt");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(accountsList))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.split(",")[0].equals(email)) {
-                    return true;
-                }
+    private boolean isEmailDuplicate(String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             pstmt.setString(1, email);
+             ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Trả về true nếu email đã tồn tại
             }
-        } catch (IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
 
     private boolean isPhoneNumberValid(String phoneNumber) {
         return phoneNumber.matches("\\d{10}");
@@ -184,98 +206,18 @@ public class SignUpController implements Initializable {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
-    private void saveToFile() throws IOException {
-        File accountsList = new File("accounts.txt");
-
-        try (FileWriter writer = new FileWriter(accountsList, true);
-             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
-            String accountData = EmailField.getText() + "," + PasswordField.getText() + "," +
-                    LocationField.getText() + "," + PhoneNumberField.getText() + "," +
-                    BirthdateField.getText() + "," + NameField.getText() + "\n";
-
-            bufferedWriter.write(accountData);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
+    private String formatBirthdate(String birthdate) throws IllegalArgumentException {
+        String[] parts = birthdate.split("/");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid date format");
         }
-    }
-
-    public static void main(String[] args) {
-        readAllDataInFile("accounts.txt");
-    }
-
-    public static void readAllDataInFile(String fileName) {
-        File file = new File(fileName);
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] accountDetails = line.split(",");
-
-                System.out.println("Email: " + accountDetails[0]);
-                System.out.println("Password: " + accountDetails[1]);
-                System.out.println("Location: " + accountDetails[2]);
-                System.out.println("Phone Number: " + accountDetails[3]);
-                System.out.println("Birthdate: " + accountDetails[4]);
-                System.out.println("Name: " + accountDetails[5]);
-                System.out.println("--------------------------------------");
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void deleteAllDataInFile(String fileName) {
-        File file = new File(fileName);
-
-        try (FileWriter writer = new FileWriter(file, false)) {
-            writer.write("");
-            resetMemberCount();
-            System.out.println("Delete all data in file: " + file.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private int readMemberCount() throws IOException {
-        File countFile = new File("countMembers.txt");
-        if (!countFile.exists()) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
-                writer.write("0");
-            }
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(countFile))) {
-            return Integer.parseInt(reader.readLine().trim());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    private void updateMemberCount() throws IOException {
-        int currentCount = readMemberCount();
-        currentCount++;
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("countMembers.txt"))) {
-            writer.write(String.valueOf(currentCount));
-        }
-    }
-
-    private static void resetMemberCount() {
-        File countFile = new File("countMembers.txt");
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
-            writer.write("0");
-            System.out.println("Reset member count to 0 in file: " + countFile.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0]; // Định dạng yyyy-MM-dd
+        return formattedDate;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        DatabaseHelper.createUsersTable();
         BirthdateField.textProperty().addListener((observable, oldValue, newValue) -> {
             newValue = newValue.replaceAll("[^\\d/]", "");
 

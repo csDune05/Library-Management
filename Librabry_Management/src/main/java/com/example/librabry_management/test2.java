@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 public class test2 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        DatabaseHelper.createUsersTable();
+        DatabaseHelper.createTable();
+        DatabaseHelper.createUserBooksTable();
         Parent root = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
         primaryStage.setTitle("Dashboard");
         primaryStage.setScene(new Scene(root));

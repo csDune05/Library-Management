@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -8,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="626.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.SignUpController">
+<AnchorPane prefHeight="626.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.SignUpController">
     <children>
       <ImageView fitHeight="628.0" fitWidth="1017.0" layoutY="-1.0">
          <image>
@@ -38,7 +43,7 @@
         <TextField fx:id="LocationField" layoutX="585.0" layoutY="307.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Location" />
         <TextField fx:id="EmailField" layoutX="585.0" layoutY="380.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Email" />
         <Button fx:id="CancelButton" layoutX="926.0" layoutY="585.0" mnemonicParsing="false" onAction="#CancelActionHandle" prefHeight="28.0" prefWidth="67.0" text="Cancel" />
-        <Label fx:id="statusLabel" layoutX="648.0" layoutY="501.0" prefHeight="17.0" prefWidth="148.0" textFill="#0070ff">
+        <Label fx:id="statusLabel" layoutX="651.0" layoutY="499.0" prefHeight="17.0" prefWidth="263.0" textFill="#0070ff">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>

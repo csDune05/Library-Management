@@ -1,13 +1,37 @@
 package com.example.Controller;
 
+import com.example.librabry_management.Book;
+import com.example.librabry_management.DatabaseHelper;
+import com.example.librabry_management.MainStaticObjectControl;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class MyLibraryController {
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private TilePane tilePane;
 
     @FXML
     private Button homeButton;
@@ -20,6 +44,8 @@ public class MyLibraryController {
 
     @FXML
     private Button profileButton;
+
+    private ObservableList<Book> borrowedBooks = FXCollections.observableArrayList(); // Danh sách sách đã mượn
 
     @FXML
     public void bookButtonHandler() {
@@ -75,6 +101,74 @@ public class MyLibraryController {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updateLibraryView() {
+        tilePane.getChildren().clear(); // Xóa nội dung cũ
+        for (Book book : borrowedBooks) {
+            tilePane.getChildren().add(createBookCard(book)); // Tạo thẻ sách và thêm vào TilePane
+        }
+    }
+
+    // Phương thức tạo thẻ sách
+    private VBox createBookCard(Book book) {
+        ImageView thumbnail = new ImageView();
+        thumbnail.setImage(new Image(book.getThumbnailUrl(), 120, 180, true, true));
+        thumbnail.setFitWidth(110);
+        thumbnail.setFitHeight(160);
+
+        Label title = new Label(book.getTitle());
+        title.setWrapText(true);
+        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        title.setMaxWidth(120);
+        title.setPrefHeight(40);
+
+        VBox card = new VBox(5, thumbnail, title);
+        card.setPadding(new Insets(10));
+        card.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5px; -fx-background-color: #f9f9f9;");
+        card.setPrefWidth(150);
+        card.setPrefHeight(270);
+        card.setAlignment(Pos.CENTER);
+        return card;
+    }
+
+    @FXML
+    public void initialize() {
+        int currentUserId = MainStaticObjectControl.getCurrentUserId();
+        if (currentUserId > 0) {
+            loadUserBooks(currentUserId);
+        } else {
+            System.out.println("No user logged in.");
+        }
+    }
+
+    // Phương thức để tải sách của người dùng
+    private void loadUserBooks(int userId) {
+        List<Book> userBooks = DatabaseHelper.getBooksForUser(userId);
+        if (!userBooks.isEmpty()) {
+            tilePane.getChildren().clear(); // Xóa nội dung cũ
+            for (Book book : userBooks) {
+                tilePane.getChildren().add(createBookCard(book)); // Thêm sách vào TilePane
+            }
+        } else {
+            System.out.println("No books found for user ID: " + userId);
+        }
+    }
+
+    // Add sách vào thư viện
+    public void addBookToLibrary(Book book) {
+        if (!borrowedBooks.contains(book)) {
+            borrowedBooks.add(book);
+            updateLibraryView();
+        }
+    }
+
+    // Delete sách khỏi thư viện
+    public void removeBookFromLibrary(Book book) {
+        if (borrowedBooks.contains(book)) {
+            borrowedBooks.remove(book);
+            updateLibraryView();
         }
     }
 }

@@ -1,19 +1,19 @@
 package com.example.librabry_management;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import com.example.Controller.*;
 
 public class TestApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            DatabaseHelper.createTable();
+            DatabaseHelper.createUsersTable();
+            DatabaseHelper.createUserBooksTable();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Wellcome.fxml"));
             Parent root = loader.load();
 
@@ -22,7 +22,7 @@ public class TestApplication extends Application {
             welcomeStage.setTitle("Welcome");
             welcomeStage.setScene(scene);
 
-            StageManager.setWelcomeStage(welcomeStage);
+            MainStaticObjectControl.setWelcomeStage(welcomeStage);
 
             scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
             welcomeStage.sceneProperty().addListener((obs, oldScene, newScene) -> {

@@ -35,7 +35,7 @@ public class Book {
         return Objects.hash(title, author);
     }
     // Constructor
-    public Book(String title, String author, String description, String thumbnailUrl, String rating, String datePublished, String publisher) {
+    public Book(String title, String author, String description, String thumbnailUrl, String publisher, String datePublished, String rating) {
         this.title = title;
         this.author = author;
         this.description = description;

@@ -88,8 +88,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="323.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
-      <Button layoutX="535.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
+      <Button fx:id="borrowBook" layoutX="323.0" layoutY="252.0" mnemonicParsing="false" onAction="#borrowBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
+      <Button fx:id="returnBook" layoutX="535.0" layoutY="252.0" mnemonicParsing="false" onAction="#returnBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
       <Button layoutX="736.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Đánh giá" />
       <Label fx:id="bookAuthor" layoutX="390.0" layoutY="121.0" text="Label">
          <font>

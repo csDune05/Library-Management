@@ -1,6 +1,6 @@
 package com.example.Controller;
 
-import com.example.librabry_management.StageManager;
+import com.example.librabry_management.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -17,6 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.prefs.Preferences;
 
 public class LoginController {
@@ -206,33 +209,34 @@ public class LoginController {
             }
 
             openDashboard();
-            StageManager.closeWelcomeStage();
+            MainStaticObjectControl.closeWelcomeStage();
         } else {
             statusLabel.setText("Email or Password is incorrect!");
         }
     }
 
     private boolean isLoginValid(String email, String password) {
-        File accountsList = new File("accounts.txt");
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(accountsList))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] accountDetails = line.split(",");
-                if (accountDetails.length >= 2) {
-                    String storedEmail = accountDetails[0];
-                    String storedPassword = accountDetails[1];
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                    if (storedEmail.equals(email) && storedPassword.equals(password)) {
-                        return true;
-                    }
-                }
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int userId = rs.getInt("id");
+                MainStaticObjectControl.setCurrentUserId(userId); // Gán user_id vào currentUserId
+                return true;
             }
-        } catch (IOException e) {
+            return rs.next();
+        } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
+
 
     private void saveAccount(String username, String password, boolean rememberMe) throws JSONException {
         String accountsJson = prefs.get("accounts", "[]");
