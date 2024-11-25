@@ -181,38 +181,12 @@ public class DashboardController {
     }
 
     private void updateVisitorChart() {
-        int searchCount = readCountFromFile("countSearch.txt");
-        int readCount = readCountFromFile("countRead.txt");
-        int visitCount = readCountFromFile("countVisit.txt");
-        int memberCount = readCountFromFile("countMembers.txt");
-
         visitorChart.getData().clear();
 
-        XYChart.Series<String, Number> searchSeries = new XYChart.Series<>();
-        searchSeries.setName("Search");
-        searchSeries.getData().add(new XYChart.Data<>("Search", searchCount));
-
-        XYChart.Series<String, Number> readSeries = new XYChart.Series<>();
-        readSeries.setName("Read");
-        readSeries.getData().add(new XYChart.Data<>("Read", readCount));
-
-        XYChart.Series<String, Number> visitsSeries = new XYChart.Series<>();
-        visitsSeries.setName("Visit times");
-        visitsSeries.getData().add(new XYChart.Data<>("Visit times", visitCount));
-
-        XYChart.Series<String, Number> membersSeries = new XYChart.Series<>();
-        membersSeries.setName("Members");
-        membersSeries.getData().add(new XYChart.Data<>("Members", memberCount));
-
-        visitorChart.getData().addAll(searchSeries, readSeries, visitsSeries, membersSeries);
-        xAxis.setTickLabelsVisible(false);
     }
 
     private void updateLabels() {
-        searchLabel.setText(String.valueOf(readCountFromFile("countSearch.txt")));
-        readLabel.setText(String.valueOf(readCountFromFile("countRead.txt")));
-        visitTimesLabel.setText(String.valueOf(readCountFromFile("countVisit.txt")));
-        membersLabel.setText(String.valueOf(readCountFromFile("countMembers.txt")));
+
     }
 
     private int readCountFromFile(String fileName) {

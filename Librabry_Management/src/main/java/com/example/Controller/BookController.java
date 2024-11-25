@@ -250,4 +250,8 @@ public class BookController {
         card.setAlignment(Pos.CENTER);
         return card;
     }
+
+    public Scene getBookScene() {
+        return homeButton.getScene();
+    }
 }
