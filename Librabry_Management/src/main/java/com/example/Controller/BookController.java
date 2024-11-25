@@ -124,6 +124,7 @@ public class BookController {
         }
         searchButton.setOnAction(e -> performSearch());
 
+        // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
     }
 
