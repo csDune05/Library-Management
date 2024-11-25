@@ -12,14 +12,15 @@ public class MainStaticObjectControl {
     private static Stage welcomeStage;
     private static Stage loginStage;
     private static Stage dashboardStage;
-    private static int currentUserId; // Lưu user_id của người dùng đăng nhập
+    private static User currentUser;
 
-    public static int getCurrentUserId() {
-        return currentUserId;
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
-    public static void setCurrentUserId(int userId) {
-        currentUserId = userId;
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+        System.out.println("Current user: id la" + currentUser.getId());
     }
 
     public static void setWelcomeStage(Stage stage) {

@@ -3,6 +3,7 @@ package com.example.Controller;
 import com.example.librabry_management.Book;
 import com.example.librabry_management.DatabaseHelper;
 import com.example.librabry_management.MainStaticObjectControl;
+import com.example.librabry_management.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,6 +48,8 @@ public class MyLibraryController {
     private Button profileButton;
 
     private ObservableList<Book> borrowedBooks = FXCollections.observableArrayList(); // Danh sách sách đã mượn
+
+    private User currentUser;
 
     @FXML
     public void bookButtonHandler() {
@@ -143,30 +146,32 @@ public class MyLibraryController {
 
     @FXML
     public void initialize() {
-        int currentUserId = MainStaticObjectControl.getCurrentUserId();
-        if (currentUserId > 0) {
-            loadUserBooks(currentUserId);
+        currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy thông tin người dùng hiện tại
+        if (currentUser != null) {
+            loadUserBooks();
         } else {
             System.out.println("No user logged in.");
         }
     }
 
     // Phương thức để tải sách của người dùng
-    private void loadUserBooks(int userId) {
-        List<Book> userBooks = DatabaseHelper.getBooksForUser(userId);
-        if (!userBooks.isEmpty()) {
-            tilePane.getChildren().clear(); // Xóa nội dung cũ
-            for (Book book : userBooks) {
-                tilePane.getChildren().add(createBookCard(book)); // Thêm sách vào TilePane
+    private void loadUserBooks() {
+        if (currentUser != null) {
+            List<Book> userBooks = DatabaseHelper.getBooksForUser(currentUser.getId()); // Lấy sách dựa trên user ID
+            if (!userBooks.isEmpty()) {
+                tilePane.getChildren().clear(); // Xóa nội dung cũ
+                for (Book book : userBooks) {
+                    tilePane.getChildren().add(createBookCard(book)); // Thêm sách vào TilePane
+                }
+            } else {
+                System.out.println("No books found for user: " + currentUser.getName());
             }
-        } else {
-            System.out.println("No books found for user ID: " + userId);
         }
     }
 
     private void handleReturnBook(Book book) {
-        int userId = MainStaticObjectControl.getCurrentUserId();
-        if (userId > 0) {
+        if (currentUser != null) {
+            int userId = currentUser.getId();
             int bookId = DatabaseHelper.getBookId(book.getTitle(), book.getAuthor());
             if (bookId != -1) {
                 boolean success = DatabaseHelper.returnBook(userId, bookId);
@@ -198,5 +203,4 @@ public class MyLibraryController {
             alert.showAndWait();
         }
     }
-
 }

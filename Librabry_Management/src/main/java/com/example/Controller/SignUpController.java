@@ -67,13 +67,13 @@ public class SignUpController implements Initializable {
 
         if (BirthdateField.getText().isEmpty() || !isValidBirthdate(BirthdateField.getText())) {
             BirthdateField.setStyle("-fx-border-color: red;");
-            BirthdateStatusLabel.setText("Invalid date or uncorrected dd/mm/yyyy format");
+            BirthdateStatusLabel.setText("Invalid date or incorrect dd/mm/yyyy format");
             isValid = false;
         }
 
         if (PhoneNumberField.getText().isEmpty() || !isPhoneNumberValid(PhoneNumberField.getText())) {
             PhoneNumberField.setStyle("-fx-border-color: red;");
-            PhoneStatusLabel.setText("Phone number must has enough 10 digits only");
+            PhoneStatusLabel.setText("Phone number must have exactly 10 digits.");
             isValid = false;
         }
 
@@ -84,13 +84,13 @@ public class SignUpController implements Initializable {
 
         if (isEmailDuplicate(EmailField.getText())) {
             EmailField.setStyle("-fx-border-color: red;");
-            EmailStatusLabel.setText("Email already exists");
+            EmailStatusLabel.setText("Email already exists.");
             isValid = false;
         }
 
         if (EmailField.getText().isEmpty()) {
             EmailField.setStyle("-fx-border-color: red;");
-            EmailStatusLabel.setText("Invalid email address");
+            EmailStatusLabel.setText("Invalid email address.");
             isValid = false;
         }
 
@@ -101,14 +101,19 @@ public class SignUpController implements Initializable {
 
         if (isValid) {
             try {
-                DatabaseHelper.saveUser(
+                // Tạo một đối tượng User
+                User newUser = new User(
                         NameField.getText(),
-                        EmailField.getText(),
-                        PasswordField.getText(),
                         formatBirthdate(BirthdateField.getText()),
                         PhoneNumberField.getText(),
-                        LocationField.getText()
+                        EmailField.getText(),
+                        LocationField.getText(),
+                        PasswordField.getText()
                 );
+
+                // Lưu đối tượng User vào cơ sở dữ liệu
+                DatabaseHelper.saveUser(newUser);
+
                 resetAllFields();
                 statusLabel.setText("Account created successfully!");
             } catch (Exception e) {
@@ -141,13 +146,12 @@ public class SignUpController implements Initializable {
         statusLabel.setText("");
     }
 
-
     private boolean isEmailDuplicate(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-             pstmt.setString(1, email);
-             ResultSet rs = pstmt.executeQuery();
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0; // Trả về true nếu email đã tồn tại
             }
@@ -156,7 +160,6 @@ public class SignUpController implements Initializable {
         }
         return false;
     }
-
 
     private boolean isPhoneNumberValid(String phoneNumber) {
         return phoneNumber.matches("\\d{10}");

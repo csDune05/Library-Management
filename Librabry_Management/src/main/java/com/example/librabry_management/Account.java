@@ -1,145 +1,21 @@
 package com.example.librabry_management;
 
-import com.example.Controller.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Objects;
-
 public class Account {
-    protected String id;
+    protected int id;
     protected String name;
     protected String birthdate;
     protected String phone_number;
     protected String email;
     protected String location;
     protected String password;
-    protected boolean isLoggedIn;
-
-    protected static ArrayList<User> userList = new ArrayList<>();
-    protected static ArrayList<Admin> adminList = new ArrayList<>();
-
-    public Account() {
-        this.isLoggedIn = false;
-    }
 
     public Account(String name, String birthdate, String phone_number, String email, String location, String password) {
-        this.id = CreateId.CreateUserId();
         this.name = name;
-        if (isValidBirthdate(birthdate)) {
-            this.birthdate = birthdate;
-        } else {
-            throw new IllegalArgumentException("Invalid birthdate format: dd/mm/yyyy.");
-        }
+        this.birthdate = birthdate;
         this.phone_number = phone_number;
         this.email = email;
         this.location = location;
         this.password = password;
-        this.isLoggedIn = false;
-    }
-
-    public void register(Account account) {
-        if (!isLoggedIn) {
-            if (account instanceof Admin) {
-                for (Admin admin : adminList) {
-                    if (admin.getEmail().equals(account.email)) {
-                        System.out.println("Admin with this email already exists.");
-                        return;
-                    }
-                }
-                adminList.add((Admin) account);
-                System.out.println("Admin registered successfully.");
-            } else if (account instanceof User) {
-                for (User user : userList) {
-                    if (user.getEmail().equals(account.email)) {
-                        System.out.println("User with this email already exists.");
-                        return;
-                    }
-                }
-                userList.add((User) account);
-                System.out.println("User registered successfully.");
-            }
-        }
-    }
-
-    public void login(Account account) {
-        if (!isLoggedIn) {
-            if (account instanceof Admin) {
-                for (Admin admin : adminList) {
-                    if (Objects.equals(admin.getEmail(), email) && admin.getPassword().equals(password)) {
-                        this.isLoggedIn = true;
-                        System.out.println("Admin login successful.");
-                        return;
-                    }
-                }
-            }
-
-            if (account instanceof User) {
-                for (User user : userList) {
-                    if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                        this.isLoggedIn = true;
-                        System.out.println("User login successful.");
-                        return;
-                    }
-                }
-            }
-            System.out.println("Login failed: Incorrect email or password.");
-        } else {
-            System.out.println("Already logged in.");
-        }
-    }
-
-
-    public void logout() {
-        if (isLoggedIn) {
-            this.isLoggedIn = false;
-            System.out.println("Logout successful.");
-        } else {
-            System.out.println("You are not logged in.");
-        }
-    }
-
-    private boolean isValidBirthdate(String birthdate) {
-        if (!birthdate.matches("\\d{2}/\\d{2}/\\d{4}")) {
-            return false;
-        }
-
-        String[] parts = birthdate.split("/");
-        int day = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int year = Integer.parseInt(parts[2]);
-
-        return isValidDate(day, month, year);
-    }
-
-    private boolean isValidDate(int day, int month, int year) {
-        if (month < 1 || month > 12) {
-            return false;
-        }
-
-        if (day < 1 || day > daysInMonth(month, year)) {
-            return false;
-        }
-
-        if (year < 0 || year > Calendar.getInstance().get(Calendar.YEAR)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private int daysInMonth(int month, int year) {
-        switch (month) {
-            case 4: case 6: case 9: case 11:
-                return 30;
-            case 2:
-                return (isLeapYear(year)) ? 29 : 28;
-            default:
-                return 31;
-        }
-    }
-
-    private boolean isLeapYear(int year) {
-        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
     public String getName() {
@@ -150,8 +26,12 @@ public class Account {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBirthDate() {

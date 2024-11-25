@@ -194,39 +194,30 @@ public class LoginController {
     }
 
     @FXML
-    public void SignInButtonHandle() throws JSONException {
-        String username = emailField.getText();
+    public void SignInButtonHandle() {
+        String email = emailField.getText();
         String password = passwordField.isVisible() ? passwordField.getText() : passwordTextField.getText();
 
-        if (isLoginValid(username, password)) {
-            statusLabel.setText("Login Successful!");
-            saveAccount(username, password, staysignedin.isSelected());
-            openDashboard();
-            MainStaticObjectControl.closeWelcomeStage();
-        } else {
-            statusLabel.setText("Email or Password is incorrect!");
-        }
-    }
+        try {
+            User user = DatabaseHelper.getUserByEmail(email); // Tìm người dùng theo email
+            if (user != null && user.getPassword().equals(password)) {
+                statusLabel.setText("Login Successful!");
+                MainStaticObjectControl.setCurrentUser(user); // Lưu thông tin User hiện tại
 
-    private boolean isLoginValid(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-
-        try (Connection conn = DatabaseHelper.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, email);
-            pstmt.setString(2, password);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                int userId = rs.getInt("id");
-                MainStaticObjectControl.setCurrentUserId(userId); // Gán user_id vào currentUserId
-                return true;
+                // Ghi nhớ tài khoản nếu người dùng chọn "Stay signed in"
+                if (staysignedin.isSelected()) {
+                    saveAccount(user.getEmail(), user.getPassword(), true);
+                } else {
+                    saveAccount(user.getEmail(), "", false);
+                }
+                MainStaticObjectControl.closeWelcomeStage();
+                openDashboard();
+            } else {
+                statusLabel.setText("Email or Password is incorrect!");
             }
-            return rs.next();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            statusLabel.setText("An error occurred while logging in.");
             e.printStackTrace();
-            return false;
         }
     }
 

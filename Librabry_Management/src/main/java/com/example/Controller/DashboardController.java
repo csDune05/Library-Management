@@ -28,11 +28,9 @@ public class DashboardController {
 
     @FXML
     private NumberAxis yAxis;
-    @FXML
-    private Label titleLabel;
 
     @FXML
-    private ComboBox<String> timeFilterComboBox;
+    private Label titleLabel;
 
     @FXML
     private ComboBox<String> optionsComboBox;
@@ -87,14 +85,7 @@ public class DashboardController {
 
         titleLabel.setText("Dashboard");
 
-        timeFilterComboBox.getItems().addAll("Weekly", "Monthly", "Yearly");
-
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
-
-        timeFilterComboBox.setOnAction(event -> {
-            String selectedValue = timeFilterComboBox.getValue();
-            System.out.println("Selected filter: " + selectedValue);
-        });
 
         updateVisitorChart();
         updateLabels();

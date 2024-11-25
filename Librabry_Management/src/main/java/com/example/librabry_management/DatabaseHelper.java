@@ -16,9 +16,9 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình HikariCP
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library"); // URL kết nối
+        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
         config.setUsername("root"); // Tên người dùng
-        config.setPassword("Your_Password"); // Mật khẩu
+        config.setPassword("#Matkhau01234"); // Mật khẩu
         config.setMaximumPoolSize(20); // Số kết nối tối đa
         config.setMinimumIdle(10); // Số kết nối tối thiểu
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
@@ -101,7 +101,6 @@ public class DatabaseHelper extends Application {
             e.printStackTrace();
         }
     }
-
 
     // Lưu sách vào cơ sở dữ liệu
     public static void saveBook(Book book, String query) {
@@ -200,24 +199,25 @@ public class DatabaseHelper extends Application {
     }
 
     // Thêm user mới vào database;
-    public static void saveUser(String name, String email, String password, String birthdate, String phoneNumber, String location) {
+    public static void saveUser(User user) {
         String sql = """
-        INSERT INTO users (name, email, password, birthdate, phone_number, location, created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP);
-        """;
+    INSERT INTO users (name, email, password, birthdate, phone_number, location, created_at) 
+    VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP);
+    """;
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            pstmt.setString(3, password);
-            pstmt.setDate(4, Date.valueOf(birthdate));
-            pstmt.setString(5, phoneNumber);
-            pstmt.setString(6, location);
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getEmail());
+            pstmt.setString(3, user.getPassword());
+            pstmt.setDate(4, Date.valueOf(user.getBirthDate()));
+            pstmt.setString(5, user.getPhone_number());
+            pstmt.setString(6, user.getLocation());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public static List<Book> getBooksForUser(int userId) {
         String sql = """
@@ -313,6 +313,34 @@ public class DatabaseHelper extends Application {
             e.printStackTrace();
         }
         return false; // Mặc định trả về false nếu có lỗi xảy ra
+    }
+
+    public static User getUserByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Lấy các thông tin từ ResultSet
+                int id = rs.getInt("id"); // Lấy ID từ cơ sở dữ liệu
+                String name = rs.getString("name");
+                String birthdate = rs.getString("birthdate");
+                String phoneNumber = rs.getString("phone_number");
+                String location = rs.getString("location");
+                String password = rs.getString("password");
+
+                // Gán ID khi tạo User
+                User user = new User(name, birthdate, phoneNumber, email, location, password);
+                user.setId(id); // Gán ID cho User
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

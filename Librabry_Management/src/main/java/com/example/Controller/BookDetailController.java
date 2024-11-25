@@ -66,6 +66,12 @@ public class BookDetailController implements Initializable {
     @FXML
     private Button backButton;
 
+    @FXML
+    private Button borrowBook;
+
+    @FXML
+    private Button returnBook;
+
     private BookController bookController;
 
     public void setBookController(BookController bookController) {
@@ -81,12 +87,6 @@ public class BookDetailController implements Initializable {
             stage.show();
         }
     }
-
-    @FXML
-    private Button borrowBook;
-
-    @FXML
-    private Button returnBook;
 
     @FXML
     public void myLibraryButtonHandler() {
@@ -157,33 +157,33 @@ public class BookDetailController implements Initializable {
 
     @FXML
     public void borrowBookHandler() {
-        int userId = MainStaticObjectControl.getCurrentUserId(); // Lấy user_id hiện tại
-        if (userId > 0) {
+        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
+        if (currentUser != null) {
             int bookId = getCurrentBookId(); // Lấy book_id của sách hiện tại
             if (bookId > 0) {
-                if (!DatabaseHelper.isBookAlreadyBorrowed(userId, bookId)) {
-                    DatabaseHelper.borrowBook(userId, bookId);
+                if (!DatabaseHelper.isBookAlreadyBorrowed(currentUser.getId(), bookId)) {
+                    DatabaseHelper.borrowBook(currentUser.getId(), bookId);
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Mượn sách");
-                    alert.setContentText("Sách đã được mượn thành công!");
+                    alert.setTitle("Borrow Book");
+                    alert.setContentText("Book borrowed successfully!");
                     alert.showAndWait();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Mượn sách");
-                    alert.setContentText("Bạn đã mượn sách này rồi.");
+                    alert.setTitle("Borrow Book");
+                    alert.setContentText("You have already borrowed this book.");
                     alert.showAndWait();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Mượn sách");
-                alert.setContentText("Không tìm thấy sách để mượn.");
+                alert.setTitle("Borrow Book");
+                alert.setContentText("Book not found to borrow.");
                 alert.showAndWait();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Mượn sách");
-            alert.setContentText("Không tìm thấy thông tin tài khoản. Vui lòng đăng nhập lại.");
+            alert.setTitle("Borrow Book");
+            alert.setContentText("User information not found. Please log in again.");
             alert.showAndWait();
         }
     }
@@ -192,8 +192,8 @@ public class BookDetailController implements Initializable {
     private int getCurrentBookId() {
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1")) {
-            pstmt.setString(1, bookTitle.getText()); // Assuming `bookTitle` is the Label showing the title
-            pstmt.setString(2, bookAuthor.getText()); // Assuming `bookAuthor` is the Label showing the author
+            pstmt.setString(1, bookTitle.getText()); // Assuming bookTitle is the Label showing the title
+            pstmt.setString(2, bookAuthor.getText()); // Assuming bookAuthor is the Label showing the author
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("id");
@@ -206,60 +206,34 @@ public class BookDetailController implements Initializable {
 
     @FXML
     public void returnBookHandler() {
-        int userId = MainStaticObjectControl.getCurrentUserId(); // Lấy user_id từ tài khoản đăng nhập hiện tại
-        if (userId > 0) {
-            int bookId = getCurrentBookId(); // Lấy id của sách hiện tại
+        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
+        if (currentUser != null) {
+            int bookId = getCurrentBookId(); // Lấy book_id của sách hiện tại
             if (bookId > 0) {
-                try (Connection conn = DatabaseHelper.connect();
-                     PreparedStatement pstmt = conn.prepareStatement(
-                             "DELETE FROM user_books WHERE user_id = ? AND book_id = ? LIMIT 1")) {
-                    pstmt.setInt(1, userId);
-                    pstmt.setInt(2, bookId);
-                    int rowsAffected = pstmt.executeUpdate();
-
-                    if (rowsAffected > 0) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Trả sách");
-                        alert.setContentText("Sách đã được trả thành công!");
-                        alert.showAndWait();
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Trả sách");
-                        alert.setContentText("Không tìm thấy sách trong thư viện của bạn.");
-                        alert.showAndWait();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Lỗi");
-                    alert.setContentText("Có lỗi xảy ra khi trả sách. Vui lòng thử lại.");
+                boolean success = DatabaseHelper.returnBook(currentUser.getId(), bookId);
+                if (success) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Return Book");
+                    alert.setContentText("Book returned successfully!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Return Book");
+                    alert.setContentText("This book is not found in your library.");
                     alert.showAndWait();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Trả sách");
-                alert.setContentText("Không tìm thấy ID sách để trả.");
+                alert.setTitle("Return Book");
+                alert.setContentText("Book ID not found to return.");
                 alert.showAndWait();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Trả sách");
-            alert.setContentText("Không tìm thấy thông tin tài khoản. Vui lòng đăng nhập lại.");
+            alert.setTitle("Return Book");
+            alert.setContentText("User information not found. Please log in again.");
             alert.showAndWait();
         }
-    }
-
-
-    private Book getCurrentBookDetails() {
-        return new Book(
-                bookTitle.getText(),
-                bookAuthor.getText(),
-                bookDescription.getChildren().toString(), // Gộp mô tả nếu cần
-                bookImage.getImage().getUrl(),           // Lấy URL ảnh
-                bookPublisher.getText(),
-                bookYear.getText(),
-                ratingStarLabel.getText().replace("★", "") // Bỏ ký tự sao
-        );
     }
 
     // Phương thức nhận dữ liệu từ BookController
