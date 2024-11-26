@@ -200,7 +200,7 @@ public class BookDetailController implements Initializable {
         if (currentBook == null) return;
         String detail = "Title: " + currentBook.getTitle() + "\n" +
                         "Author: " +  currentBook.getAuthor() + "\n" +
-                        "Publisher Date: " + currentBook.getDate() + " \n " +
+                        "Publisher Date: " + currentBook.getDate() + "\n" +
                         "Publisher: " + currentBook.getPublisher()  + "\n" +
                         "Rating: " + currentBook.getRating();
         String path = getClass().
