@@ -70,15 +70,15 @@
         <Line endX="53.0" endY="-70.5" layoutX="894.0" layoutY="156.0" opacity="0.2" startX="53.0" startY="546.5" />
 
         <!-- Phần giữa: Thay đổi để hiển thị sách -->
-        <VBox layoutX="150.0" layoutY="87.0" prefHeight="612.0" prefWidth="797.0" spacing="20.0">
+        <VBox layoutX="150.0" layoutY="87.0" prefHeight="612.0" prefWidth="797.0">
             <children>
-                <HBox prefHeight="22.0" prefWidth="797.0" spacing="10">
+                <HBox prefHeight="57.0" prefWidth="797.0">
                    <children>
-                       <TextField fx:id="searchField" prefHeight="34.0" prefWidth="294.0" promptText="Enter book's title or author" />
-                       <Button fx:id="searchButton" defaultButton="true" onAction="#performSearch" text="Search" />
+                       <TextField fx:id="searchField" prefHeight="37.0" prefWidth="716.0" promptText="Enter book's title or author" />
+                       <Button fx:id="searchButton" defaultButton="true" onAction="#performSearch" prefHeight="38.0" prefWidth="81.0" text="Search" />
                    </children>
                 </HBox>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="581.0" prefWidth="798.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="594.0" prefWidth="797.0">
                <content>
       
                       <TilePane fx:id="tilePane" hgap="10" prefColumns="4" prefHeight="0.0" prefWidth="894.0" vgap="10" />

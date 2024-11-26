@@ -158,6 +158,7 @@ public class DatabaseHelper extends Application {
             user_id INT NOT NULL,
             book_id INT NOT NULL,
             borrowed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            must_return_at TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, 
             FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
         );
@@ -267,8 +268,11 @@ public class DatabaseHelper extends Application {
 
     public static void borrowBook(int userId, int bookId) {
         String sql = """
-        INSERT INTO user_books (user_id, book_id) VALUES (?, ?)
-        ON DUPLICATE KEY UPDATE borrowed_at = CURRENT_TIMESTAMP;
+        INSERT INTO user_books (user_id, book_id, borrowed_at, must_return_at)
+        VALUES (?, ?, CURRENT_TIMESTAMP, ADDDATE(CURRENT_TIMESTAMP, INTERVAL 30 DAY))
+        ON DUPLICATE KEY UPDATE
+        borrowed_at = CURRENT_TIMESTAMP,
+        must_return_at = ADDDATE(CURRENT_TIMESTAMP, INTERVAL 30 DAY);                                       
     """;
 
         try (Connection conn = connect();
@@ -295,6 +299,52 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    public static List<Book> getBorrowedBooks(User user) {
+        if (user == null) {
+            System.err.println("Người dùng không hợp lệ.");
+            return new ArrayList<>();
+        }
+
+        String sql = """
+        SELECT b.title, b.author, b.description, b.thumbnail_url, b.publisher, 
+               b.published_date, b.average_rating, ub.borrowed_at, ub.must_return_at
+        FROM user_books ub
+        JOIN books b ON ub.book_id = b.id
+        WHERE ub.user_id = ?;
+    """;
+
+        List<Book> borrowedBooks = new ArrayList<>();
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, user.getId()); // Lấy ID của User từ phương thức `getId`
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // Tạo đối tượng Book với thông tin từ cơ sở dữ liệu
+                Book book = new Book(
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("thumbnail_url"),
+                        rs.getString("publisher"),
+                        rs.getString("published_date"),
+                        rs.getString("average_rating")
+                );
+
+                // Gán thêm thông tin borrowed_at và must_return_at
+                book.setBorrowAt(rs.getTimestamp("borrowed_at"));
+                book.setMustReturnAt(rs.getTimestamp("must_return_at"));
+
+                borrowedBooks.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return borrowedBooks;
+    }
 
     public static int getBookId(String title, String author) {
         String sql = "SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1;";
@@ -356,8 +406,6 @@ public class DatabaseHelper extends Application {
         }
         return null;
     }
-
-
 
     @Override
     public void start(Stage stage) throws Exception {

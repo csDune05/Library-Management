@@ -1,5 +1,6 @@
 package com.example.librabry_management;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 
@@ -21,6 +22,24 @@ public class Book {
     private String rating;
     private String datePublished;
     private String publisher;
+    private Timestamp borrowAt;
+    private Timestamp mustReturnAt;
+
+    public Timestamp getBorrowAt() {
+        return borrowAt;
+    }
+
+    public void setBorrowAt(Timestamp borrowAt) {
+        this.borrowAt = borrowAt;
+    }
+
+    public Timestamp getMustReturnAt() {
+        return mustReturnAt;
+    }
+
+    public void setMustReturnAt(Timestamp mustReturnAt) {
+        this.mustReturnAt = mustReturnAt;
+    }
 
     @Override
     public boolean equals(Object o) {
