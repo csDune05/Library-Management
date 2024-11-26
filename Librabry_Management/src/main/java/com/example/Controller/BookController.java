@@ -1,5 +1,9 @@
 package com.example.Controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
@@ -111,6 +116,7 @@ public class BookController {
 
     @FXML
     public void initialize() {
+        setupSearchSuggestions();
         Platform.runLater(() -> {
             bookScene = homeButton.getScene();
         });
@@ -192,6 +198,86 @@ public class BookController {
         executor.shutdown();
     }
 
+    private void setupSearchSuggestions() {
+        // Popup để hiển thị gợi ý
+        Popup suggestionsPopup = new Popup();
+        suggestionsPopup.setAutoHide(true);
+
+        // ListView để hiển thị danh sách gợi ý
+        ListView<String> suggestionsList = new ListView<>();
+        suggestionsList.setPrefWidth(716);
+        suggestionsList.setOnMouseClicked(event -> {
+            String selectedSuggestion = suggestionsList.getSelectionModel().getSelectedItem();
+            if (selectedSuggestion != null) {
+                searchField.setText(selectedSuggestion);
+                suggestionsPopup.hide();
+            }
+        });
+
+        suggestionsPopup.getContent().add(suggestionsList);
+
+        // Xử lý sự kiện khi người dùng nhập vào SearchField
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                suggestionsPopup.hide();
+                return;
+            }
+
+            List<String> suggestions = getSuggestions(newValue).isEmpty() ? getSuggestionsFromAPI(newValue) : getSuggestions(newValue);
+
+            if (suggestions.isEmpty()) {
+                suggestionsPopup.hide();
+            } else {
+                suggestionsList.getItems().setAll(suggestions);
+
+                // Hiển thị Popup tại vị trí của SearchField
+                if (!suggestionsPopup.isShowing()) {
+                    suggestionsPopup.show(searchField,
+                            searchField.localToScreen(searchField.getBoundsInLocal()).getMinX(),
+                            searchField.localToScreen(searchField.getBoundsInLocal()).getMaxY());
+                }
+            }
+        });
+
+        // Ẩn Popup khi SearchField mất focus
+        searchField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                suggestionsPopup.hide();
+            }
+        });
+    }
+
+    private List<String> getSuggestions(String query) {
+        List<String> suggestions = new ArrayList<>();
+
+        // Lấy từ cơ sở dữ liệu
+        String sql = "SELECT title FROM books WHERE title LIKE ? LIMIT 5";
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + query + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                suggestions.add(rs.getString("title"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
+    }
+
+    private List<String> getSuggestionsFromAPI(String query) {
+        List<String> suggestions = new ArrayList<>();
+        String jsonResponse = GoogleBooksApi.searchBooks(query);
+        if (jsonResponse != null) {
+            List<Book> books = JsonParserEx.parseBooks(jsonResponse);
+            for (Book book : books) {
+                suggestions.add(book.getTitle());
+            }
+        }
+        return suggestions;
+    }
 
     private VBox createBookCard(Book book) {
         ImageView thumbnail = new ImageView();

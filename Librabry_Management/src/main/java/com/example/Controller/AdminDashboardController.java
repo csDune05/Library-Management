@@ -104,6 +104,8 @@ public class AdminDashboardController {
     private Button resetBookManagerButton;
     @FXML
     private Button resetUserManagerButton;
+    @FXML
+    private Button refreshBookManagerButton;
 
     private ObservableList<Book> bookList;
     private ObservableList<User> userList;
@@ -125,6 +127,12 @@ public class AdminDashboardController {
 
         originalBookList.addAll(bookList);
         originalUserList.addAll(userList);
+
+        bookTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                populateBookFields(newValue); // Điền thông tin vào các trường
+            }
+        });
 
         userBirthdateField.textProperty().addListener((observable, oldValue, newValue) -> {
             newValue = newValue.replaceAll("[^\\d/]", "");
@@ -285,8 +293,64 @@ public class AdminDashboardController {
 
     @FXML
     private void updateBookHandler() {
-        // Cập nhật thông tin sách đã chọn
+        Book selectedBook = bookTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedBook == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng chọn một cuốn sách để cập nhật!");
+            alert.showAndWait();
+            return;
+        }
+
+        // Lấy thông tin từ các TextField
+        String newTitle = bookTitleField.getText();
+        String newAuthor = bookAuthorField.getText();
+        String newDescription = bookDescriptionField.getText();
+        String newPublisher = bookPublisherField.getText();
+        String newDate = bookDateField.getText();
+        String newRating = bookRatingField.getText();
+
+        // Kiểm tra thông tin nhập vào
+        if (newTitle.trim().isEmpty() || newAuthor.trim().isEmpty() || newPublisher.trim().isEmpty() || newDate.trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng điền đầy đủ thông tin!");
+            alert.showAndWait();
+            return;
+        }
+
+        // Cập nhật thông tin trong cơ sở dữ liệu
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE books SET title = ?, author = ?, description = ?, publisher = ?, published_date = ?, average_rating = ? WHERE title = ? AND author = ?")) {
+
+            pstmt.setString(1, newTitle);
+            pstmt.setString(2, newAuthor);
+            pstmt.setString(3, newDescription);
+            pstmt.setString(4, newPublisher);
+            pstmt.setString(5, newDate);
+            pstmt.setString(6, newRating);
+            pstmt.setString(7, selectedBook.getTitle());
+            pstmt.setString(8, selectedBook.getAuthor());
+            pstmt.executeUpdate();
+
+            // Cập nhật thông tin trong danh sách hiển thị
+            selectedBook.setTitle(newTitle);
+            selectedBook.setAuthor(newAuthor);
+            selectedBook.setDescription(newDescription);
+            selectedBook.setPublisher(newPublisher);
+            selectedBook.setDate(newDate);
+            selectedBook.setRating(newRating);
+
+            // Refresh TableView để hiển thị thay đổi
+            bookTableView.refresh();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Cập nhật thông tin sách thành công!");
+            alert.showAndWait();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Có lỗi xảy ra khi cập nhật thông tin sách!");
+            alert.showAndWait();
+        }
     }
+
 
     @FXML
     private void addUserHandler() {
@@ -463,6 +527,25 @@ public class AdminDashboardController {
         }
         String formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0]; // Định dạng yyyy-MM-dd
         return formattedDate;
+    }
+
+    private void populateBookFields(Book selectedBook) {
+        bookTitleField.setText(selectedBook.getTitle());
+        bookAuthorField.setText(selectedBook.getAuthor());
+        bookDescriptionField.setText(selectedBook.getDescription());
+        bookPublisherField.setText(selectedBook.getPublisher());
+        bookDateField.setText(selectedBook.getDate());
+        bookRatingField.setText(selectedBook.getRating());
+    }
+
+    @FXML
+    private void clearBookFields() {
+        bookTitleField.clear();
+        bookAuthorField.clear();
+        bookDescriptionField.clear();
+        bookPublisherField.clear();
+        bookDateField.clear();
+        bookRatingField.clear();
     }
 
     private void setActiveButton(Button activeButton) {

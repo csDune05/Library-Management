@@ -24,7 +24,7 @@ public class DatabaseHelper extends Application {
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
         config.setMaxLifetime(1800000); // Thời gian sống tối đa của kết nối (30 phút)
         config.setConnectionTimeout(0); // Thời gian chờ kết nối (0 giây)
-        config.setLeakDetectionThreshold(2000); // Phát hiện rò rỉ kết nối trong 2 giây
+        config.setLeakDetectionThreshold(5000); // Phát hiện rò rỉ kết nối trong 5 giây
         config.addDataSourceProperty("housekeepingPeriodMs", "60000");
 
         dataSource = new HikariDataSource(config); // Tạo nguồn kết nối

@@ -48,7 +48,7 @@
    <children>
    
                <!-- Book Manager Pane -->
-               <AnchorPane fx:id="bookManagerPane" style="-fx-background-color: #F5F5F5;" visible="false">
+               <AnchorPane fx:id="bookManagerPane" style="-fx-background-color: #F5F5F5;">
                    <children>
                   <HBox layoutX="26.0" layoutY="75.0" prefHeight="307.0" prefWidth="928.0" style="-fx-background-color: #E0E0E0;" />
                        <TableView fx:id="bookTableView" layoutX="26.0" layoutY="386.0" prefHeight="300.0" prefWidth="928.0">
@@ -81,10 +81,11 @@
                   <Button fx:id="titleSearchButton" layoutX="839.0" layoutY="270.0" mnemonicParsing="false" onAction="#searchByTitleHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
                   <Button fx:id="authorSearchButton" layoutX="839.0" layoutY="328.0" mnemonicParsing="false" onAction="#searchByAuthorHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
                   <Button fx:id="resetBookManagerButton" layoutX="242.0" layoutY="28.0" mnemonicParsing="false" onAction="#resetBookTable" styleClass="button-base1" stylesheets="@style.css" text="Reset" textFill="RED" />
+                  <Button fx:id="refreshBookManagerButton" layoutX="833.0" layoutY="122.0" onAction="#clearBookFields" prefHeight="45.0" prefWidth="109.0" styleClass="button-base1" stylesheets="@style.css" text="Refresh" />
                    </children>
                </AnchorPane>
                <!-- User Manager Pane -->
-               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="971.0" style="-fx-background-color: #F5F5F5;">
+               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="971.0" style="-fx-background-color: #F5F5F5;" visible="false">
                    <children>
                   <HBox layoutX="18.0" layoutY="101.0" prefHeight="268.0" prefWidth="951.0" style="-fx-background-color: #E0E0E0;" />
                        <TableView fx:id="userTableView" layoutX="26.0" layoutY="386.0" prefHeight="300.0" prefWidth="928.0">
