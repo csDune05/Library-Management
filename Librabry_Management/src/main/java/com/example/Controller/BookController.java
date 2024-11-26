@@ -251,7 +251,7 @@ public class BookController {
         List<String> suggestions = new ArrayList<>();
 
         // Lấy từ cơ sở dữ liệu
-        String sql = "SELECT title FROM books WHERE title LIKE ? LIMIT 5";
+        String sql = "SELECT title FROM books WHERE title LIKE ?";
 
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -273,7 +273,10 @@ public class BookController {
         if (jsonResponse != null) {
             List<Book> books = JsonParserEx.parseBooks(jsonResponse);
             for (Book book : books) {
-                suggestions.add(book.getTitle());
+                String title = book.getTitle();
+                if (title != null && !title.trim().isEmpty()) {
+                    suggestions.add(title);
+                }
             }
         }
         return suggestions;
