@@ -1,6 +1,5 @@
 package com.example.Controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +34,7 @@ public class DashboardController {
     private ComboBox<String> optionsComboBox;
 
     @FXML
-    private TableView<LoanRecord> overdueTableView;
+    private TableView<LoanRecord> loanRecordTableView;
 
     @FXML
     private TableColumn<LoanRecord, String> idColumn;
@@ -77,7 +76,7 @@ public class DashboardController {
     private Label visitTimesLabel;
 
     @FXML
-    private Label accountsLabel;
+    private Label membersLabel;
 
     @FXML
     public void initialize() {
@@ -88,7 +87,7 @@ public class DashboardController {
 
         updateVisitorChart();
         updateLabels();
-        configureTableView();
+        updateTableView();
     }
 
     @FXML
@@ -204,10 +203,10 @@ public class DashboardController {
         borrowedBooksLabel.setText(String.valueOf(totalBorrowed));
         overdueBooksLabel.setText(String.valueOf(totalOverdue));
         visitTimesLabel.setText(String.valueOf(visitTimes));
-        accountsLabel.setText(String.valueOf(totalAccounts));
+        membersLabel.setText(String.valueOf(totalAccounts));
     }
 
-    private void configureTableView() {
+    private void updateTableView() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         memberColumn.setCellValueFactory(new PropertyValueFactory<>("member"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -215,14 +214,9 @@ public class DashboardController {
         overdueColumn.setCellValueFactory(new PropertyValueFactory<>("overdue"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
-        ObservableList<LoanRecord> overdueList = FXCollections.observableArrayList(
-                new LoanRecord("88934231", "Danielle Rusadi", "The Midnight Line", "Lee Child", "2 days", "Jun 14, 2022"),
-                new LoanRecord("88934232", "Eleanor Amantis", "Henry V", "William Shakespeare", "2 days", "Jun 10, 2022"),
-                new LoanRecord("88934233", "Michael Smith", "1984", "George Orwell", "3 days", "Jun 12, 2022"),
-                new LoanRecord("88934234", "Anna Johnson", "Pride and Prejudice", "Jane Austen", "5 days", "Jun 8, 2022"),
-                new LoanRecord("88934235", "John Doe", "To Kill a Mockingbird", "Harper Lee", "1 day", "Jun 15, 2022")
-        );
-
-        overdueTableView.setItems(overdueList);
+        // Lấy dữ liệu từ DatabaseHelper và cập nhật TableView
+        ObservableList<LoanRecord> data = DatabaseHelper.getLoanRecords();
+        System.out.println("Data size: " + data.size());
+        loanRecordTableView.setItems(data);
     }
 }

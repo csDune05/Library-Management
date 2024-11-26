@@ -1,12 +1,16 @@
 package com.example.librabry_management;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.example.Controller.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
 public class DatabaseHelper extends Application {
@@ -451,6 +455,49 @@ public class DatabaseHelper extends Application {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    // lấy thông tin kho sách
+    public static ObservableList<LoanRecord> getLoanRecords() {
+        ObservableList<LoanRecord> data = FXCollections.observableArrayList();
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT ub.id, u.name AS member_name, b.title AS book_title, b.author AS book_author, " +
+                    "ub.borrowed_at, ub.must_return_at FROM user_books ub " +
+                    "JOIN users u ON ub.user_id = u.id " +
+                    "JOIN books b ON ub.book_id = b.id";
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String memberName = resultSet.getString("member_name");
+                String bookTitle = resultSet.getString("book_title");
+                String bookAuthor = resultSet.getString("book_author");
+                Date borrowedAt = resultSet.getDate("borrowed_at");
+                Date mustReturnAt = resultSet.getDate("must_return_at");
+
+                // Tính toán số ngày quá hạn (nếu có)
+                String overdue = "";
+                if (mustReturnAt != null) {
+                    LocalDate returnDate = mustReturnAt.toLocalDate();
+                    LocalDate currentDate = LocalDate.now();
+                    long diffInDays = ChronoUnit.DAYS.between(returnDate, currentDate);
+
+                    if (diffInDays > 0) {
+                        overdue = diffInDays + " days";
+                    }
+                }
+
+                // Thêm đối tượng LoanRecord vào ObservableList
+                data.add(new LoanRecord(id, memberName, bookTitle, bookAuthor, overdue, mustReturnAt != null ? mustReturnAt.toString() : ""));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return data;
     }
 
     @Override

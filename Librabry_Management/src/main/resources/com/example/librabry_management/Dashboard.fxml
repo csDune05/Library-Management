@@ -64,7 +64,7 @@
          </image>
       </ImageView>
       <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1055.0" layoutY="17.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
-      <TableView fx:id="overdueTableView" layoutX="169.0" layoutY="439.0" prefHeight="261.0" prefWidth="736.0">
+      <TableView fx:id="loanRecordTableView" layoutX="169.0" layoutY="439.0" prefHeight="261.0" prefWidth="736.0">
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="101.68525695800781" text="ID" />
             <TableColumn fx:id="memberColumn" prefWidth="145.81475830078125" text="Member" />
@@ -169,11 +169,11 @@
                   </ImageView>
                   <VBox alignment="CENTER" prefHeight="74.0" prefWidth="93.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="85.0" text="     Accounts" textFill="GREY">
+                        <Label prefHeight="17.0" prefWidth="85.0" text="    Members" textFill="GREY">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
-                        <Label fx:id="accountsLabel" style="-fx-font-weight: bold;" text="42" />
+                        <Label fx:id="membersLabel" style="-fx-font-weight: bold;" text="42" />
                      </children>
                   </VBox>
                </children>
