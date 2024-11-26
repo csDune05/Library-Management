@@ -15,9 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.List;
+import java.io.*;
 
 public class DashboardController {
 
@@ -70,16 +68,16 @@ public class DashboardController {
     private Button myLibraryButton;
 
     @FXML
-    private Label searchLabel;
+    private Label borrowedBooksLabel;
 
     @FXML
-    private Label readLabel;
+    private Label overdueBooksLabel;
 
     @FXML
     private Label visitTimesLabel;
 
     @FXML
-    private Label membersLabel;
+    private Label accountsLabel;
 
     @FXML
     public void initialize() {
@@ -156,20 +154,57 @@ public class DashboardController {
     private void updateVisitorChart() {
         visitorChart.getData().clear();
 
+        int totalBorrowed = DatabaseHelper.getTotalBorrowedBooks();
+        int totalOverdue = DatabaseHelper.getTotalOverdueBooks();
+        int totalAccounts = DatabaseHelper.getTotalAccounts();
+        int visitTimes = getVisitTimes();
+
+        XYChart.Series<String, Number> borrowedSeries = new XYChart.Series<>();
+        borrowedSeries.getData().add(new XYChart.Data<>("Visit times", totalBorrowed));
+
+        XYChart.Series<String, Number> overdueSeries = new XYChart.Series<>();
+        overdueSeries.getData().add(new XYChart.Data<>("Visit times", totalOverdue));
+
+        XYChart.Series<String, Number> visitsSeries = new XYChart.Series<>();
+        visitsSeries.getData().add(new XYChart.Data<>("Visit times", visitTimes));
+
+        XYChart.Series<String, Number> accountsSeries = new XYChart.Series<>();
+        accountsSeries.getData().add(new XYChart.Data<>("Visit times", totalAccounts));
+
+        visitorChart.getData().addAll(borrowedSeries, overdueSeries, visitsSeries, accountsSeries);
+        xAxis.setTickLabelsVisible(false);
+    }
+
+    private int getVisitTimes() {
+        File file = new File("countVisit.txt");
+        int visitTimes = 0;
+
+        try {
+            if (file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    String line = reader.readLine();
+                    if (line != null) {
+                        visitTimes = Integer.parseInt(line);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return visitTimes;
     }
 
     private void updateLabels() {
+        int totalBorrowed = DatabaseHelper.getTotalBorrowedBooks();
+        int totalOverdue = DatabaseHelper.getTotalOverdueBooks();
+        int totalAccounts = DatabaseHelper.getTotalAccounts();
+        int visitTimes = getVisitTimes();
 
-    }
-
-    private int readCountFromFile(String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line = reader.readLine();
-            return Integer.parseInt(line.trim());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+        borrowedBooksLabel.setText(String.valueOf(totalBorrowed));
+        overdueBooksLabel.setText(String.valueOf(totalOverdue));
+        visitTimesLabel.setText(String.valueOf(visitTimes));
+        accountsLabel.setText(String.valueOf(totalAccounts));
     }
 
     private void configureTableView() {

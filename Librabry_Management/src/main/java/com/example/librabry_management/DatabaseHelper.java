@@ -16,9 +16,9 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình HikariCP
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library"); // URL kết nối
         config.setUsername("root"); // Tên người dùng
-        config.setPassword("#Matkhau01234"); // Mật khẩu
+        config.setPassword("dovandung05062005@mysql"); // Mật khẩu
         config.setMaximumPoolSize(20); // Số kết nối tối đa
         config.setMinimumIdle(10); // Số kết nối tối thiểu
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
@@ -405,6 +405,52 @@ public class DatabaseHelper extends Application {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // lấy thông số cho chart ở
+    public static int getTotalBorrowedBooks() {
+        String query = "SELECT COUNT(*) FROM user_books";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getTotalOverdueBooks() {
+        String query = "SELECT COUNT(*) FROM user_books WHERE return_date < CURRENT_DATE";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getTotalAccounts() {
+        String query = "SELECT COUNT(*) FROM users";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

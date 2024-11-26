@@ -211,6 +211,7 @@ public class LoginController {
                     saveAccount(user.getEmail(), "", false);
                 }
                 MainStaticObjectControl.closeWelcomeStage();
+                updateVisitCount();
                 openDashboard();
             } else {
                 statusLabel.setText("Email or Password is incorrect!");
@@ -248,6 +249,40 @@ public class LoginController {
         prefs.put("accounts", accounts.toString());
         loadSavedAccounts();
     }
+
+    // cap nhat visit times
+    private void updateVisitCount() throws IOException {
+        int currentCount = readVisitCount();
+        currentCount++;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("countVisit.txt"))) {
+            writer.write(String.valueOf(currentCount));
+        }
+    }
+
+    // dem so lan vao app
+    private int readVisitCount() throws IOException {
+        File countFile = new File("countVisit.txt");
+
+        if (!countFile.exists()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
+                writer.write("0");
+            }
+        }
+
+        // Đọc giá trị từ file
+        try (BufferedReader reader = new BufferedReader(new FileReader(countFile))) {
+            String line = reader.readLine(); // Đọc dòng đầu tiên
+            if (line == null || line.trim().isEmpty()) {
+                return 0;
+            }
+            return Integer.parseInt(line.trim());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
     @FXML
     public void handleCancelAction() {
