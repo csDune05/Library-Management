@@ -14,8 +14,11 @@ module com.example.librabry_management {
     requires java.prefs;
     requires json;
     requires javafx.media;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
     opens com.example.Controller to javafx.fxml;
     opens com.example.librabry_management to javafx.fxml;
     exports com.example.librabry_management;
     exports com.example.Controller;
+    exports com.example.QRCode;
 }

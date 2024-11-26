@@ -101,7 +101,7 @@
       </Label>
       <Button fx:id="borrowBook" layoutX="323.0" layoutY="252.0" mnemonicParsing="false" onAction="#borrowBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
       <Button fx:id="returnBook" layoutX="535.0" layoutY="252.0" mnemonicParsing="false" onAction="#returnBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
-      <Button layoutX="736.0" layoutY="252.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Đánh giá" />
+      <Button fx:id="qrCodeButton" layoutX="736.0" layoutY="252.0" mnemonicParsing="false" onAction="#qrCodeButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="QR Code" />
       <Label fx:id="bookAuthor" layoutX="390.0" layoutY="121.0" text="Label">
          <font>
             <Font size="18.0" />
