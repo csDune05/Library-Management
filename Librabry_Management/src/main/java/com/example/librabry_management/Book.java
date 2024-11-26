@@ -66,7 +66,7 @@ public class Book {
     }
 
     public String getPublisher() {
-        return publisher;
+        return publisher == null ? "Unknown publisher" : publisher;
     }
 
     public void setPublisher(String publisher) {
@@ -102,10 +102,10 @@ public class Book {
     }
 
     public String getDate() {
-        return datePublished;
+        return datePublished == null ? "Unknown Date" : datePublished;
     }
 
     public String getRating() {
-        return rating;
+        return rating == null ? "Unrated" : rating;
     }
 }

@@ -81,3 +81,30 @@
 .button-base1:pressed {
     -fx-background-color: #084a8b;
 }
+
+.menu-button1 {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333;
+    -fx-font-size: 17px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 20;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: transparent;
+    -fx-border-style: solid;
+}
+
+.menu-button1:hover {
+    -fx-background-color: #e6e6e6;
+}
+
+.menu-button1:pressed {
+    -fx-background-color: #0000CD;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.menu-button1.active {
+    -fx-background-color: #0000CD;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}

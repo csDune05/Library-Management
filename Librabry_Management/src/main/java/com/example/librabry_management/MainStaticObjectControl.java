@@ -24,7 +24,6 @@ public class MainStaticObjectControl {
 
     public static void setCurrentUser(User user) {
         currentUser = user;
-        System.out.println("Current user: id la" + currentUser.getId());
     }
 
     public static void setWelcomeStage(Stage stage) {
