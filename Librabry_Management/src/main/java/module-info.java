@@ -8,12 +8,12 @@ module com.example.librabry_management {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
-    requires java.desktop;
     requires com.zaxxer.hikari;
 
     requires java.prefs;
     requires json;
     requires javafx.media;
+    requires javafx.graphics;
     requires com.google.zxing;
     requires com.google.zxing.javase;
     opens com.example.Controller to javafx.fxml;
