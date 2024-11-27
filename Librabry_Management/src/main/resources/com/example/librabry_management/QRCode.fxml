@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -13,5 +14,9 @@
          <image>
             <Image url="@QRCode/QRCode.png" />
          </image></ImageView>
+      <Label layoutX="146.0" layoutY="31.0" text="Scan QR Code for Book Infomation">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
    </children>
 </AnchorPane>

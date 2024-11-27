@@ -20,7 +20,7 @@ public class GoogleBooksApi {
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
-                return response.body().string(); // Trả về JSON dưới dạng chuỗi
+                return response.body().string();
             } else {
                 System.err.println("Request failed: " + response.code());
             }

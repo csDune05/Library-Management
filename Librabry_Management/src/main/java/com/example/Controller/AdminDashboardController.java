@@ -351,7 +351,6 @@ public class AdminDashboardController {
         }
     }
 
-
     @FXML
     private void addUserHandler() {
         String name = userNameField.getText();
@@ -441,7 +440,6 @@ public class AdminDashboardController {
         bookTableView.setItems(filteredList); // Hiển thị danh sách đã lọc
     }
 
-
     @FXML
     private void searchByAuthorHandler() {
         String authorKeyword = authorSearchField.getText().trim();
@@ -462,7 +460,6 @@ public class AdminDashboardController {
 
         bookTableView.setItems(filteredList); // Hiển thị danh sách đã lọc
     }
-
 
     @FXML
     private void searchByNameHandler() {

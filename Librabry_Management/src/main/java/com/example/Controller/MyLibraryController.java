@@ -163,11 +163,11 @@ public class MyLibraryController {
     // Phương thức để tải sách của người dùng
     private void loadUserBooks() {
         if (currentUser != null) {
-            List<Book> userBooks = DatabaseHelper.getBooksForUser(currentUser.getId()); // Lấy sách dựa trên user ID
+            List<Book> userBooks = DatabaseHelper.getBooksForUser(currentUser.getId());
             if (!userBooks.isEmpty()) {
-                tilePane.getChildren().clear(); // Xóa nội dung cũ
+                tilePane.getChildren().clear();
                 for (Book book : userBooks) {
-                    tilePane.getChildren().add(createBookCard(book)); // Thêm sách vào TilePane
+                    tilePane.getChildren().add(createBookCard(book));
                 }
             } else {
                 System.out.println("No books found for user: " + currentUser.getName());
@@ -186,7 +186,7 @@ public class MyLibraryController {
                     tilePane.getChildren().removeIf(node -> {
                         if (node instanceof VBox) {
                             VBox card = (VBox) node;
-                            Label titleLabel = (Label) card.getChildren().get(1); // Tiêu đề ở vị trí thứ 2
+                            Label titleLabel = (Label) card.getChildren().get(1);
                             return titleLabel.getText().equals(book.getTitle());
                         }
                         return false;

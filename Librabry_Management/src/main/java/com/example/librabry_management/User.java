@@ -7,13 +7,7 @@ import com.example.Controller.*;
 
 public class User extends Account {
 
-    private boolean isAdmin;
-
     public User(String name, String birthdate, String phone_number, String email, String location, String password) {
         super(name, birthdate, phone_number, email, location, password);
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
     }
 }
