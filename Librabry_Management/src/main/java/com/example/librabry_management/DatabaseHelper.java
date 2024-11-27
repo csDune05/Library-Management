@@ -18,11 +18,11 @@ public class DatabaseHelper extends Application {
     private static HikariDataSource dataSource;
 
     static {
-        // Cấu hình HikariCP
+        // Cấu hình
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library"); // URL kết nối
+        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
         config.setUsername("root"); // Tên người dùng
-        config.setPassword("dovandung05062005@mysql"); // Mật khẩu
+        config.setPassword("#Matkhau01234"); // Mật khẩu
         config.setMaximumPoolSize(20); // Số kết nối tối đa
         config.setMinimumIdle(10); // Số kết nối tối thiểu
         config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
@@ -83,7 +83,7 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
-    // Tạo bảng nếu chưa tồn tại
+    // Tạo bảng Books if chưa tồn tại
     public static void createTable() {
         String sql = """
                 CREATE TABLE IF NOT EXISTS books (
@@ -106,7 +106,6 @@ public class DatabaseHelper extends Application {
         }
     }
 
-    // Lưu sách vào cơ sở dữ liệu
     public static void saveBook(Book book, String query) {
         String sql = """
             INSERT INTO books (title, author, description, thumbnail_url, publisher, published_date, average_rating)
@@ -174,15 +173,12 @@ public class DatabaseHelper extends Application {
         }
     }
 
-    // Tìm kiếm sách trong cơ sở dữ liệu
     public static List<Book> searchBooks(String query) {
-        // Cập nhật câu lệnh SQL để tìm theo cột title
         String sql = "SELECT * FROM books WHERE title LIKE ?" + "LIMIT 10;";
         List<Book> books = new ArrayList<>();
         try (Connection conn = connect()) {
             assert conn != null;
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                // Tìm kiếm tiêu đề có chứa chuỗi query
                 pstmt.setString(1,  "%" + query + "%");
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
@@ -230,7 +226,7 @@ public class DatabaseHelper extends Application {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0; // Trả về true nếu có email tồn tại
+                return rs.getInt(1) > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -303,53 +299,6 @@ public class DatabaseHelper extends Application {
         }
     }
 
-    public static List<Book> getBorrowedBooks(User user) {
-        if (user == null) {
-            System.err.println("Người dùng không hợp lệ.");
-            return new ArrayList<>();
-        }
-
-        String sql = """
-        SELECT b.title, b.author, b.description, b.thumbnail_url, b.publisher, 
-               b.published_date, b.average_rating, ub.borrowed_at, ub.must_return_at
-        FROM user_books ub
-        JOIN books b ON ub.book_id = b.id
-        WHERE ub.user_id = ?;
-    """;
-
-        List<Book> borrowedBooks = new ArrayList<>();
-
-        try (Connection conn = DatabaseHelper.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, user.getId()); // Lấy ID của User từ phương thức `getId`
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                // Tạo đối tượng Book với thông tin từ cơ sở dữ liệu
-                Book book = new Book(
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getString("description"),
-                        rs.getString("thumbnail_url"),
-                        rs.getString("publisher"),
-                        rs.getString("published_date"),
-                        rs.getString("average_rating")
-                );
-
-                // Gán thêm thông tin borrowed_at và must_return_at
-                book.setBorrowAt(rs.getTimestamp("borrowed_at"));
-                book.setMustReturnAt(rs.getTimestamp("must_return_at"));
-
-                borrowedBooks.add(book);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return borrowedBooks;
-    }
-
     public static int getBookId(String title, String author) {
         String sql = "SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1;";
         try (Connection conn = connect();
@@ -363,7 +312,7 @@ public class DatabaseHelper extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1; // Trả về -1 nếu không tìm thấy sách
+        return -1;
     }
 
     public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
@@ -374,13 +323,13 @@ public class DatabaseHelper extends Application {
             pstmt.setInt(2, bookId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getInt(1) > 0; // Trả về true nếu sách đã được mượn
+                    return rs.getInt(1) > 0;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; // Mặc định trả về false nếu có lỗi xảy ra
+        return false;
     }
 
     public static User getUserByEmail(String email) {
@@ -392,17 +341,15 @@ public class DatabaseHelper extends Application {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // Lấy các thông tin từ ResultSet
-                int id = rs.getInt("id"); // Lấy ID từ cơ sở dữ liệu
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String birthdate = rs.getString("birthdate");
                 String phoneNumber = rs.getString("phone_number");
                 String location = rs.getString("location");
                 String password = rs.getString("password");
 
-                // Gán ID khi tạo User
                 User user = new User(name, birthdate, phoneNumber, email, location, password);
-                user.setId(id); // Gán ID cho User
+                user.setId(id);
                 return user;
             }
         } catch (SQLException e) {
@@ -411,7 +358,6 @@ public class DatabaseHelper extends Application {
         return null;
     }
 
-    // lấy thông số cho chart ở
     public static int getTotalBorrowedBooks() {
         String query = "SELECT COUNT(*) FROM user_books";
         try (Connection conn = dataSource.getConnection();
@@ -457,7 +403,6 @@ public class DatabaseHelper extends Application {
         return 0;
     }
 
-    // lấy thông tin kho sách
     public static ObservableList<LoanRecord> getLoanRecords() {
         ObservableList<LoanRecord> data = FXCollections.observableArrayList();
 
@@ -502,12 +447,12 @@ public class DatabaseHelper extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        System.out.println("Database Start");
     }
 
     @Override
     public void stop() throws Exception {
-        DatabaseHelper.shutdown(); // Đóng nguồn kết nối khi ứng dụng dừng
+        DatabaseHelper.shutdown();
         super.stop();
     }
 }

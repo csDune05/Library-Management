@@ -82,7 +82,7 @@ public class SignUpController implements Initializable {
             isValid = false;
         }
 
-        if (isEmailDuplicate(EmailField.getText())) {
+        if (DatabaseHelper.isEmailExists(EmailField.getText())) {
             EmailField.setStyle("-fx-border-color: red;");
             EmailStatusLabel.setText("Email already exists.");
             isValid = false;
@@ -144,21 +144,6 @@ public class SignUpController implements Initializable {
         PhoneStatusLabel.setText("");
         BirthdateStatusLabel.setText("");
         statusLabel.setText("");
-    }
-
-    private boolean isEmailDuplicate(String email) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
-        try (Connection conn = DatabaseHelper.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0; // Trả về true nếu email đã tồn tại
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     private boolean isPhoneNumberValid(String phoneNumber) {

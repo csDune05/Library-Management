@@ -48,7 +48,7 @@
    <children>
    
                <!-- Book Manager Pane -->
-               <AnchorPane fx:id="bookManagerPane" style="-fx-background-color: #F5F5F5;">
+               <AnchorPane fx:id="bookManagerPane" style="-fx-background-color: #F5F5F5;" visible="false">
                    <children>
                   <HBox layoutX="26.0" layoutY="75.0" prefHeight="307.0" prefWidth="928.0" style="-fx-background-color: #E0E0E0;" />
                        <TableView fx:id="bookTableView" layoutX="26.0" layoutY="386.0" prefHeight="300.0" prefWidth="928.0">
@@ -85,7 +85,7 @@
                    </children>
                </AnchorPane>
                <!-- User Manager Pane -->
-               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="971.0" style="-fx-background-color: #F5F5F5;" visible="false">
+               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="971.0" style="-fx-background-color: #F5F5F5;">
                    <children>
                   <HBox layoutX="18.0" layoutY="101.0" prefHeight="268.0" prefWidth="951.0" style="-fx-background-color: #E0E0E0;" />
                        <TableView fx:id="userTableView" layoutX="26.0" layoutY="386.0" prefHeight="300.0" prefWidth="928.0">
