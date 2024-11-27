@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
@@ -51,7 +55,7 @@ public class BookController {
     private Button myLibraryButton;
 
     @FXML
-    private TilePane tilePane;
+    private GridPane gridPane;
 
     @FXML
     private ComboBox<String> optionsComboBox;
@@ -116,86 +120,73 @@ public class BookController {
 
     @FXML
     public void initialize() {
-        setupSearchSuggestions();
         Platform.runLater(() -> {
             bookScene = homeButton.getScene();
         });
 
-        DatabaseHelper.createTable();
-        // Lấy 10 sách trong database
-        List<Book> books = DatabaseHelper.getDefaultBooks();
-        // Hiển thị sách trong giao diện
-        for (Book book : books) {
-            tilePane.getChildren().add(createBookCard(book));
-        }
+        List<Book> books = DatabaseHelper.getDefaultBooks(); // Lấy 40 sách từ cơ sở dữ liệu
+        displayBooks(books); // Hiển thị sách lên GridPane
+
         searchButton.setOnAction(e -> performSearch());
 
-        // combo box options
+        // Khởi tạo gợi ý tìm kiếm
+        setupSearchSuggestions();
+
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
     }
 
     @FXML
     public void performSearch() {
-        String query = searchField.getText();
+        String query = searchField.getText().trim();
+        if (query.isEmpty()) {
+            return; // Không tìm kiếm nếu query trống
+        }
 
-        // Tạo Task để xử lý công việc nặng
-        Task<ObservableList<VBox>> searchTask = new Task<>() {
-            @Override
-            protected ObservableList<VBox> call() {
-                ObservableList<VBox> bookCards = FXCollections.observableArrayList();
+        gridPane.getChildren().clear(); // Xóa các sách cũ khỏi giao diện
 
-                try {
-                    // 1. Tìm kiếm trong cơ sở dữ liệu
-                    List<Book> dbBooks = DatabaseHelper.searchBooks(query);
+        int totalBooks = 40; // Tổng số sách cần tải
+        int batchSize = 10;  // Số sách mỗi lần tải
+        int booksPerRow = 5; // Số sách trên mỗi hàng
 
-                    if (!dbBooks.isEmpty()) {
-                        // Nếu tìm thấy trong DB
-                        for (Book book : dbBooks) {
-                            bookCards.add(createBookCard(book));
-                        }
-                    } else {
-                        // Nếu không có trong DB, gọi Google Books API
-                        String jsonResponse = GoogleBooksApi.searchBooks(query);
-                        if (jsonResponse != null) {
-                            List<Book> apiBooks = JsonParserEx.parseBooks(jsonResponse);
+        // Tạo CompletableFuture để tải sách từ API và xử lý đồng thời
+        CompletableFuture.runAsync(() -> {
+            int row = 0, col = 0;
 
-                            // Lưu sách từ API vào DB
-                            ExecutorService saveExecutor = Executors.newFixedThreadPool(4);
-                            for (Book book : apiBooks) {
-                                saveExecutor.submit(() -> DatabaseHelper.saveBook(book, query));
-                                bookCards.add(createBookCard(book));
-                            }
-                            saveExecutor.shutdown();
-                            saveExecutor.awaitTermination(5, TimeUnit.SECONDS);
+            for (int i = 0; i < totalBooks; i += batchSize) {
+                int startIndex = i;
+                // Lấy dữ liệu sách từ Google Books API
+                String jsonResponse = GoogleBooksApi.searchBooks(query, startIndex, batchSize);
+                List<Book> books = JsonParserEx.parseBooks(jsonResponse);
+
+                if (books != null) {
+                    for (Book book : books) {
+                        // Lưu sách vào cơ sở dữ liệu
+                        DatabaseHelper.saveBook(book, query);
+
+                        // Đảm bảo cập nhật giao diện trên thread chính
+                        final int currentRow = row;
+                        final int currentCol = col;
+
+                        // Hiển thị sách trên giao diện
+                        Platform.runLater(() -> {
+                            VBox bookCard = createBookCard(book);
+                            gridPane.add(bookCard, currentCol, currentRow);
+                        });
+
+                        // Cập nhật vị trí sách trong GridPane
+                        col++;
+                        if (col >= booksPerRow) {
+                            col = 0;
+                            row++;
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
-                return bookCards;
             }
-        };
-
-        // Cập nhật giao diện khi hoàn tất
-        searchTask.setOnSucceeded(event -> {
-            // Đảm bao giao diện cap nhat tren JavaFx Application Thread
-            Platform.runLater(() -> {
-                tilePane.getChildren().clear();
-                tilePane.getChildren().addAll(searchTask.getValue());
-            });
+        }).exceptionally(ex -> {
+            // Xử lý ngoại lệ nếu có lỗi
+            ex.printStackTrace();
+            return null;
         });
-
-        // Hiển thị lỗi nếu xảy ra
-        searchTask.setOnFailed(event -> {
-            Throwable exception = searchTask.getException();
-            if (exception != null) exception.printStackTrace();
-        });
-
-        // Chạy Task trên ExecutorService
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(searchTask);
-        executor.shutdown();
     }
 
     private void setupSearchSuggestions() {
@@ -205,44 +196,55 @@ public class BookController {
 
         // ListView để hiển thị danh sách gợi ý
         ListView<String> suggestionsList = new ListView<>();
-        suggestionsList.setPrefWidth(716);
+        suggestionsList.setPrefWidth(716); // Đảm bảo kích thước Popup phù hợp
         suggestionsList.setOnMouseClicked(event -> {
             String selectedSuggestion = suggestionsList.getSelectionModel().getSelectedItem();
             if (selectedSuggestion != null) {
-                searchField.setText(selectedSuggestion);
-                suggestionsPopup.hide();
+                searchField.setText(selectedSuggestion); // Điền vào TextField
+                suggestionsPopup.hide(); // Ẩn Popup sau khi chọn
             }
         });
 
-        suggestionsPopup.getContent().add(suggestionsList);
+        suggestionsPopup.getContent().add(suggestionsList); // Thêm suggestionsList vào Popup
 
-        // Xử lý sự kiện khi người dùng nhập vào SearchField
+        // Lắng nghe sự thay đổi trong searchField
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
-                suggestionsPopup.hide();
+                suggestionsPopup.hide(); // Ẩn Popup nếu không có dữ liệu
                 return;
             }
 
-            List<String> suggestions = getSuggestions(newValue).isEmpty() ? getSuggestionsFromAPI(newValue) : getSuggestions(newValue);
+            // Gọi đồng thời để lấy gợi ý từ database và API
+            CompletableFuture.supplyAsync(() -> getSuggestions(newValue)) // Lấy gợi ý từ cơ sở dữ liệu
+                    .thenCombineAsync(
+                            CompletableFuture.supplyAsync(() -> getSuggestionsFromAPI(newValue)), // Lấy gợi ý từ API
+                            (dbSuggestions, apiSuggestions) -> {
+                                Set<String> allSuggestions = new LinkedHashSet<>(dbSuggestions); // Sử dụng LinkedHashSet để loại bỏ trùng lặp và duy trì thứ tự
+                                allSuggestions.addAll(apiSuggestions);
+                                return new ArrayList<>(allSuggestions); // Chuyển lại thành danh sách
+                            })
+                    .thenAcceptAsync(suggestions -> {
+                        if (suggestions.isEmpty()) {
+                            suggestionsPopup.hide(); // Ẩn Popup nếu không có gợi ý
+                        } else {
+                            Platform.runLater(() -> {
+                                suggestionsList.getItems().setAll(suggestions); // Cập nhật danh sách gợi ý
 
-            if (suggestions.isEmpty()) {
-                suggestionsPopup.hide();
-            } else {
-                suggestionsList.getItems().setAll(suggestions);
-
-                // Hiển thị Popup tại vị trí của SearchField
-                if (!suggestionsPopup.isShowing()) {
-                    suggestionsPopup.show(searchField,
-                            searchField.localToScreen(searchField.getBoundsInLocal()).getMinX(),
-                            searchField.localToScreen(searchField.getBoundsInLocal()).getMaxY());
-                }
-            }
+                                // Hiển thị Popup tại vị trí của SearchField
+                                if (!suggestionsPopup.isShowing()) {
+                                    suggestionsPopup.show(searchField,
+                                            searchField.localToScreen(searchField.getBoundsInLocal()).getMinX(),
+                                            searchField.localToScreen(searchField.getBoundsInLocal()).getMaxY());
+                                }
+                            });
+                        }
+                    });
         });
 
         // Ẩn Popup khi SearchField mất focus
         searchField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                suggestionsPopup.hide();
+                suggestionsPopup.hide(); // Ẩn Popup khi SearchField không còn focus
             }
         });
     }
@@ -250,13 +252,14 @@ public class BookController {
     private List<String> getSuggestions(String query) {
         List<String> suggestions = new ArrayList<>();
 
-        // Lấy từ cơ sở dữ liệu
+        // Truy vấn cơ sở dữ liệu để tìm các sách có tên giống với query
         String sql = "SELECT title FROM books WHERE title LIKE ?";
 
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "%" + query + "%");
             ResultSet rs = pstmt.executeQuery();
+
             while (rs.next()) {
                 suggestions.add(rs.getString("title"));
             }
@@ -267,26 +270,48 @@ public class BookController {
         return suggestions;
     }
 
+    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private Runnable lastSearchRunnable;
+
     private List<String> getSuggestionsFromAPI(String query) {
-        List<String> suggestions = new ArrayList<>();
-        String jsonResponse = GoogleBooksApi.searchBooks(query);
+        final List<String> suggestions = new ArrayList<>();
+        String jsonResponse = GoogleBooksApi.searchBooksForSuggestions(query);  // Lấy phản hồi từ API
+        // Log phản hồi từ API
         if (jsonResponse != null) {
-            List<Book> books = JsonParserEx.parseBooks(jsonResponse);
-            for (Book book : books) {
-                String title = book.getTitle();
-                if (title != null && !title.trim().isEmpty()) {
-                    suggestions.add(title);
+            try {
+                JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
+                JsonArray items = jsonObject.getAsJsonArray("items");
+
+                if (items != null) {
+                    // Lấy tiêu đề sách từ response
+                    for (JsonElement item : items) {
+                        JsonObject volumeInfo = item.getAsJsonObject().getAsJsonObject("volumeInfo");
+                        String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : null;
+
+                        // Nếu tiêu đề sách hợp lệ, thêm vào danh sách gợi ý
+                        if (title != null && !title.trim().isEmpty()) {
+                            suggestions.add(title);
+                        }
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Error parsing API response: " + e.getMessage());
+                e.printStackTrace();
             }
         }
         return suggestions;
     }
 
+
     private VBox createBookCard(Book book) {
         ImageView thumbnail = new ImageView();
-        thumbnail.setImage(new Image(book.getThumbnailUrl(), 120, 180, true, true));
         thumbnail.setFitWidth(110);
         thumbnail.setFitHeight(160);
+
+        CompletableFuture.runAsync(() -> {
+            Image image = new Image(book.getThumbnailUrl(), true);
+            Platform.runLater(() -> thumbnail.setImage(image));
+        });
 
         Label title = new Label(book.getTitle());
         title.setWrapText(true);
@@ -300,18 +325,13 @@ public class BookController {
         knowMoreButton.setPrefHeight(30);
         knowMoreButton.setOnAction(e -> {
             try {
-                // Load FXML và controller mới
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
                 Parent root = loader.load();
 
-                // Lấy controller của BookDetail
                 BookDetailController detailController = loader.getController();
-
-                // Truyền dữ liệu sách vào BookDetailController
                 detailController.setBookDetail(book);
                 detailController.setBookController(this);
 
-                // Hiển thị giao diện mới
                 Stage stage = (Stage) knowMoreButton.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -326,8 +346,27 @@ public class BookController {
         card.setPrefWidth(150);
         card.setPrefHeight(270);
         card.setAlignment(Pos.CENTER);
+
         return card;
     }
+
+    private void displayBooks(List<Book> books) {
+        gridPane.getChildren().clear(); // Xóa giao diện cũ
+
+        int row = 0, col = 0; // Vị trí bắt đầu trong GridPane
+        int booksPerRow = 5; // Số sách trên mỗi hàng
+
+        for (Book book : books) {
+            VBox bookCard = createBookCard(book); // Tạo thẻ sách
+            gridPane.add(bookCard, col, row); // Thêm thẻ sách vào GridPane
+            col++;
+            if (col >= booksPerRow) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
 
     public Scene getBookScene() {
         return bookScene;

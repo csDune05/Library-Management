@@ -15,6 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.GridPane?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookController">
     <children>
         <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
@@ -81,12 +82,12 @@
                        <Button fx:id="searchButton" defaultButton="true" onAction="#performSearch" prefHeight="38.0" prefWidth="81.0" text="Search" />
                    </children>
                 </HBox>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="594.0" prefWidth="797.0">
-               <content>
-      
-                      <TilePane fx:id="tilePane" hgap="10" prefColumns="4" prefHeight="0.0" prefWidth="894.0" vgap="10" />
-               </content>
-            </ScrollPane>
+                <ScrollPane hbarPolicy="NEVER" prefHeight="594.0" prefWidth="797.0">
+                    <content>
+                        <!-- Thay thế TilePane bằng GridPane -->
+                        <GridPane fx:id="gridPane" hgap="10" vgap="10" prefHeight="0.0" prefWidth="894.0" />
+                    </content>
+                </ScrollPane>
             </children>
         </VBox>
       <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="29.0" opacity="0.2" startX="-101.0" startY="-27.0" />

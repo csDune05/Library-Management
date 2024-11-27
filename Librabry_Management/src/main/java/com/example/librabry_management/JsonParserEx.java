@@ -7,6 +7,9 @@ import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JsonParserEx {
 
     public static ObservableList<Book> parseBooks(String jsonResponse) {
@@ -57,4 +60,29 @@ public class JsonParserEx {
         }
         return authorList;
     }
+
+    public static List<String> parseSuggestions(String jsonResponse) {
+        List<String> suggestions = new ArrayList<>();
+
+        try {
+            JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
+            JsonArray items = jsonObject.getAsJsonArray("items");
+
+            if (items != null) {
+                for (JsonElement item : items) {
+                    JsonObject volumeInfo = item.getAsJsonObject().getAsJsonObject("volumeInfo");
+                    String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "Unknown Title";
+
+                    if (title != null && !title.trim().isEmpty()) {
+                        suggestions.add(title);  // Thêm tiêu đề sách vào gợi ý
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return suggestions;
+    }
+
 }

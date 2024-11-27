@@ -4,6 +4,7 @@ import com.example.librabry_management.Book;
 import com.example.librabry_management.DatabaseHelper;
 import com.example.librabry_management.MainStaticObjectControl;
 import com.example.librabry_management.User;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,11 +16,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class MyLibraryController {
 
@@ -28,6 +31,9 @@ public class MyLibraryController {
 
     @FXML
     private Button searchButton;
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private TilePane tilePane;
@@ -108,12 +114,23 @@ public class MyLibraryController {
         }
     }
 
-    public void updateLibraryView() {
-        tilePane.getChildren().clear(); // Xóa nội dung cũ
-        for (Book book : borrowedBooks) {
-            tilePane.getChildren().add(createBookCard(book)); // Tạo thẻ sách và thêm vào TilePane
+    private void displayBooks(List<Book> books) {
+        gridPane.getChildren().clear(); // Xóa các sách cũ khỏi giao diện
+
+        int row = 0, col = 0; // Điều khiển vị trí trong GridPane
+        int booksPerRow = 5; // Số sách trên mỗi hàng
+
+        for (Book book : books) {
+            VBox bookCard = createBookCard(book); // Tạo thẻ sách
+            gridPane.add(bookCard, col, row); // Thêm thẻ sách vào GridPane
+            col++;
+            if (col >= booksPerRow) {
+                col = 0;
+                row++;
+            }
         }
     }
+
 
     // Phương thức tạo thẻ sách
     private VBox createBookCard(Book book) {
@@ -143,36 +160,62 @@ public class MyLibraryController {
     }
 
 
-
     @FXML
     public void initialize() {
         currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy thông tin người dùng hiện tại
         if (currentUser != null) {
-            loadUserBooks();
+            loadUserBooks(); // Tải sách của người dùng vào GridPane
         } else {
             System.out.println("No user logged in.");
         }
+
         try {
-            // combo box options
+            // Cấu hình combobox options
             MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Phương thức để tải sách của người dùng
     private void loadUserBooks() {
-        if (currentUser != null) {
-            List<Book> userBooks = DatabaseHelper.getBooksForUser(currentUser.getId());
-            if (!userBooks.isEmpty()) {
-                tilePane.getChildren().clear();
-                for (Book book : userBooks) {
-                    tilePane.getChildren().add(createBookCard(book));
-                }
-            } else {
-                System.out.println("No books found for user: " + currentUser.getName());
-            }
+        if (currentUser == null) {
+            System.out.println("No user logged in.");
+            return;
         }
+
+        gridPane.getChildren().clear(); // Xóa giao diện cũ
+
+        CompletableFuture.supplyAsync(() -> {
+            // Tải danh sách sách từ cơ sở dữ liệu trên luồng nền
+            return DatabaseHelper.getBooksForUser(currentUser.getId());
+        }).thenAccept(userBooks -> {
+            if (userBooks == null || userBooks.isEmpty()) {
+                System.out.println("No books found for user: " + currentUser.getName());
+                return;
+            }
+
+            // Hiển thị sách trên GridPane
+            int booksPerRow = 5; // Số sách trên mỗi hàng
+            int[] rowCol = {0, 0}; // rowCol[0] = row, rowCol[1] = col
+
+            userBooks.forEach(book -> {
+                VBox bookCard = createBookCard(book); // Tạo thẻ sách
+
+                // Cập nhật giao diện trên luồng JavaFX
+                Platform.runLater(() -> {
+                    gridPane.add(bookCard, rowCol[1], rowCol[0]); // Thêm thẻ sách vào GridPane
+                    rowCol[1]++;
+                    if (rowCol[1] >= booksPerRow) {
+                        rowCol[1] = 0;
+                        rowCol[0]++;
+                    }
+                });
+            });
+        }).exceptionally(ex -> {
+            // Xử lý ngoại lệ
+            ex.printStackTrace();
+            return null;
+        });
     }
 
     private void handleReturnBook(Book book) {
@@ -183,7 +226,7 @@ public class MyLibraryController {
                 boolean success = DatabaseHelper.returnBook(userId, bookId);
                 if (success) {
                     borrowedBooks.remove(book);
-                    tilePane.getChildren().removeIf(node -> {
+                    gridPane.getChildren().removeIf(node -> {
                         if (node instanceof VBox) {
                             VBox card = (VBox) node;
                             Label titleLabel = (Label) card.getChildren().get(1);

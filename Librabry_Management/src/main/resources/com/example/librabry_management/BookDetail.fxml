@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
     <children>
         <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
             <children>
@@ -35,16 +36,6 @@
                         <Font size="18.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Progress">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Button>
-                <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#donateUsButtonHandler" prefHeight="126.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Button>
             </children>
         </VBox>
         <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="27.0" opacity="0.2" startX="-101.0" startY="-27.0" />
@@ -57,7 +48,7 @@
             </image>
         </ImageView>
         <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1055.0" layoutY="32.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
-      <ImageView fx:id="bookImage" fitHeight="210.0" fitWidth="152.0" layoutX="150.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="bookImage" fitHeight="170.0" fitWidth="152.0" layoutX="150.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/gray.jpg" />
          </image>
@@ -120,5 +111,10 @@
          </font>
       </Label>
       <Button fx:id="backButton" layoutX="312.0" layoutY="26.0" mnemonicParsing="false" onAction="#backButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Back" />
+          <Button fx:id="donateUsButton" layoutY="659.0" mnemonicParsing="false" onAction="#donateUsButtonHandler" prefHeight="34.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
+              <font>
+                  <Font size="18.0" />
+              </font>
+          </Button>
     </children>
 </AnchorPane>
