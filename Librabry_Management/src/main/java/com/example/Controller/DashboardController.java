@@ -170,6 +170,9 @@ public class DashboardController {
         XYChart.Series<String, Number> accountsSeries = new XYChart.Series<>();
         accountsSeries.getData().add(new XYChart.Data<>("Visit times", totalAccounts));
 
+        visitorChart.setBarGap(80);
+        visitorChart.setCategoryGap(30);
+
         visitorChart.getData().addAll(borrowedSeries, overdueSeries, visitsSeries, accountsSeries);
         xAxis.setTickLabelsVisible(false);
     }

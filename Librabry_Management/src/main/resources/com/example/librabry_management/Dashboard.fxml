@@ -189,7 +189,7 @@
       <Label layoutX="496.0" layoutY="142.0" text="Overdue" />
       <Circle fill="#ff6121" layoutX="381.0" layoutY="150.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="#ffa11f" layoutX="478.0" layoutY="150.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#21ff3b" layoutX="564.0" layoutY="149.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#21cd32" layoutX="564.0" layoutY="149.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="#219cff" layoutX="670.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="584.0" layoutY="142.0" text="Visit times" />
       <Label layoutX="685.0" layoutY="143.0" text="Accounts" />
