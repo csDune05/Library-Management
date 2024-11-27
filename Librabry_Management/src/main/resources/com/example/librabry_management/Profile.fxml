@@ -14,9 +14,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ProfileController">
+<AnchorPane prefHeight="701.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ProfileController">
    <children>
-      <VBox alignment="BASELINE_CENTER" prefHeight="801.0" prefWidth="150.0" spacing="20.0">
+      <VBox alignment="BASELINE_CENTER" prefHeight="575.0" prefWidth="138.0" spacing="20.0">
          <children>
             <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -47,15 +47,10 @@
                   <String fx:value="button-base" />
                </styleClass>
             </Button>
-            <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="314.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
          </children>
       </VBox>
       <Line endX="950.0" layoutX="250.0" layoutY="83.0" opacity="0.2" startX="-100.0" />
-      <Line endX="53.0" endY="-70.5" layoutX="844.0" layoutY="154.0" opacity="0.2" startX="52.99993896484375" startY="631.0" />
+      <Line endX="53.0" endY="-70.5" layoutX="844.0" layoutY="154.0" opacity="0.2" startX="53.0" startY="547.0" />
       <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="985.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/avatar.png" />
@@ -71,50 +66,7 @@
             </Label>
          </children>
       </HBox>
-      <VBox layoutX="151.0" layoutY="85.0" prefHeight="697.0" prefWidth="187.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="199.0" stylesheets="@style.css" text="Edit Profile">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <styleClass>
-                  <String fx:value="HomeButton" />
-                  <String fx:value="button-base" />
-               </styleClass>
-            </Button>
-            <Line endX="345.14007568359375" endY="-0.41421353816986084" opacity="0.2" startX="196.84719848632812" />
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="HomeButton" stylesheets="@style.css" text="Notifications">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Line endX="383.64007568359375" endY="7.748603820800781E-7" opacity="0.2" startX="570.4329833984375" startY="1.5497207641601562E-6" />
-            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="235.0" styleClass="HomeButton" stylesheets="@style.css" text="Choose Plan">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Line endX="382.14013671875" endY="1.2929084300994873" opacity="0.2" startX="196.84719848632812" />
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="211.0" styleClass="HomeButton" stylesheets="@style.css" text="Password &amp; Security">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Line endX="381.92144775390625" endY="7.748603820800781E-7" opacity="0.2" startX="196.84719848632812" startY="1.5497207641601562E-6" />
-         </children>
-      </VBox>
-      <Line endX="51.0" endY="-51.0" layoutX="286.0" layoutY="135.0" opacity="0.2" startX="53.0" startY="649.2928466796875" />
-      <HBox layoutX="337.0" layoutY="84.0" prefHeight="54.0" prefWidth="600.0">
-         <children>
-            <Label prefHeight="54.0" prefWidth="162.0" styleClass="titleLabel" text="       Edit Profile">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <Line endX="54.00001525878906" endY="-235.0" layoutX="95.0" layoutY="237.0" opacity="0.2" startX="55.0" startY="564.0" />
-      <VBox layoutX="423.0" layoutY="227.0" prefHeight="524.0" prefWidth="385.0">
+      <VBox layoutX="410.0" layoutY="248.0" prefHeight="396.0" prefWidth="401.0">
          <children>
             <Label prefHeight="43.0" prefWidth="253.0" text="Name">
                <font>
@@ -151,10 +103,58 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordField" prefHeight="43.0" prefWidth="419.0" />
+            <PasswordField fx:id="passwordField" prefHeight="42.0" prefWidth="385.0" />
          </children>
       </VBox>
-      <Button layoutX="805.0" layoutY="752.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="34.0" prefWidth="91.0" stylesheets="@style.css" text="Save">
+      <VBox layoutX="151.0" layoutY="85.0" prefHeight="564.0" prefWidth="157.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="199.0" stylesheets="@style.css" text="Edit Profile">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="HomeButton" />
+                  <String fx:value="button-base" />
+               </styleClass>
+            </Button>
+            <Line endX="345.14007568359375" endY="-0.41421353816986084" opacity="0.2" startX="196.84719848632812" />
+            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="HomeButton" stylesheets="@style.css" text="Notifications">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Line endX="383.64007568359375" endY="7.748603820800781E-7" opacity="0.2" startX="570.4329833984375" startY="1.5497207641601562E-6" />
+            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="235.0" styleClass="HomeButton" stylesheets="@style.css" text="Choose Plan">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Line endX="382.14013671875" endY="1.2929084300994873" opacity="0.2" startX="196.84719848632812" />
+            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="211.0" styleClass="HomeButton" stylesheets="@style.css" text="Password &amp; Security">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Line endX="381.92144775390625" endY="7.748603820800781E-7" opacity="0.2" startX="196.84719848632812" startY="1.5497207641601562E-6" />
+         </children>
+      </VBox>
+      <Line endX="51.0" endY="-51.0" layoutX="286.0" layoutY="135.0" opacity="0.2" startX="51.000030517578125" startY="556.4821166992188" />
+      <HBox layoutX="337.0" layoutY="84.0" prefHeight="54.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="54.0" prefWidth="162.0" styleClass="titleLabel" text="       Edit Profile">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Line endX="54.00001525878906" endY="-235.0" layoutX="95.0" layoutY="237.0" opacity="0.2" startX="55.0" startY="463.0" />
+      <ImageView fx:id="avatarImageView" fitHeight="114.0" fitWidth="161.0" layoutX="554.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/bookIcon.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="807.0" layoutY="653.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="34.0" prefWidth="91.0" stylesheets="@style.css" text="Save">
          <font>
             <Font size="12.0" />
          </font>
@@ -163,10 +163,10 @@
             <String fx:value="button-base" />
          </styleClass>
       </Button>
-      <ImageView fx:id="avatarImageView" fitHeight="114.0" fitWidth="161.0" layoutX="546.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/bookIcon.png" />
-         </image>
-      </ImageView>
+      <Button fx:id="donateUsButton" layoutX="-1.0" layoutY="623.0" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="53.0" prefWidth="153.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
