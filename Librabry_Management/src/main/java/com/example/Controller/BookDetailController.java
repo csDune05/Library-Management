@@ -1,9 +1,7 @@
 package com.example.Controller;
 
 import com.example.librabry_management.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import com.example.QRCode.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -75,6 +74,9 @@ public class BookDetailController implements Initializable {
 
     @FXML
     private Button returnBook;
+
+    @FXML
+    private Button qrCodeButton;
 
     private BookController bookController;
 
@@ -192,6 +194,52 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    @FXML
+    public void qrCodeButtonHandler() throws URISyntaxException {
+        Book currentBook = getCurrentBook();
+        if (currentBook == null) return;
+        String detail = "Title: " + currentBook.getTitle() + "\n" +
+                        "Author: " +  currentBook.getAuthor() + "\n" +
+                        "Publisher Date: " + currentBook.getDate() + "\n" +
+                        "Publisher: " + currentBook.getPublisher()  + "\n" +
+                        "Rating: " + currentBook.getRating();
+        String path = getClass().
+                getResource("/com/example/librabry_management/QRCode/QRCode.png").getPath();
+        path = path.substring(1);
+        QRCodeGenerator.generateQRCode(detail, path);
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/QRCode.fxml"));
+            Scene homeScene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(homeScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Book getCurrentBook() {
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM books WHERE title = ? AND author = ? LIMIT 1")) {
+            pstmt.setString(1, bookTitle.getText()); // Assuming bookTitle is the Label showing the title
+            pstmt.setString(2, bookAuthor.getText()); // Assuming bookAuthor is the Label showing the author
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Book(
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("thumbnail_url"),
+                        rs.getString("publisher"),
+                        rs.getString("published_date"),
+                        rs.getString("average_rating")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private int getCurrentBookId() {
         try (Connection conn = DatabaseHelper.connect();
@@ -245,9 +293,9 @@ public class BookDetailController implements Initializable {
         bookImage.setImage(new Image(book.getThumbnailUrl())); // Ảnh bìa
         bookTitle.setText(book.getTitle()); // Tiêu đề
         bookAuthor.setText(book.getAuthor()); // Tác giả
-        bookYear.setText(book.getDate() == null ? "Unknown Date" : book.getDate()); // Năm sáng tác
-        bookPublisher.setText(book.getPublisher() == null ? "Unknown Publisher" : book.getPublisher()); // Mã sách
-        ratingStarLabel.setText(book.getRating() == null ? "Unrated" : book.getRating() + "★");
+        bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
+        bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Mã sách
+        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "★");
 
         String Description = "Description: ";
         Text descriptionTextTitle = new Text(Description + "\n");

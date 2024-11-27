@@ -48,5 +48,6 @@ public class SettingsController {
     public void CancelActionHandle() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
+        MainStaticObjectControl.resetComboBoxOptions();
     }
 }

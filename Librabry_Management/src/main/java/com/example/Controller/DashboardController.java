@@ -1,6 +1,5 @@
 package com.example.Controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.List;
+import java.io.*;
 
 public class DashboardController {
 
@@ -37,7 +34,7 @@ public class DashboardController {
     private ComboBox<String> optionsComboBox;
 
     @FXML
-    private TableView<LoanRecord> overdueTableView;
+    private TableView<LoanRecord> loanRecordTableView;
 
     @FXML
     private TableColumn<LoanRecord, String> idColumn;
@@ -70,10 +67,10 @@ public class DashboardController {
     private Button myLibraryButton;
 
     @FXML
-    private Label searchLabel;
+    private Label borrowedBooksLabel;
 
     @FXML
-    private Label readLabel;
+    private Label overdueBooksLabel;
 
     @FXML
     private Label visitTimesLabel;
@@ -90,7 +87,7 @@ public class DashboardController {
 
         updateVisitorChart();
         updateLabels();
-        configureTableView();
+        updateTableView();
     }
 
     @FXML
@@ -156,23 +153,60 @@ public class DashboardController {
     private void updateVisitorChart() {
         visitorChart.getData().clear();
 
+        int totalBorrowed = DatabaseHelper.getTotalBorrowedBooks();
+        int totalOverdue = DatabaseHelper.getTotalOverdueBooks();
+        int totalAccounts = DatabaseHelper.getTotalAccounts();
+        int visitTimes = getVisitTimes();
+
+        XYChart.Series<String, Number> borrowedSeries = new XYChart.Series<>();
+        borrowedSeries.getData().add(new XYChart.Data<>("Visit times", totalBorrowed));
+
+        XYChart.Series<String, Number> overdueSeries = new XYChart.Series<>();
+        overdueSeries.getData().add(new XYChart.Data<>("Visit times", totalOverdue));
+
+        XYChart.Series<String, Number> visitsSeries = new XYChart.Series<>();
+        visitsSeries.getData().add(new XYChart.Data<>("Visit times", visitTimes));
+
+        XYChart.Series<String, Number> accountsSeries = new XYChart.Series<>();
+        accountsSeries.getData().add(new XYChart.Data<>("Visit times", totalAccounts));
+
+        visitorChart.getData().addAll(borrowedSeries, overdueSeries, visitsSeries, accountsSeries);
+        xAxis.setTickLabelsVisible(false);
+    }
+
+    private int getVisitTimes() {
+        File file = new File("countVisit.txt");
+        int visitTimes = 0;
+
+        try {
+            if (file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    String line = reader.readLine();
+                    if (line != null) {
+                        visitTimes = Integer.parseInt(line);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return visitTimes;
     }
 
     private void updateLabels() {
+        int totalBorrowed = DatabaseHelper.getTotalBorrowedBooks();
+        int totalOverdue = DatabaseHelper.getTotalOverdueBooks();
+        int totalAccounts = DatabaseHelper.getTotalAccounts();
+        int visitTimes = getVisitTimes();
 
+        borrowedBooksLabel.setText(String.valueOf(totalBorrowed));
+        overdueBooksLabel.setText(String.valueOf(totalOverdue));
+        visitTimesLabel.setText(String.valueOf(visitTimes));
+        membersLabel.setText(String.valueOf(totalAccounts));
     }
 
-    private int readCountFromFile(String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line = reader.readLine();
-            return Integer.parseInt(line.trim());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
-    private void configureTableView() {
+    private void updateTableView() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         memberColumn.setCellValueFactory(new PropertyValueFactory<>("member"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -180,14 +214,9 @@ public class DashboardController {
         overdueColumn.setCellValueFactory(new PropertyValueFactory<>("overdue"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
-        ObservableList<LoanRecord> overdueList = FXCollections.observableArrayList(
-                new LoanRecord("88934231", "Danielle Rusadi", "The Midnight Line", "Lee Child", "2 days", "Jun 14, 2022"),
-                new LoanRecord("88934232", "Eleanor Amantis", "Henry V", "William Shakespeare", "2 days", "Jun 10, 2022"),
-                new LoanRecord("88934233", "Michael Smith", "1984", "George Orwell", "3 days", "Jun 12, 2022"),
-                new LoanRecord("88934234", "Anna Johnson", "Pride and Prejudice", "Jane Austen", "5 days", "Jun 8, 2022"),
-                new LoanRecord("88934235", "John Doe", "To Kill a Mockingbird", "Harper Lee", "1 day", "Jun 15, 2022")
-        );
-
-        overdueTableView.setItems(overdueList);
+        // Lấy dữ liệu từ DatabaseHelper và cập nhật TableView
+        ObservableList<LoanRecord> data = DatabaseHelper.getLoanRecords();
+        System.out.println("Data size: " + data.size());
+        loanRecordTableView.setItems(data);
     }
 }

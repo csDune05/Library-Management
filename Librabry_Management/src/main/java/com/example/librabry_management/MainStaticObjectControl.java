@@ -16,7 +16,9 @@ public class MainStaticObjectControl {
     private static Stage dashboardStage;
     private static User currentUser;
     private static Stage settingsStage;
+
     private static MediaPlayer musicPlayer;
+    private static ComboBox<String> activeComboBox;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -56,6 +58,7 @@ public class MainStaticObjectControl {
 
     public static void configureOptionsComboBox(ComboBox<String> optionsComboBox) {
         optionsComboBox.getItems().addAll("My Profile", "Log out", "Settings");
+        activeComboBox = optionsComboBox;
         optionsComboBox.setOnAction(event -> {
             String selectedOption = optionsComboBox.getValue();
             // Xử lý log out
@@ -86,6 +89,13 @@ public class MainStaticObjectControl {
         });
     }
 
+    public static void resetComboBoxOptions() {
+        if (activeComboBox != null) {
+            activeComboBox.setValue(null);
+            activeComboBox.setPromptText("Options");
+        }
+    }
+
     public static void openProfileStage(Stage currentStage) {
         try {
             Parent profileRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Profile.fxml"));
@@ -105,9 +115,13 @@ public class MainStaticObjectControl {
                 settingsStage.setTitle("Settings");
                 settingsStage.setResizable(false);
                 settingsStage.initModality(Modality.APPLICATION_MODAL);
+                settingsStage.setOnCloseRequest(event -> resetComboBoxOptions());
             }
             settingsStage.centerOnScreen();
             settingsStage.showAndWait();
+
+            // Đặt lại ComboBox về null khi cửa sổ đóng
+            resetComboBoxOptions();
         } catch (Exception e) {
             e.printStackTrace();
         }

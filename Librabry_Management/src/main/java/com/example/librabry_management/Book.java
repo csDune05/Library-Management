@@ -85,7 +85,7 @@ public class Book {
     }
 
     public String getPublisher() {
-        return publisher == null ? "Unknown publisher" : publisher;
+        return publisher == null ? "Unknown Publisher" : publisher;
     }
 
     public void setPublisher(String publisher) {

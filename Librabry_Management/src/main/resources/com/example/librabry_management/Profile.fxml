@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ProfileController">
    <children>
-      <VBox alignment="BASELINE_CENTER" prefHeight="784.0" prefWidth="149.0" spacing="20.0">
+      <VBox alignment="BASELINE_CENTER" prefHeight="801.0" prefWidth="150.0" spacing="20.0">
          <children>
             <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -47,12 +47,7 @@
                   <String fx:value="button-base" />
                </styleClass>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Progress">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="126.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
+            <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="314.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
                <font>
                   <Font size="18.0" />
                </font>
@@ -118,7 +113,7 @@
             </Label>
          </children>
       </HBox>
-      <Line endX="54.00001525878906" endY="-235.0" layoutX="95.0" layoutY="237.0" opacity="0.2" startX="53.0" startY="546.5" />
+      <Line endX="54.00001525878906" endY="-235.0" layoutX="95.0" layoutY="237.0" opacity="0.2" startX="55.0" startY="564.0" />
       <VBox layoutX="423.0" layoutY="227.0" prefHeight="524.0" prefWidth="385.0">
          <children>
             <Label prefHeight="43.0" prefWidth="253.0" text="Name">
