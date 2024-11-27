@@ -49,6 +49,9 @@ public class LoginController {
     private Button signupButton;
 
     @FXML
+    private Button forgotPasswordButton; // Nút để quên mật khẩu
+
+    @FXML
     private CheckBox staysignedin;
 
     @FXML
@@ -58,6 +61,7 @@ public class LoginController {
 
     private Stage signUpStage;
     private Stage DashboardStage;
+    private Stage forgotPasswordStage;
 
     private ObservableList<String> accountList;
 
@@ -144,6 +148,9 @@ public class LoginController {
                 accountListView.setVisible(false);
             }
         });
+
+        // Sự kiện khi nhấn nút 'Forgot Password?'
+        forgotPasswordButton.setOnAction(event -> handleForgotPassword());
     }
 
     private void loadSavedAccounts() throws JSONException {
@@ -222,7 +229,6 @@ public class LoginController {
         }
     }
 
-
     private void saveAccount(String username, String password, boolean rememberMe) throws JSONException {
         String accountsJson = prefs.get("accounts", "[]");
         JSONArray accounts = new JSONArray(accountsJson);
@@ -283,7 +289,6 @@ public class LoginController {
         }
     }
 
-
     @FXML
     public void handleCancelAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -310,6 +315,31 @@ public class LoginController {
 
             signUpStage.centerOnScreen();
             signUpStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleForgotPassword() {
+        try {
+            if (forgotPasswordStage == null) {
+                Parent forgotPasswordRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/ForgotPasswordForm.fxml"));
+
+                forgotPasswordStage = new Stage();
+                forgotPasswordStage.initModality(Modality.WINDOW_MODAL);
+                forgotPasswordStage.initOwner(signinButton.getScene().getWindow());
+                forgotPasswordStage.initStyle(StageStyle.UTILITY);
+                forgotPasswordStage.setTitle("Forgot Password");
+
+                Scene forgotPasswordScene = new Scene(forgotPasswordRoot);
+                forgotPasswordStage.setScene(forgotPasswordScene);
+
+                forgotPasswordStage.setOnHidden(event -> forgotPasswordStage = null);
+            }
+
+            forgotPasswordStage.centerOnScreen();
+            forgotPasswordStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
