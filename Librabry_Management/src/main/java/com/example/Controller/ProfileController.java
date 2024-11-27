@@ -13,6 +13,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class ProfileController {
@@ -53,7 +56,7 @@ public class ProfileController {
     @FXML
     private PasswordField passwordField;
 
-    private Account currentAccount;
+    private User currentUser;
 
     private boolean confirmChangeAvatar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -164,7 +167,7 @@ public class ProfileController {
         }
     }
 
-    private Account getCurrentAccount() {
+    private User getCurrentUser() {
         return MainStaticObjectControl.getCurrentUser();
     }
 
@@ -177,37 +180,70 @@ public class ProfileController {
 
     @FXML
     private void handleSave() {
-        // Lấy dữ liệu từ giao diện
-        currentAccount.setName(nameField.getText());
-        currentAccount.setBirthDate(birthdateField.getText());
-        currentAccount.setPhone_number(phoneField.getText());
-        currentAccount.setEmail(emailField.getText());
-        currentAccount.setLocation(locationField.getText());
-        currentAccount.setPassword(passwordField.getText());
 
-        // Lưu thông tin vào database hoặc xử lý lưu trữ
-        saveAccount(currentAccount);
+        saveUser(currentUser);
 
         System.out.println("Information saved!");
     }
 
-    private void saveAccount(Account account) {
-        // Giả lập lưu thông tin người dùng (thay bằng việc lưu vào database)
-        System.out.println("Account saved: " + account.getName() + ", " + account.getEmail());
+    private void saveUser(User user) {
+
+        // Lấy thông tin từ các TextField
+        String name = nameField.getText();
+        String birthdate = birthdateField.getText();
+        String phone_number = phoneField.getText();
+        String email = emailField.getText();
+        String location = locationField.getText();
+
+        // Kiểm tra thông tin nhập vào
+        if (name.trim().isEmpty() || birthdate.trim().isEmpty() || phone_number.trim().isEmpty() || email.trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng điền đầy đủ thông tin!");
+            alert.showAndWait();
+            return;
+        }
+
+        // Cập nhật thông tin trong cơ sở dữ liệu
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET name = ?, birthdate = ?, phone_number = ?, email = ?, location = ? WHERE name = ? AND email = ?")) {
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, birthdate);
+            pstmt.setString(3, phone_number);
+            pstmt.setString(4, email);
+            pstmt.setString(5, location);
+            pstmt.setString(6, currentUser.getName());
+            pstmt.setString(7, currentUser.getEmail());
+            pstmt.executeUpdate();
+
+            currentUser.setName(nameField.getText());
+            currentUser.setBirthDate(birthdateField.getText());
+            currentUser.setPhone_number(phoneField.getText());
+            currentUser.setEmail(emailField.getText());
+            currentUser.setLocation(locationField.getText());
+            currentUser.setPassword(passwordField.getText());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Cập nhật thông tin thành công!");
+            alert.showAndWait();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Có lỗi xảy ra khi cập nhật thông tin!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     public void initialize() {
 
-        currentAccount = getCurrentAccount();
+        currentUser = getCurrentUser();
 
-        if (currentAccount != null) {
-            nameField.setText(currentAccount.getName());
-            birthdateField.setText(currentAccount.getBirthDate());
-            phoneField.setText(currentAccount.getPhone_number());
-            emailField.setText(currentAccount.getEmail());
-            locationField.setText(currentAccount.getLocation());
-            passwordField.setText(currentAccount.getPassword());
+        if (currentUser != null) {
+            nameField.setText(currentUser.getName());
+            birthdateField.setText(currentUser.getBirthDate());
+            phoneField.setText(currentUser.getPhone_number());
+            emailField.setText(currentUser.getEmail());
+            locationField.setText(currentUser.getLocation());
+            passwordField.setText(currentUser.getPassword());
         }
 
         Image placeholderImage = new Image(getClass().getResource("/com/example/librabry_management/Images/avatar.png").toExternalForm());
