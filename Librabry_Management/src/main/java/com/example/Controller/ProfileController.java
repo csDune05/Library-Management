@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Optional;
 
 public class ProfileController {
 
@@ -37,7 +35,40 @@ public class ProfileController {
     @FXML
     private ImageView avatarImageView;
 
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField birthdateField;
+
+    @FXML
+    private TextField phoneField;
+
+    @FXML
+    private TextField emailField;
+
+    @FXML
+    private TextField locationField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    private Account currentAccount;
+
+    private boolean confirmChangeAvatar() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Change Avatar");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to change your avatar?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
     private void handleChangeAvatar() {
+        if (!confirmChangeAvatar()) {
+            return;
+        }
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
@@ -133,9 +164,53 @@ public class ProfileController {
         }
     }
 
+    private Account getCurrentAccount() {
+        return MainStaticObjectControl.getCurrentUser();
+    }
+
+    private void setAvatarRoundedCorners() {
+        Rectangle clip = new Rectangle(avatarImageView.getFitWidth(), avatarImageView.getFitHeight());
+        clip.setArcWidth(20); // Độ bo góc
+        clip.setArcHeight(20);
+        avatarImageView.setClip(clip);
+    }
+
+    @FXML
+    private void handleSave() {
+        // Lấy dữ liệu từ giao diện
+        currentAccount.setName(nameField.getText());
+        currentAccount.setBirthDate(birthdateField.getText());
+        currentAccount.setPhone_number(phoneField.getText());
+        currentAccount.setEmail(emailField.getText());
+        currentAccount.setLocation(locationField.getText());
+        currentAccount.setPassword(passwordField.getText());
+
+        // Lưu thông tin vào database hoặc xử lý lưu trữ
+        saveAccount(currentAccount);
+
+        System.out.println("Information saved!");
+    }
+
+    private void saveAccount(Account account) {
+        // Giả lập lưu thông tin người dùng (thay bằng việc lưu vào database)
+        System.out.println("Account saved: " + account.getName() + ", " + account.getEmail());
+    }
+
     @FXML
     public void initialize() {
-        Image placeholderImage = new Image(getClass().getResource("/com/example/librabry_management/Images/placeholder.jpg").toExternalForm());
+
+        currentAccount = getCurrentAccount();
+
+        if (currentAccount != null) {
+            nameField.setText(currentAccount.getName());
+            birthdateField.setText(currentAccount.getBirthDate());
+            phoneField.setText(currentAccount.getPhone_number());
+            emailField.setText(currentAccount.getEmail());
+            locationField.setText(currentAccount.getLocation());
+            passwordField.setText(currentAccount.getPassword());
+        }
+
+        Image placeholderImage = new Image(getClass().getResource("/com/example/librabry_management/Images/avatar.png").toExternalForm());
         avatarImageView.setImage(placeholderImage);
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
@@ -154,10 +229,4 @@ public class ProfileController {
         setAvatarRoundedCorners();
     }
 
-    private void setAvatarRoundedCorners() {
-        Rectangle clip = new Rectangle(avatarImageView.getFitWidth(), avatarImageView.getFitHeight());
-        clip.setArcWidth(20); // Độ bo góc
-        clip.setArcHeight(20);
-        avatarImageView.setClip(clip);
-    }
 }
