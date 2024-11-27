@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import com.example.Controller.*;
 
 public class JsonParserEx {
 
@@ -18,7 +17,10 @@ public class JsonParserEx {
             JsonArray items = jsonObject.getAsJsonArray("items");
 
             if (items != null) {
+                int count = 0;
                 for (JsonElement item : items) {
+                    if (count >= 10) break;
+
                     JsonObject volumeInfo = item.getAsJsonObject().getAsJsonObject("volumeInfo");
 
                     String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : "Unknown Title";
@@ -27,13 +29,18 @@ public class JsonParserEx {
                             : "Unknown Author";
                     String description = volumeInfo.has("description") ? volumeInfo.get("description").getAsString() : null;
                     String thumbnailUrl = volumeInfo.has("imageLinks")
-                            ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString()
+                            ? (volumeInfo.getAsJsonObject("imageLinks").has("smallThumbnail")
+                            ? volumeInfo.getAsJsonObject("imageLinks").get("smallThumbnail").getAsString()
+                            : volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString())
                             : null;
                     String publisher = volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : null;
                     String publishedDate = volumeInfo.has("publishedDate") ? volumeInfo.get("publishedDate").getAsString() : null;
                     String averageRating = volumeInfo.has("averageRating") ? volumeInfo.get("averageRating").getAsString() : null;
-                    // Thêm sách vào danh sách
-                    books.add(new Book(title, author, description, thumbnailUrl, publisher, publishedDate, averageRating));
+
+                    Book book = new Book(title, author, description, thumbnailUrl, publisher, publishedDate, averageRating);
+                    books.add(book);
+
+                    count++;
                 }
             }
         } catch (Exception e) {
