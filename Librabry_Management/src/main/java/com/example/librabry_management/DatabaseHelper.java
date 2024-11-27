@@ -374,7 +374,7 @@ public class DatabaseHelper extends Application {
     }
 
     public static int getTotalOverdueBooks() {
-        String query = "SELECT COUNT(*) FROM user_books WHERE return_date < CURRENT_DATE";
+        String query = "SELECT COUNT(*) FROM user_books WHERE must_return_at < CURRENT_DATE";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
