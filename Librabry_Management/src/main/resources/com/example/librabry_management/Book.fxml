@@ -9,13 +9,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.GridPane?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookController">
     <children>
         <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
@@ -69,7 +68,7 @@
             </children>
         </HBox>
 
-        <ComboBox fx:id="optionsComboBox" layoutX="1055.0" layoutY="32.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
+        <ComboBox fx:id="optionsComboBox" layoutX="1012.0" layoutY="33.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
 
         <Line endX="53.0" endY="-70.5" layoutX="894.0" layoutY="156.0" opacity="0.2" startX="53.0" startY="546.5" />
 
@@ -85,16 +84,25 @@
                 <ScrollPane hbarPolicy="NEVER" prefHeight="594.0" prefWidth="797.0">
                     <content>
                         <!-- Thay thế TilePane bằng GridPane -->
-                        <GridPane fx:id="gridPane" hgap="10" vgap="10" prefHeight="0.0" prefWidth="894.0" />
+                        <GridPane fx:id="gridPane" hgap="10" prefHeight="0.0" prefWidth="894.0" vgap="10" />
                     </content>
                 </ScrollPane>
             </children>
         </VBox>
       <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="29.0" opacity="0.2" startX="-101.0" startY="-27.0" />
-      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="985.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="948.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/avatar.png" />
          </image>
       </ImageView>
+      <Button fx:id="notificationButton" layoutX="1151.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+         <graphic>
+            <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/bell1.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>

@@ -60,6 +60,12 @@ public class BookController {
     @FXML
     private ComboBox<String> optionsComboBox;
 
+    @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
+
     private Scene bookScene;
 
     @FXML
@@ -103,8 +109,6 @@ public class BookController {
         }
     }
 
-
-
     @FXML
     public void DonateUsButtonHandler() {
         try {
@@ -133,6 +137,7 @@ public class BookController {
         setupSearchSuggestions();
 
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
     }
 
     @FXML

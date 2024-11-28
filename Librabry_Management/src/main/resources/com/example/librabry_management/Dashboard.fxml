@@ -20,7 +20,6 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.DashboardController">
    <children>
-      <ImageView fitHeight="700.0" fitWidth="1201.0" pickOnBounds="true" preserveRatio="true" />
       <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
          <children>
             <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
@@ -58,12 +57,12 @@
       <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="27.0" opacity="0.2" startX="-101.0" startY="-27.0" />
       <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-100.0" />
       <Line endX="53.0" endY="-70.5" layoutX="871.0" layoutY="148.0" opacity="0.2" startX="53.0" startY="546.5" />
-      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="985.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="935.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/avatar.png" />
          </image>
       </ImageView>
-      <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1055.0" layoutY="17.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
+      <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1005.0" layoutY="19.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
       <TableView fx:id="loanRecordTableView" layoutX="169.0" layoutY="439.0" prefHeight="261.0" prefWidth="736.0">
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="101.68525695800781" text="ID" />
@@ -193,5 +192,13 @@
       <Circle fill="#219cff" layoutX="670.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="584.0" layoutY="142.0" text="Visit times" />
       <Label layoutX="685.0" layoutY="143.0" text="Accounts" />
+      <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+         <graphic>
+            <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/bell1.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
    </children>
 </AnchorPane>

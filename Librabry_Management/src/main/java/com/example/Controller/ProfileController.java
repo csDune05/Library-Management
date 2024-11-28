@@ -33,6 +33,12 @@ public class ProfileController {
     private ComboBox<String> optionsComboBox;
 
     @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
+
+    @FXML
     private Button myLibraryButton;
 
     @FXML
@@ -250,6 +256,8 @@ public class ProfileController {
         avatarImageView.setImage(placeholderImage);
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+        // notification
+        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
 
         // Gắn sự kiện khi nhấn vào ImageView
         avatarImageView.setOnMouseClicked(event -> handleChangeAvatar());

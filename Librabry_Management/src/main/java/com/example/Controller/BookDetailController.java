@@ -67,6 +67,12 @@ public class BookDetailController implements Initializable {
     private ComboBox<String> optionsComboBox;
 
     @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
+
+    @FXML
     private Button backButton;
 
     @FXML
@@ -312,5 +318,8 @@ public class BookDetailController implements Initializable {
 
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+
+        // notification
+        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
     }
 }

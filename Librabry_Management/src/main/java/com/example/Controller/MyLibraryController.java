@@ -53,6 +53,12 @@ public class MyLibraryController {
     @FXML
     private ComboBox<String> optionsComboBox;
 
+    @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
+
     private ObservableList<Book> borrowedBooks = FXCollections.observableArrayList(); // Danh sách sách đã mượn
 
     private User currentUser;
@@ -172,6 +178,7 @@ public class MyLibraryController {
         try {
             // Cấu hình combobox options
             MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+            MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
         } catch (Exception e) {
             e.printStackTrace();
         }

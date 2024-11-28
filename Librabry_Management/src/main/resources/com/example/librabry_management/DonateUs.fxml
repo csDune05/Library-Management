@@ -56,8 +56,8 @@
             </Label>
          </children>
       </HBox>
-      <ComboBox fx:id="optionsComboBox" layoutX="1054.0" layoutY="30.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
-      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="984.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+      <ComboBox fx:id="optionsComboBox" layoutX="1001.0" layoutY="33.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
+      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="936.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/avatar.png" />
          </image>
@@ -77,5 +77,14 @@
          <image>
             <Image url="@Images/donate3.jpg" />
          </image></ImageView>
+      <Button fx:id="notificationButton" layoutX="1142.0" layoutY="23.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+         <graphic>
+            <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/bell1.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
