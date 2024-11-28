@@ -15,7 +15,7 @@
         <StackPane fx:id="contentStackPane" layoutX="75.0" prefHeight="700.0" prefWidth="1125.0">
    <children>
                <!-- User Manager Pane -->
-               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="1107.0" style="-fx-background-color: #F5F5F5;" visible="false">
+               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="1107.0" style="-fx-background-color: #F5F5F5;">
                    <children>
                        <TableView fx:id="userTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0">
                            <columns>
@@ -47,7 +47,7 @@
                </AnchorPane>
    
                      <!-- Book Manager Pane -->
-               <AnchorPane fx:id="bookManagerPane" prefHeight="700.0" prefWidth="1125.0" style="-fx-background-color: #F5F5F5;">
+               <AnchorPane fx:id="bookManagerPane" prefHeight="700.0" prefWidth="1125.0" style="-fx-background-color: #F5F5F5;" visible="false">
                    <children>
                        <TableView fx:id="bookTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0">
                            <columns>
@@ -158,7 +158,7 @@
             <TextField fx:id="userPasswordField" layoutX="415.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
          </children>
       </AnchorPane>
-      <TabPane fx:id="addBookStackPane" layoutX="200.0" layoutY="74.0" prefHeight="514.0" prefWidth="800.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="addBookStackPane" layoutX="200.0" layoutY="74.0" prefHeight="514.0" prefWidth="800.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" visible="false">
         <tabs>
           <Tab text="From Admin">
             <content>
