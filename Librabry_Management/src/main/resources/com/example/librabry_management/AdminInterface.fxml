@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -8,141 +10,290 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.AdminDashboardController">
     <children>
-        <!-- VBox (Trống) -->
-        <VBox layoutX="0.0" layoutY="0.0" prefHeight="700.0" prefWidth="222.0" spacing="10" style="-fx-background-color: #E0E0E0;" />
-
-        <!-- Nút User Manager -->
-        <Button fx:id="userManagerButton" layoutX="18.0" layoutY="193.0" mnemonicParsing="false" onAction="#showUserManager" prefHeight="47.0" prefWidth="205.0" styleClass="menu-button1" stylesheets="@style.css" text="  User Manager">
-            <graphic>
-                <ImageView fitHeight="20.0" fitWidth="20.0">
-                    <image>
-                        <Image url="@Images/userIcon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <!-- Nút Book Manager -->
-        <Button fx:id="bookManagerButton" layoutX="17.0" layoutY="238.0" mnemonicParsing="false" onAction="#showBookManager" prefHeight="47.0" prefWidth="205.0" styleClass="menu-button1" stylesheets="@style.css" text="  Book Manager">
-            <graphic>
-                <ImageView fitHeight="20.0" fitWidth="20.0">
-                    <image>
-                        <Image url="@Images/bookIcon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <!-- Nút Exit -->
-        <Button layoutX="18.0" layoutY="634.0" mnemonicParsing="false" onAction="#exitApplication" prefHeight="47.0" prefWidth="205.0" styleClass="menu-button1" stylesheets="@style.css" text="  Exit">
-         <graphic>
-            <ImageView fitHeight="20.0" fitWidth="20.0">
-               <image>
-                  <Image url="@Images/exitIcon.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
 
         <!-- StackPane để quản lý nội dung trung tâm -->
-        <StackPane fx:id="contentStackPane" layoutX="222.0" layoutY="0.0" prefHeight="700.0" prefWidth="978.0">
+        <StackPane fx:id="contentStackPane" layoutX="75.0" prefHeight="700.0" prefWidth="1125.0">
    <children>
-   
-               <!-- Book Manager Pane -->
-               <AnchorPane fx:id="bookManagerPane" style="-fx-background-color: #F5F5F5;" visible="false">
-                   <children>
-                  <HBox layoutX="26.0" layoutY="75.0" prefHeight="307.0" prefWidth="928.0" style="-fx-background-color: #E0E0E0;" />
-                       <TableView fx:id="bookTableView" layoutX="26.0" layoutY="386.0" prefHeight="300.0" prefWidth="928.0">
-                           <columns>
-                               <TableColumn fx:id="titleColumn" prefWidth="194.0" text="Title" />
-                               <TableColumn fx:id="authorColumn" prefWidth="134.0" text="Author" />
-                        <TableColumn fx:id="averageRatingColumn" prefWidth="74.0" text="Rating" />
-                        <TableColumn fx:id="publisherColumn" prefWidth="111.0" text="Publisher" />
-                        <TableColumn fx:id="publishDateColumn" prefWidth="119.0" text="Publish Date" />
-                        <TableColumn fx:id="descriptionColumn" prefWidth="295.0" text="Description" />
-                           </columns>
-                       </TableView>
-                       <VBox layoutX="500.0" layoutY="50.0" spacing="10" />
-                         <TextField fx:id="bookTitleField" layoutX="34.0" layoutY="89.0" prefHeight="45.0" prefWidth="240.0" promptText="Title" />
-                         <TextField fx:id="bookAuthorField" layoutX="309.0" layoutY="89.0" prefHeight="45.0" prefWidth="240.0" promptText="Author" />
-                         <TextField fx:id="bookDescriptionField" layoutX="584.0" layoutY="89.0" prefHeight="45.0" prefWidth="240.0" promptText="Description" />
-                         <TextField fx:id="bookPublisherField" layoutX="34.0" layoutY="152.0" prefHeight="45.0" prefWidth="240.0" promptText="Publisher" />
-                         <TextField fx:id="bookRatingField" layoutX="584.0" layoutY="152.0" prefHeight="45.0" prefWidth="240.0" promptText="Rating" />
-                         <TextField fx:id="bookDateField" layoutX="309.0" layoutY="152.0" prefHeight="45.0" prefWidth="240.0" promptText="Published Date" />
-                         <Button fx:id="addBookButton" layoutX="100.0" layoutY="215.0" onAction="#addBookHandler" prefHeight="45.0" prefWidth="109.0" styleClass="button-base1" stylesheets="@style.css" text="Add Book" />
-                         <Button fx:id="deleteBookButton" layoutX="375.0" layoutY="215.0" onAction="#deleteBookHandler" prefHeight="45.0" prefWidth="109.0" styleClass="button-base1" stylesheets="@style.css" text="Delete Book" />
-                  <Label layoutX="26.0" layoutY="21.0" text="User Manager">
-                     <font>
-                        <Font name="System Bold" size="30.0" />
-                     </font>
-                  </Label>
-                         <Button fx:id="updateBookButton" layoutX="650.0" layoutY="215.0" onAction="#updateBookHandler" prefHeight="45.0" prefWidth="109.0" styleClass="button-base1" stylesheets="@style.css" text="Update Book" />
-                  <TextField fx:id="titleSearchField" layoutX="34.0" layoutY="270.0" prefHeight="45.0" prefWidth="790.0" promptText="Title Search" />
-                  <TextField fx:id="authorSearchField" layoutX="35.0" layoutY="328.0" prefHeight="45.0" prefWidth="790.0" promptText="Author Search" />
-                  <Button fx:id="titleSearchButton" layoutX="839.0" layoutY="270.0" mnemonicParsing="false" onAction="#searchByTitleHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
-                  <Button fx:id="authorSearchButton" layoutX="839.0" layoutY="328.0" mnemonicParsing="false" onAction="#searchByAuthorHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
-                  <Button fx:id="resetBookManagerButton" layoutX="242.0" layoutY="28.0" mnemonicParsing="false" onAction="#resetBookTable" styleClass="button-base1" stylesheets="@style.css" text="Reset" textFill="RED" />
-                  <Button fx:id="refreshBookManagerButton" layoutX="833.0" layoutY="122.0" onAction="#clearBookFields" prefHeight="45.0" prefWidth="109.0" styleClass="button-base1" stylesheets="@style.css" text="Refresh" />
-                   </children>
-               </AnchorPane>
                <!-- User Manager Pane -->
-               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="971.0" style="-fx-background-color: #F5F5F5;">
+               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="1107.0" style="-fx-background-color: #F5F5F5;" visible="false">
                    <children>
-                  <HBox layoutX="18.0" layoutY="101.0" prefHeight="268.0" prefWidth="951.0" style="-fx-background-color: #E0E0E0;" />
-                       <TableView fx:id="userTableView" layoutX="26.0" layoutY="386.0" prefHeight="300.0" prefWidth="928.0">
+                       <TableView fx:id="userTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0">
                            <columns>
-                               <TableColumn fx:id="userNameColumn" prefWidth="122.0" text="Name" />
-                               <TableColumn fx:id="userEmailColumn" prefWidth="225.0" text="Email" />
-                        <TableColumn fx:id="userBirthdateColumn" prefWidth="122.0" text="Birthdate" />
-                        <TableColumn fx:id="userLocationColumn" prefWidth="158.0" text="Location" />
-                        <TableColumn fx:id="userPhoneColumn" prefWidth="156.0" text="Phone" />
-                        <TableColumn fx:id="userPasswordColumn" prefWidth="144.0" text="Password" />
+                               <TableColumn fx:id="userNameColumn" prefWidth="134.0" text="Name" />
+                               <TableColumn fx:id="userEmailColumn" prefWidth="220.0" text="Email" />
+                        <TableColumn fx:id="userBirthdateColumn" prefWidth="186.0" text="Birthdate" />
+                        <TableColumn fx:id="userLocationColumn" prefWidth="167.0" text="Location" />
+                        <TableColumn fx:id="userPhoneColumn" prefWidth="151.0" text="Phone" />
+                        <TableColumn fx:id="userPasswordColumn" prefWidth="143.0" text="Password" />
+                        <TableColumn fx:id="actionColumn" prefWidth="85.0" text="Action" />
                            </columns>
                        </TableView>
-                       <VBox layoutX="500.0" layoutY="50.0" spacing="10" />
-                         <TextField fx:id="userNameField" layoutX="31.0" layoutY="123.0" prefHeight="45.0" prefWidth="240.0" promptText="Name" />
-                         <TextField fx:id="userBirthdateField" layoutX="31.0" layoutY="184.0" prefHeight="45.0" prefWidth="240.0" promptText="Birthdate" />
-                         <TextField fx:id="userEmailField" layoutX="306.0" layoutY="123.0" prefHeight="45.0" prefWidth="240.0" promptText="Email" />
-                         <TextField fx:id="userPhoneField" layoutX="306.0" layoutY="184.0" prefHeight="45.0" prefWidth="240.0" promptText="Phone" />
-                         <TextField fx:id="userLocationField" layoutX="581.0" layoutY="123.0" prefHeight="45.0" prefWidth="240.0" promptText="Location" />
-                         <TextField fx:id="userPasswordField" layoutX="581.0" layoutY="184.0" prefHeight="45.0" prefWidth="240.0" promptText="Password" />
-                         <Button fx:id="addUserButton" layoutX="857.0" layoutY="184.0" onAction="#addUserHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Add User" />
-                         <Button fx:id="deleteUserButton" layoutX="857.0" layoutY="123.0" onAction="#deleteUserHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Delete User" />
                   <Label layoutX="26.0" layoutY="28.0" text="User Manager">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="emailSearchField" layoutX="31.0" layoutY="306.0" prefHeight="45.0" prefWidth="790.0" promptText="Email Search" />
-                  <TextField fx:id="nameSearchField" layoutX="31.0" layoutY="245.0" prefHeight="45.0" prefWidth="790.0" promptText="Name Search" />
-                  <Button fx:id="nameSearchButton" layoutX="857.0" layoutY="245.0" onAction="#searchByNameHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
-                  <Button fx:id="emailSearchButton" layoutX="857.0" layoutY="306.0" onAction="#searchByEmailHandler" prefHeight="45.0" prefWidth="97.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
-                  <Button fx:id="resetUserManagerButton" layoutX="243.0" layoutY="35.0" mnemonicParsing="false" onAction="#resetUserTable" styleClass="button-base1" stylesheets="@style.css" text="Reset" />
+                  <Button fx:id="resetUserManagerButton" layoutX="238.0" layoutY="35.0" mnemonicParsing="false" onAction="#resetUserTable" styleClass="button-base2" stylesheets="@style.css" text="Reset" />
+                  <TextField fx:id="nameemailSearchField" layoutX="850.0" layoutY="35.0" onAction="#searchByNameAndEmailHandler" prefHeight="31.0" prefWidth="253.0" promptText="🔍  Search by Name or Email" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <Button fx:id="userStackAdd" layoutX="727.0" layoutY="35.0" mnemonicParsing="false" onAction="#userStackAdd" prefHeight="31.0" prefWidth="109.0" styleClass="button-base2" stylesheets="@style.css" text="Add user">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0">
+                           <image>
+                              <Image url="@Images/addUser.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                   </children>
+               </AnchorPane>
+   
+                     <!-- Book Manager Pane -->
+               <AnchorPane fx:id="bookManagerPane" prefHeight="700.0" prefWidth="1125.0" style="-fx-background-color: #F5F5F5;">
+                   <children>
+                       <TableView fx:id="bookTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0">
+                           <columns>
+                               <TableColumn fx:id="titleColumn" prefWidth="194.0" text="Title" />
+                               <TableColumn fx:id="authorColumn" prefWidth="134.0" text="Author" />
+                        <TableColumn fx:id="averageRatingColumn" prefWidth="83.0" text="Rating" />
+                        <TableColumn fx:id="publisherColumn" prefWidth="131.0" text="Publisher" />
+                        <TableColumn fx:id="publishDateColumn" prefWidth="131.0" text="Publish Date" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="296.0" text="Description" />
+                        <TableColumn prefWidth="97.0" text="Action">
+                           <columns>
+                              <TableColumn fx:id="eraseColumn" prefWidth="49.0" text="Erase" />
+                              <TableColumn fx:id="editColumn" prefWidth="52.0" text="Edit" />
+                           </columns></TableColumn>
+                           </columns>
+                       </TableView>
+                  <Label layoutX="26.0" layoutY="28.0" text="Book Manager">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="resetBookManagerButton" layoutX="246.0" layoutY="35.0" mnemonicParsing="false" onAction="#resetBookTable" styleClass="button-base2" stylesheets="@style.css" text="Reset" textFill="RED" />
+                  <TextField fx:id="bookTitleAuthorSearchField" layoutX="850.0" layoutY="35.0" onAction="#searchByTitleAuthorHandler" prefHeight="31.0" prefWidth="253.0" promptText="🔍 Seach by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <Button fx:id="bookStackAdd" layoutX="717.0" layoutY="35.0" mnemonicParsing="false" onAction="#bookTabAdd" prefHeight="31.0" prefWidth="119.0" styleClass="button-base2" stylesheets="@style.css" text="Add book">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0">
+                           <image>
+                              <Image url="@Images/addBook.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                    </children>
                </AnchorPane>
    </children>
         </StackPane>
-
-        <!-- Logo và thông tin -->
-        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="21.0" layoutY="10.0">
-            <image>
-                <Image url="@Images/logo.png" />
-            </image>
-        </ImageView>
-        <Label layoutX="78.0" layoutY="24.0" text="Tripple3D">
-            <font>
-                <Font name="System Bold" size="17.0" />
-            </font>
-        </Label>
-        <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="19.0" layoutY="87.0">
-            <image>
-                <Image url="@Images/adminIcon.png" />
-            </image>
-        </ImageView>
-        <Label layoutX="79.0" layoutY="92.0" text="Administrator">
-            <font>
-                <Font size="17.0" />
-            </font>
-        </Label>
-        <Label layoutX="79.0" layoutY="116.0" text="Admin" textFill="#807b7b" />
+      <Pane prefHeight="700.0" prefWidth="75.0" style="-fx-background-color: #e8e4f4;">
+         <children>
+            <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="10.0" layoutY="21.0">
+               <image>
+                  <Image url="@Images/bookTo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="userManagerButton" layoutY="91.0" mnemonicParsing="false" onAction="#showUserManager" prefHeight="75.0" prefWidth="75.0" styleClass="menu-button1" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="0.0" prefWidth="30.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/User.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="User" textAlignment="CENTER" textFill="#1c386c" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button fx:id="bookManagerButton" layoutY="166.0" mnemonicParsing="false" onAction="#showBookManager" prefHeight="75.0" prefWidth="75.0" styleClass="menu-button1" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/book.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="35.0" text="Book" textAlignment="CENTER" textFill="#1c386c" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button layoutY="241.0" mnemonicParsing="false" onAction="#exitApplication" prefHeight="75.0" prefWidth="75.0" styleClass="menu-button1" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" stylesheets="@style.css">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0">
+                           <image>
+                              <Image url="@Images/exit.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Exit" textFill="#1c386c" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+      <AnchorPane fx:id="addUserPane" layoutX="200.0" layoutY="112.5" prefHeight="475.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;" visible="false">
+         <children>
+            <Button fx:id="addUserButton" layoutX="415.0" layoutY="377.0" mnemonicParsing="false" onAction="#addUserHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base2" stylesheets="@style.css" text="ADD" />
+            <Button layoutX="86.0" layoutY="377.0" mnemonicParsing="false" onAction="#cancelAddUserHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base3" stylesheets="@style.css" text="CANCEL" />
+            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="68.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/addUser1.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="158.0" layoutY="46.0" text="Add User">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Line endX="545.0" layoutX="175.0" layoutY="118.0" startX="-100.0" strokeWidth="1.25" />
+            <TextField fx:id="userNameField" layoutX="124.0" layoutY="165.0" prefHeight="45.0" prefWidth="261.0" promptText="Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="userBirthdateField" layoutX="124.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Birthdate" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="userLocationField" layoutX="124.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Location" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="userEmailField" layoutX="415.0" layoutY="165.0" prefHeight="45.0" prefWidth="261.0" promptText="Email" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="userPhoneField" layoutX="415.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Phone" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="userPasswordField" layoutX="415.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+         </children>
+      </AnchorPane>
+      <TabPane fx:id="addBookStackPane" layoutX="200.0" layoutY="74.0" prefHeight="514.0" prefWidth="800.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="From Admin">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="443.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;">
+                     <children>
+                        <Button fx:id="addBookButton" layoutX="415.0" layoutY="377.0" mnemonicParsing="false" onAction="#addBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base2" stylesheets="@style.css" text="ADD" />
+                        <Button layoutX="86.0" layoutY="377.0" mnemonicParsing="false" onAction="#cancelAddBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base3" stylesheets="@style.css" text="CANCEL" />
+                        <Line endX="545.0" layoutX="175.0" layoutY="118.0" startX="-100.0" strokeWidth="1.25" />
+                        <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="68.0" layoutY="25.0">
+                           <image>
+                              <Image url="@Images/addBook1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="158.0" layoutY="46.0" text="Add Book">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="bookAddTitleField" layoutX="124.0" layoutY="165.0" prefHeight="45.0" prefWidth="261.0" promptText="Title" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+                        <TextField fx:id="bookAddDateField" layoutX="124.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Published Date" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+                        <TextField fx:id="bookAddPublisherField" layoutX="124.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Publisher" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+                        <TextField fx:id="bookAddAuthorField" layoutX="415.0" layoutY="165.0" prefHeight="45.0" prefWidth="261.0" promptText="Author" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+                        <TextField fx:id="bookAddDescriptionField" layoutX="415.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Description" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+                        <TextField fx:id="bookAddRatingField" layoutX="415.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Rating" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+                     </children></AnchorPane>
+            </content>
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0">
+                     <image>
+                        <Image url="@Images/adminIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+          </Tab>
+          <Tab text="From API">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FAFAFA;">
+                     <children>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="68.0" layoutY="25.0">
+                           <image>
+                              <Image url="@Images/addBook1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="158.0" layoutY="46.0" text="Add Book">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Label>
+                        <Line endX="545.0" layoutX="175.0" layoutY="118.0" startX="-100.0" strokeWidth="1.25" />
+                        <ImageView fx:id="bookImage" fitHeight="218.0" fitWidth="184.0" layoutX="74.0" layoutY="136.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@Images/thumbnail.png" />
+                           </image></ImageView>
+                        <Button fx:id="addAPIButton" layoutX="415.0" layoutY="377.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="299.0" styleClass="button-base2" stylesheets="@style.css" text="ADD" />
+                        <Button layoutX="86.0" layoutY="377.0" mnemonicParsing="false" onAction="#cancelAddBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base3" stylesheets="@style.css" text="CANCEL" />
+                        <Label layoutX="295.0" layoutY="160.0" text="Title:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font></Label>
+                        <Label layoutX="295.0" layoutY="195.0" text="Author:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font></Label>
+                        <Label layoutX="294.0" layoutY="230.0" text="Publisher:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font></Label>
+                        <Label layoutX="295.0" layoutY="265.0" text="Published Date:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font></Label>
+                        <Label layoutX="295.0" layoutY="300.0" text="Rating:">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font></Label>
+                        <Label fx:id="bookTitle" layoutX="351.0" layoutY="160.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bookAuthor" layoutX="375.0" layoutY="195.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bookPublisher" layoutX="399.0" layoutY="230.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bookPublishedDate" layoutX="452.0" layoutY="265.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bookRating" layoutX="372.0" layoutY="300.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="searchAPIField" layoutX="415.0" layoutY="49.0" prefHeight="31.0" prefWidth="299.0" promptText="🔍 Search by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
+                     </children></AnchorPane>
+            </content>
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="22.0">
+                     <image>
+                        <Image url="@Images/gg.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <AnchorPane fx:id="editBookPane" layoutX="200.0" layoutY="112.5" prefHeight="475.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;" visible="false">
+         <children>
+            <Button layoutX="415.0" layoutY="377.0" mnemonicParsing="false" onAction="#updateBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base2" stylesheets="@style.css" text="SAVE" />
+            <Button layoutX="86.0" layoutY="377.0" mnemonicParsing="false" onAction="#cancelEditBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base3" stylesheets="@style.css" text="CANCEL" />
+            <Label layoutX="158.0" layoutY="46.0" text="Edit Book">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Line endX="545.0" layoutX="175.0" layoutY="118.0" startX="-100.0" strokeWidth="1.25" />
+            <TextField fx:id="bookTitleField" layoutX="124.0" layoutY="165.0" prefHeight="45.0" prefWidth="261.0" promptText="Title" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="bookPublisherField" layoutX="124.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Publisher" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="bookDateField" layoutX="124.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Published Date" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="bookAuthorField" layoutX="415.0" layoutY="165.0" prefHeight="45.0" prefWidth="261.0" promptText="Author" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="bookDescriptionField" layoutX="415.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Description" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <TextField fx:id="bookRatingField" layoutX="415.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Rating" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
+            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="68.0" layoutY="25.0">
+               <image>
+                  <Image url="@Images/addBook1.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>

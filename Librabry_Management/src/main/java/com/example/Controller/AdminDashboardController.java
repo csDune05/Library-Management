@@ -1,16 +1,23 @@
 package com.example.Controller;
 
 import com.example.librabry_management.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Popup;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class AdminDashboardController {
 
@@ -30,6 +37,10 @@ public class AdminDashboardController {
     private TableColumn<Book, String> averageRatingColumn;
     @FXML
     private TableColumn<Book, String> descriptionColumn;
+    @FXML
+    private TableColumn<Book, Void> eraseColumn;
+    @FXML
+    private TableColumn<Book, Void> editColumn;
     @FXML
     private TableColumn<User, String> userNameColumn;
     @FXML
@@ -55,6 +66,18 @@ public class AdminDashboardController {
     @FXML
     private TextField bookRatingField;
     @FXML
+    private TextField bookAddTitleField;
+    @FXML
+    private TextField bookAddAuthorField;
+    @FXML
+    private TextField bookAddDescriptionField;
+    @FXML
+    private TextField bookAddPublisherField;
+    @FXML
+    private TextField bookAddDateField;
+    @FXML
+    private TextField bookAddRatingField;
+    @FXML
     private TextField userNameField;
     @FXML
     private TextField userEmailField;
@@ -65,33 +88,11 @@ public class AdminDashboardController {
     @FXML
     private TextField userPasswordField;
     @FXML
-    private Button addBookButton;
-    @FXML
-    private Button deleteBookButton;
-    @FXML
-    private Button updateBookButton;
-    @FXML
     private Button addUserButton;
-    @FXML
-    private Button deleteUserButton;
     @FXML
     private TextField userBirthdateField;
     @FXML
-    private TextField titleSearchField;
-    @FXML
-    private TextField authorSearchField;
-    @FXML
-    private Button titleSearchButton;
-    @FXML
-    private Button authorSearchButton;
-    @FXML
-    private TextField nameSearchField;
-    @FXML
-    private Button nameSearchButton;
-    @FXML
-    private Button emailSearchButton;
-    @FXML
-    private TextField emailSearchField;
+    private TextField nameemailSearchField;
     @FXML
     private AnchorPane userManagerPane;
     @FXML
@@ -105,7 +106,37 @@ public class AdminDashboardController {
     @FXML
     private Button resetUserManagerButton;
     @FXML
-    private Button refreshBookManagerButton;
+    private TableColumn<User, Void> actionColumn;
+    @FXML
+    private AnchorPane addUserPane;
+    @FXML
+    private Button userStackAdd;
+    @FXML
+    private Button bookStackAdd;
+    @FXML
+    private TabPane addBookStackPane;
+    @FXML
+    private TextField bookTitleAuthorSearchField;
+    @FXML
+    private AnchorPane editBookPane;
+    @FXML
+    private Label bookTitle;
+    @FXML
+    private Label bookAuthor;
+    @FXML
+    private Label bookPublisher;
+    @FXML
+    private Label bookPublishedDate;
+    @FXML
+    private Label bookRating;
+    @FXML
+    private ImageView bookImage;
+    @FXML
+    private Button addAPIButton;
+    @FXML
+    private TextField searchAPIField;
+
+    private Popup suggestionsPopup;
 
     private ObservableList<Book> bookList;
     private ObservableList<User> userList;
@@ -114,6 +145,114 @@ public class AdminDashboardController {
 
     @FXML
     public void initialize() {
+        setupSearchSuggestions();
+        editColumn.setCellFactory(column -> new TableCell<Book, Void>() {
+            private final ImageView editIcon = new ImageView(new Image(getClass().getResource("/com/example/librabry_management/Images/edit.png").toExternalForm()));
+
+            {
+                editIcon.setFitWidth(16);
+                editIcon.setFitHeight(16);
+                editIcon.setPickOnBounds(true);
+
+                // Thêm sự kiện vào toàn bộ ô
+                this.setOnMouseClicked(event -> {
+                    event.consume(); // Chặn sự kiện lan truyền
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        openEditBook();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || getIndex() < 0) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(editIcon);
+                    setStyle("-fx-alignment: CENTER;");
+                }
+            }
+        });
+
+        eraseColumn.setCellFactory(column -> new TableCell<Book, Void>() {
+            private final ImageView eraseIcon = new ImageView(new Image(getClass().getResource("/com/example/librabry_management/Images/Delete.png").toExternalForm()));
+
+            {
+                eraseIcon.setFitWidth(16);
+                eraseIcon.setFitHeight(16);
+                eraseIcon.setPickOnBounds(true);
+
+                // Thêm sự kiện vào toàn bộ ô
+                this.setOnMouseClicked(event -> {
+                    event.consume(); // Chặn sự kiện lan truyền
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Delete book");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Are you sure you want to delete this book?");
+                        alert.showAndWait();
+                        if (alert.getResult() == ButtonType.OK) {
+                            deleteBookHandler();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || getIndex() < 0) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(eraseIcon);
+                    setStyle("-fx-alignment: CENTER;");
+                }
+            }
+        });
+
+        actionColumn.setCellFactory(column -> new TableCell<User, Void>() {
+            private final ImageView deleteIcon = new ImageView(new Image(getClass().getResource("/com/example/librabry_management/Images/Delete.png").toExternalForm()));
+
+            {
+                deleteIcon.setFitWidth(16);
+                deleteIcon.setFitHeight(16);
+                deleteIcon.setPickOnBounds(true);
+
+                // Thêm sự kiện vào toàn bộ ô
+                this.setOnMouseClicked(event -> {
+                    event.consume(); // Chặn sự kiện lan truyền
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Delete user");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Are you sure you want to delete this user?");
+                        alert.showAndWait();
+                        if (alert.getResult() == ButtonType.OK) {
+                            deleteUserHandler();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || getIndex() < 0) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteIcon);
+                    setStyle("-fx-alignment: CENTER;");
+                }
+            }
+        });
+
         setActiveButton(userManagerButton);
 
         originalBookList = FXCollections.observableArrayList();
@@ -149,6 +288,129 @@ public class AdminDashboardController {
             }
             userBirthdateField.setText(newValue);
         });
+    }
+
+    private void setupSearchSuggestions() {
+        // Tạo Popup để chứa danh sách gợi ý
+        suggestionsPopup = new Popup();
+        suggestionsPopup.setAutoHide(true); // Tự động ẩn khi người dùng click ngoài Popup
+
+        // Tạo ListView để hiển thị danh sách gợi ý
+        ListView<String> suggestionsList = new ListView<>();
+        suggestionsList.setPrefWidth(searchAPIField.getPrefWidth()); // Kích thước khớp với TextField
+        suggestionsPopup.getContent().add(suggestionsList); // Thêm ListView vào Popup
+
+        // Lắng nghe thay đổi trong searchField
+        searchAPIField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                fetchSuggestions(newValue.trim(), suggestionsList); // Lấy gợi ý
+            } else {
+                suggestionsPopup.hide(); // Ẩn Popup nếu không có dữ liệu
+            }
+        });
+
+        // Xử lý khi người dùng chọn gợi ý
+        suggestionsList.setOnMouseClicked(event -> {
+            String selectedSuggestion = suggestionsList.getSelectionModel().getSelectedItem();
+            if (selectedSuggestion != null) {
+                searchAPIField.setText(selectedSuggestion); // Điền vào TextField
+                fetchAndDisplayBookDetails(selectedSuggestion); // Hiển thị thông tin sách
+                suggestionsPopup.hide(); // Ẩn Popup sau khi chọn
+            }
+        });
+
+        // Ẩn Popup khi TextField mất focus
+        searchAPIField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                suggestionsPopup.hide(); // Ẩn Popup khi mất focus
+            }
+        });
+    }
+
+    private void fetchAndDisplayBookDetails(String query) {
+        CompletableFuture.runAsync(() -> {
+            String jsonResponse = GoogleBooksApi.searchBooks(query, 0, 1); // Lấy 1 sách từ API
+            ObservableList<Book> books = JsonParserEx.parseBooks(jsonResponse);
+
+            if (!books.isEmpty()) {
+                Book book = books.get(0);
+                Platform.runLater(() -> displayBookDetails(book));
+            }
+        }).exceptionally(ex -> {
+            ex.printStackTrace();
+            return null;
+        });
+    }
+
+    private void displayBookDetails(Book book) {
+        bookTitle.setText(book.getTitle());
+        bookAuthor.setText(book.getAuthor());
+        bookPublisher.setText(book.getPublisher());
+        bookPublishedDate.setText(book.getDate());
+        bookRating.setText(book.getRating());
+
+        // Hiển thị hình ảnh sách (nếu có)
+        Image thumbnail = new Image(book.getThumbnailUrl(), true);
+        bookImage.setImage(thumbnail);
+
+        // Gắn sự kiện cho nút "Add"
+        addAPIButton.setOnAction(event -> saveBookToDatabase(book));
+
+    }
+
+
+    private void fetchSuggestions(String query, ListView<String> suggestionsList) {
+        CompletableFuture.runAsync(() -> {
+            // Gọi API để lấy gợi ý
+            List<String> apiSuggestions = JsonParserEx.parseSuggestions(GoogleBooksApi.searchBooksForSuggestions(query));
+
+            Platform.runLater(() -> {
+                if (!apiSuggestions.isEmpty()) {
+                    suggestionsList.getItems().setAll(apiSuggestions); // Cập nhật danh sách gợi ý
+                    if (!suggestionsPopup.isShowing()) {
+                        suggestionsPopup.show(searchAPIField,
+                                searchAPIField.localToScreen(searchAPIField.getBoundsInLocal()).getMinX(),
+                                searchAPIField.localToScreen(searchAPIField.getBoundsInLocal()).getMaxY());
+                    }
+                } else {
+                    suggestionsPopup.hide(); // Ẩn Popup nếu không có gợi ý
+                }
+            });
+        });
+    }
+
+    private void saveBookToDatabase(Book book) {
+        DatabaseHelper.saveBook(book, "Thêm qua Add Book");
+
+        bookList.add(book);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Thành công");
+        alert.setHeaderText("Thêm sách thành công");
+        alert.setContentText("Sách đã được thêm vào cơ sở dữ liệu.");
+        alert.showAndWait();
+
+        clearBookDetails(); // Xóa thông tin sau khi thêm
+    }
+
+    private void clearBookDetails() {
+        bookTitle.setText("");
+        bookAuthor.setText("");
+        bookPublisher.setText("");
+        bookPublishedDate.setText("");
+        bookRating.setText("");
+        bookImage.setImage(null);
+        searchAPIField.clear();
+    }
+
+    @FXML
+    private void userStackAdd() {
+        addUserPane.setVisible(true);
+    }
+
+    @FXML
+    private void bookTabAdd() {
+        addBookStackPane.setVisible(true);
     }
 
     @FXML
@@ -230,12 +492,12 @@ public class AdminDashboardController {
 
     @FXML
     private void addBookHandler() {
-        String title = bookTitleField.getText();
-        String author = bookAuthorField.getText();
-        String description = bookDescriptionField.getText();
-        String publisher = bookPublisherField.getText();
-        String date = bookDateField.getText();
-        String rating = bookRatingField.getText();
+        String title = bookAddTitleField.getText();
+        String author = bookAddAuthorField.getText();
+        String description = bookAddDescriptionField.getText();
+        String publisher = bookAddPublisherField.getText();
+        String date = bookAddDateField.getText();
+        String rating = bookAddRatingField.getText();
 
         if (title.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -256,6 +518,11 @@ public class AdminDashboardController {
             pstmt.setString(5, newBook.getDate());
             pstmt.setString(6, newBook.getRating());
             pstmt.executeUpdate();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Book added");
+            alert.setContentText("Book added successfully.");
+            alert.show();
             loadBooks();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -282,12 +549,13 @@ public class AdminDashboardController {
                 // Cập nhật lại bảng
                 bookTableView.refresh(); // Refresh bảng để phản ánh thay đổi
 
+                //Cap nhat lai danh sach search
+                if (!bookTitleAuthorSearchField.getText().isEmpty()) {
+                    searchByTitleAuthorHandler();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng chọn một cuốn sách để xóa!");
-            alert.showAndWait();
         }
     }
 
@@ -386,9 +654,29 @@ public class AdminDashboardController {
             pstmt.setString(6, newUser.getLocation());
             pstmt.executeUpdate();
             loadUsers();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Notification");
+            alert.setHeaderText("Add User Success");
+            alert.showAndWait();
+            clearUserFields();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void cancelAddUserHandler() {
+        addUserPane.setVisible(false);
+    }
+
+    @FXML
+    private void cancelAddBookHandler() {
+        addBookStackPane.setVisible(false);
+    }
+
+    @FXML
+    private void cancelEditBookHandler() {
+        editBookPane.setVisible(false);
     }
 
     @FXML
@@ -420,10 +708,10 @@ public class AdminDashboardController {
     }
 
     @FXML
-    private void searchByTitleHandler() {
-        String titleKeyword = titleSearchField.getText().trim();
+    private void searchByTitleAuthorHandler() {
+        String Keyword = bookTitleAuthorSearchField.getText().trim();
 
-        if (titleKeyword.isEmpty()) {
+        if (Keyword.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng nhập tiêu đề cần tìm!");
             alert.showAndWait();
             return;
@@ -432,38 +720,17 @@ public class AdminDashboardController {
         ObservableList<Book> filteredList = FXCollections.observableArrayList();
 
         for (Book book : bookList) {
-            if (book.getTitle().toLowerCase().contains(titleKeyword.toLowerCase())) {
+            if (book.getTitle().toLowerCase().contains(Keyword.toLowerCase())
+            || book.getAuthor().toLowerCase().contains(Keyword.toLowerCase())) {
                 filteredList.add(book);
             }
         }
-
         bookTableView.setItems(filteredList); // Hiển thị danh sách đã lọc
     }
 
     @FXML
-    private void searchByAuthorHandler() {
-        String authorKeyword = authorSearchField.getText().trim();
-
-        if (authorKeyword.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng nhập tác giả cần tìm!");
-            alert.showAndWait();
-            return;
-        }
-
-        ObservableList<Book> filteredList = FXCollections.observableArrayList();
-
-        for (Book book : bookList) {
-            if (book.getAuthor().toLowerCase().contains(authorKeyword.toLowerCase())) {
-                filteredList.add(book);
-            }
-        }
-
-        bookTableView.setItems(filteredList); // Hiển thị danh sách đã lọc
-    }
-
-    @FXML
-    private void searchByNameHandler() {
-        String nameKeyword = nameSearchField.getText().trim();
+    private void searchByNameAndEmailHandler() {
+        String nameKeyword = nameemailSearchField.getText().trim();
 
         if (nameKeyword.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng nhập tên cần tìm!");
@@ -474,47 +741,56 @@ public class AdminDashboardController {
         ObservableList<User> filteredList = FXCollections.observableArrayList();
 
         for (User user : userList) {
-            if (user.getName().toLowerCase().contains(nameKeyword.toLowerCase())) {
+            if (user.getName().toLowerCase().contains(nameKeyword.toLowerCase()) ||
+                user.getEmail().toLowerCase().contains(nameKeyword.toLowerCase())) {
                 filteredList.add(user);
             }
         }
 
         userTableView.setItems(filteredList); // Hiển thị danh sách đã lọc
-    }
 
-    @FXML
-    private void searchByEmailHandler() {
-        String emailKeyword = emailSearchField.getText().trim();
-
-        if (emailKeyword.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng nhập email cần tìm!");
-            alert.showAndWait();
-            return;
-        }
-
-        ObservableList<User> filteredList = FXCollections.observableArrayList();
-
-        for (User user : userList) {
-            if (user.getEmail().toLowerCase().contains(emailKeyword.toLowerCase())) {
-                filteredList.add(user);
-            }
-        }
-
-        userTableView.setItems(filteredList); // Hiển thị danh sách đã lọc
     }
 
     @FXML
     private void resetBookTable() {
         bookTableView.setItems(bookList); // Khôi phục về danh sách hiển thị
-        titleSearchField.clear();
-        authorSearchField.clear();
+        bookTitleAuthorSearchField.clear();
     }
 
     @FXML
     private void resetUserTable() {
         userTableView.setItems(userList); // Khôi phục về danh sách hiển thị
-        nameSearchField.clear();
-        emailSearchField.clear();
+        nameemailSearchField.clear();
+        actionColumn.setCellFactory(column -> new TableCell<User, Void>() {
+            private final ImageView deleteIcon = new ImageView(new Image(getClass().getResource("/com/example/librabry_management/Images/Delete.png").toExternalForm()));
+
+            {
+                deleteIcon.setFitWidth(16);
+                deleteIcon.setFitHeight(16);
+                deleteIcon.setPickOnBounds(true);
+
+                // Thêm sự kiện vào toàn bộ ô
+                this.setOnMouseClicked(event -> {
+                    event.consume(); // Chặn sự kiện lan truyền
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        deleteUserHandler();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || getIndex() < 0) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteIcon);
+                    setStyle("-fx-alignment: CENTER;");
+                }
+            }
+        });
     }
 
     private String formatBirthdate(String birthdate) throws IllegalArgumentException {
@@ -536,13 +812,18 @@ public class AdminDashboardController {
     }
 
     @FXML
-    private void clearBookFields() {
-        bookTitleField.clear();
-        bookAuthorField.clear();
-        bookDescriptionField.clear();
-        bookPublisherField.clear();
-        bookDateField.clear();
-        bookRatingField.clear();
+    private void clearUserFields() {
+        userNameField.clear();
+        userEmailField.clear();
+        userLocationField.clear();
+        userPhoneField.clear();
+        userPasswordField.clear();
+        userBirthdateField.clear();
+    }
+
+    @FXML
+    public void openEditBook() {
+        editBookPane.setVisible(true);
     }
 
     private void setActiveButton(Button activeButton) {

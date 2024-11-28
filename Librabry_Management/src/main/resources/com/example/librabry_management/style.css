@@ -138,3 +138,31 @@
 .button-base3:pressed {
     -fx-background-color: #DBD7E7;
 }
+
+.tab-header-area {
+    -fx-background-color: #ececec; /* Màu nền cho thanh header */
+    -fx-border-color: #cccccc;     /* Màu viền */
+    -fx-border-width: 0 0 1px 0;   /* Viền dưới thanh header */
+    -fx-padding: 5;                /* Khoảng cách trong thanh header */
+}
+
+.tab {
+    -fx-background-color: #c9c9c9; /* Màu nền tab chưa chọn */
+    -fx-border-color: #b3b3b3;     /* Viền xung quanh tab */
+    -fx-padding: 5 10;            /* Khoảng cách trong tab */
+    -fx-font-size: 14px;           /* Cỡ chữ */
+    -fx-text-fill: #333333;        /* Màu chữ */
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+/* Tab được chọn */
+.tab:selected {
+    -fx-background-color: #e8e4f4;
+    -fx-border-color: transparent/* Tab được chọn màu sáng hơn */
+}
+
+/* Hover (khi di chuột qua tab) */
+.tab:hover {
+    -fx-background-color: #d6d6d6; /* Hiệu ứng hover */
+}
