@@ -85,8 +85,8 @@
 .menu-button1 {
     -fx-background-color: transparent;
     -fx-text-fill: #333;
-    -fx-font-size: 17px;
-    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
     -fx-padding: 10 20;
     -fx-border-width: 0 0 1px 0;
     -fx-border-color: transparent;
@@ -94,17 +94,47 @@
 }
 
 .menu-button1:hover {
-    -fx-background-color: #e6e6e6;
+    -fx-background-color: #D9D1E6;
 }
 
 .menu-button1:pressed {
-    -fx-background-color: #0000CD;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #D9D1E6;
     -fx-font-weight: bold;
 }
 
 .menu-button1.active {
-    -fx-background-color: #0000CD;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #D9D1E6;
     -fx-font-weight: bold;
+}
+
+.button-base2 {
+    -fx-background-color: #1C386C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+
+.button-base2:hover {
+    -fx-background-color: #172F5F;
+}
+
+.button-base2:pressed {
+    -fx-background-color: #172F5F;
+}
+
+.button-base3 {
+    -fx-background-color: #E8E4F4;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+
+.button-base3:hover {
+    -fx-background-color: #DBD7E7;
+}
+
+.button-base3:pressed {
+    -fx-background-color: #DBD7E7;
 }
