@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,7 +16,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ProfileController">
+<AnchorPane prefHeight="701.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ProfileController">
    <children>
       <VBox alignment="BASELINE_CENTER" prefHeight="575.0" prefWidth="138.0" spacing="20.0">
          <children>
@@ -168,7 +170,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="notificationButton" layoutX="1143.0" layoutY="23.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+      <Button fx:id="notificationButton" layoutX="1143.0" layoutY="23.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -177,5 +179,24 @@
             </ImageView>
          </graphic>
       </Button>
+      <AnchorPane fx:id="notificationPane" layoutX="898.0" layoutY="82.0" prefHeight="632.0" prefWidth="302.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
+         <children>
+            <Label alignment="BASELINE_CENTER" prefHeight="56.0" prefWidth="163.0" text="Notifications" textFill="#326ae4">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <ScrollPane fx:id="notificationScrollPane" layoutY="57.0" prefHeight="575.0" prefWidth="302.0" styleClass="notification-pane" stylesheets="@style.css">
+               <content>
+                  <VBox fx:id="notificationList" prefHeight="573.0" prefWidth="302.0" styleClass="notification-pane" stylesheets="@style.css">
+                     <children>
+                        <TextArea prefHeight="66.0" prefWidth="278.0" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <Line endX="159.0" layoutX="101.0" layoutY="47.0" opacity="0.6" startX="-91.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

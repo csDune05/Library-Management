@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -58,6 +59,18 @@ public class MyLibraryController {
 
     @FXML
     private Button notificationButton;
+
+    @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private TextArea notificationText;
 
     private ObservableList<Book> borrowedBooks = FXCollections.observableArrayList(); // Danh sách sách đã mượn
 
@@ -165,6 +178,12 @@ public class MyLibraryController {
         return card;
     }
 
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
+    }
+
+
 
     @FXML
     public void initialize() {
@@ -178,7 +197,8 @@ public class MyLibraryController {
         try {
             // Cấu hình combobox options
             MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
-            MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
+            MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+            MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
         } catch (Exception e) {
             e.printStackTrace();
         }

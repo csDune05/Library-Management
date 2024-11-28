@@ -13,6 +13,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
@@ -42,10 +44,29 @@ public class DonateUsController {
     @FXML
     private Button notificationButton;
 
+    @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private TextArea notificationText;
+
     public void initialize() {
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
-        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
+        MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
+
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
+    }
+
 
     @FXML
     public void myLibraryButtonHandler() {

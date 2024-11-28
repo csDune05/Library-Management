@@ -4,15 +4,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MainStaticObjectControl {
     private static Stage welcomeStage;
@@ -20,12 +27,14 @@ public class MainStaticObjectControl {
     private static Stage dashboardStage;
     private static User currentUser;
     private static Stage settingsStage;
-    private static Stage notificationStage;
 
     private static MediaPlayer musicPlayer;
     private static ComboBox<String> activeComboBox;
+    private static AnchorPane notificationPane;
+    private static ScrollPane notificationScrollPane;
+    private static VBox notificationList;
 
-    private static int numOfNotifications = 1;
+    private static int numOfNotifications = 0;
 
     public static User getCurrentUser() {
         return currentUser;
@@ -138,8 +147,82 @@ public class MainStaticObjectControl {
     // cai dat thong bao.
     public static void configureNotificationButton(ImageView notificationImageView, javafx.scene.control.Button notificationButton) {
         updateNotificationIcon(notificationImageView);
+    }
 
-        notificationButton.setOnAction(event -> openNotificationStage());
+    public static void showAnchorPane(AnchorPane notification, javafx.scene.control.Button notificationButton) {
+        if (notification.isVisible()) {
+            notification.setVisible(false);
+            notificationButton.getStyleClass().remove("active");
+            numOfNotifications = 0;
+        } else {
+            notification.setVisible(true);
+            notificationButton.getStyleClass().add("active");
+        }
+    }
+
+    public static void updateNotifications(ScrollPane notificationScrollPane, VBox notificationList) {
+        List<String> notifications = readNotificationsFromFile();
+
+        notificationList.getChildren().clear();
+
+        // Thêm thông báo vào VBox
+        for (int i = 0; i < notifications.size(); i++) {
+            String line = notifications.get(i);
+
+            Text notificationText = new Text(line);
+
+            // Thiết lập định dạng cho dòng nội dung in đậm
+            if (line.startsWith("**")) {
+                notificationText.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: black;");
+            }
+
+            // Thiết lập định dạng cho dòng thời gian in nghiêng
+            if (line.startsWith("_") && !line.startsWith("**")) {
+                notificationText.setStyle("-fx-font-size: 14; -fx-font-style: italic; -fx-fill: gray;");
+            }
+
+            notificationList.getChildren().add(notificationText);
+        }
+
+        notificationScrollPane.setContent(notificationList);
+    }
+
+    // Đọc thông báo từ file notificationsContent.txt sự kiện gần nhất in ra trước.
+    private static List<String> readNotificationsFromFile() {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("notificationsContent.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Collections.reverse(lines);
+        return lines;
+    }
+
+    public static void addNotificationToFile(String notification) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("notificationsContent.txt", true))) {
+            writer.write("**" + notification + "**");
+            writer.newLine();
+
+            String timestamp = getCurrentTimestamp();
+            writer.write("_" + timestamp + "_");
+            writer.newLine();
+
+            writer.newLine();
+
+            numOfNotifications++;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String getCurrentTimestamp() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH'h'mm dd/MM/yyyy");
+        return now.format(formatter);
     }
 
     public static void updateNotificationIcon(ImageView notificationImageView) {
@@ -150,37 +233,11 @@ public class MainStaticObjectControl {
         }
     }
 
-    public static void openNotificationStage() {
-        try {
-            if (notificationStage == null) {
-                notificationStage = new Stage();
-                Parent notificationRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Notification.fxml"));
-                notificationStage.setScene(new Scene(notificationRoot));
-                notificationStage.setTitle("Notifications");
-                notificationStage.setResizable(false);
-                notificationStage.initModality(Modality.APPLICATION_MODAL);
-                notificationStage.setOnCloseRequest(event -> notificationStage = null);
-            }
-            notificationStage.centerOnScreen();
-            notificationStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static MediaPlayer getMusicPlayer() {
         return TestApplication.getMediaPlayer();
     }
 
     public static void setMusicPlayer(MediaPlayer player) {
         musicPlayer = player;
-    }
-
-    public static void setNumOfNotifications(int count) {
-        numOfNotifications = Math.max(0, count);
-    }
-
-    public static int getNumOfNotifications() {
-        return numOfNotifications;
     }
 }

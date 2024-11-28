@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -95,7 +96,7 @@
             <Image url="@Images/avatar.png" />
          </image>
       </ImageView>
-      <Button fx:id="notificationButton" layoutX="1151.0" layoutY="25.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+      <Button fx:id="notificationButton" layoutX="1151.0" layoutY="25.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -104,5 +105,24 @@
             </ImageView>
          </graphic>
       </Button>
+      <AnchorPane fx:id="notificationPane" layoutX="948.0" layoutY="86.0" prefHeight="601.0" prefWidth="237.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
+         <children>
+            <Label alignment="BASELINE_CENTER" layoutX="13.0" layoutY="7.0" prefHeight="56.0" prefWidth="163.0" text="Notifications" textFill="#326ae4">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Line endX="125.0" layoutX="105.0" layoutY="63.0" opacity="0.6" startX="-82.5" />
+            <ScrollPane fx:id="notificationScrollPane" layoutX="1.0" layoutY="74.0" prefHeight="538.0" prefWidth="251.0" styleClass="notification-pane" stylesheets="@style.css">
+               <content>
+                  <VBox fx:id="notificationList" prefHeight="541.0" prefWidth="255.0" styleClass="notification-pane" stylesheets="@style.css">
+                     <children>
+                        <TextArea prefHeight="66.0" prefWidth="278.0" />
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>

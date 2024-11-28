@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -37,6 +39,18 @@ public class ProfileController {
 
     @FXML
     private Button notificationButton;
+
+    @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private TextArea notificationText;
 
     @FXML
     private Button myLibraryButton;
@@ -192,6 +206,12 @@ public class ProfileController {
         System.out.println("Information saved!");
     }
 
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
+    }
+
+
     private void saveUser(User user) {
 
         // Lấy thông tin từ các TextField
@@ -257,7 +277,8 @@ public class ProfileController {
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
         // notification
-        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
+        MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
 
         // Gắn sự kiện khi nhấn vào ImageView
         avatarImageView.setOnMouseClicked(event -> handleChangeAvatar());

@@ -160,7 +160,11 @@
 }
 
 .notificationButton.active {
-    -fx-background-color: #007acc;
-    -fx-border-color: #005a99;
-    -fx-text-fill: blue;
+    -fx-border-color: #00aaff;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(gaussian, #00aaff, 10, 0.3, 0, 0);
+}
+
+.notification-pane {
+    -fx-background-color: #ADD8E6;
 }
