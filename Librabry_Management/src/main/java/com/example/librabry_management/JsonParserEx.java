@@ -32,9 +32,9 @@ public class JsonParserEx {
                             : "Unknown Author";
                     String description = volumeInfo.has("description") ? volumeInfo.get("description").getAsString() : null;
                     String thumbnailUrl = volumeInfo.has("imageLinks")
-                            ? (volumeInfo.getAsJsonObject("imageLinks").has("smallThumbnail")
-                            ? volumeInfo.getAsJsonObject("imageLinks").get("smallThumbnail").getAsString()
-                            : volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString())
+                            ? (volumeInfo.getAsJsonObject("imageLinks").has("thumbnail")
+                            ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString()
+                            : volumeInfo.getAsJsonObject("imageLinks").get("smallThumbnail").getAsString())
                             : null;
                     String publisher = volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : null;
                     String publishedDate = volumeInfo.has("publishedDate") ? volumeInfo.get("publishedDate").getAsString() : null;
