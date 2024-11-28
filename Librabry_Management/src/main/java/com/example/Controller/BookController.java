@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -59,6 +60,24 @@ public class BookController {
 
     @FXML
     private ComboBox<String> optionsComboBox;
+
+    @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
+
+    @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private TextArea notificationText;
 
     private Scene bookScene;
 
@@ -103,8 +122,6 @@ public class BookController {
         }
     }
 
-
-
     @FXML
     public void DonateUsButtonHandler() {
         try {
@@ -116,6 +133,11 @@ public class BookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
     }
 
     @FXML
@@ -133,6 +155,8 @@ public class BookController {
         setupSearchSuggestions();
 
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+        MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     @FXML

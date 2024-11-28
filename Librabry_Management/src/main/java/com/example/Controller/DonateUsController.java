@@ -12,6 +12,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
@@ -35,29 +38,35 @@ public class DonateUsController {
     @FXML
     private ComboBox<String> optionsComboBox;
 
+    @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
+
+    @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private TextArea notificationText;
+
     public void initialize() {
-        optionsComboBox.getItems().addAll("My Profile", "Log out");
-
-        // bắt sự kiện nếu Options là log out thì thoát.
-        optionsComboBox.setOnAction(event -> {
-            String selectedOption = optionsComboBox.getValue();
-            if (selectedOption.equals("Log out")) {
-                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmationAlert.setTitle("Confirmation");
-                confirmationAlert.setHeaderText("Are you sure you want to log out?");
-                confirmationAlert.setContentText("Press OK to log out, or Cancel to stay.");
-
-                confirmationAlert.showAndWait().ifPresent(response -> {
-                    if (response == ButtonType.OK) {
-                        optionsComboBox.getScene().getWindow().hide();
-                        MainStaticObjectControl.openWelcomeStage();
-                    } else {
-                        optionsComboBox.setValue(null);
-                    }
-                });
-            }
-        });
+        MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+        MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
+
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
+    }
+
 
     @FXML
     public void myLibraryButtonHandler() {

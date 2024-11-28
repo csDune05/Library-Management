@@ -7,12 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -65,6 +64,21 @@ public class BookDetailController implements Initializable {
 
     @FXML
     private ComboBox<String> optionsComboBox;
+
+    @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private Button notificationButton;
 
     @FXML
     private Button backButton;
@@ -174,6 +188,14 @@ public class BookDetailController implements Initializable {
                     alert.setTitle("Borrow Book");
                     alert.setContentText("Book borrowed successfully!");
                     alert.showAndWait();
+
+                    // Thêm thông báo mượn sách.
+                    String bookTitle = this.bookTitle.getText();
+                    String notification = "You borrowed the " + bookTitle + " book.";
+
+                    MainStaticObjectControl.addNotificationToFile(notification);
+                    MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+                    MainStaticObjectControl.updateNotificationIcon(notificationImageView);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Borrow Book");
@@ -216,6 +238,11 @@ public class BookDetailController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
     }
 
     private Book getCurrentBook() {
@@ -268,6 +295,14 @@ public class BookDetailController implements Initializable {
                     alert.setTitle("Return Book");
                     alert.setContentText("Book returned successfully!");
                     alert.showAndWait();
+
+                    // Thêm thông báo trả sách.
+                    String bookTitle = this.bookTitle.getText();
+                    String notification = "You returned the " + bookTitle + " book.";
+
+                    MainStaticObjectControl.addNotificationToFile(notification);
+                    MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+                    MainStaticObjectControl.updateNotificationIcon(notificationImageView);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Return Book");
@@ -312,5 +347,8 @@ public class BookDetailController implements Initializable {
 
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+
+        // notification
+        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
     }
 }

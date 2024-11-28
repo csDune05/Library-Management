@@ -11,6 +11,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
@@ -32,6 +35,12 @@ public class DashboardController {
 
     @FXML
     private ComboBox<String> optionsComboBox;
+
+    @FXML
+    private ImageView notificationImageView;
+
+    @FXML
+    private Button notificationButton;
 
     @FXML
     private TableView<LoanRecord> loanRecordTableView;
@@ -79,15 +88,34 @@ public class DashboardController {
     private Label membersLabel;
 
     @FXML
+    private AnchorPane notificationPane;
+
+    @FXML
+    private ScrollPane notificationScrollPane;
+
+    @FXML
+    private VBox notificationList;
+
+    @FXML
+    private TextArea notificationText;
+
+    @FXML
     public void initialize() {
 
         titleLabel.setText("Dashboard");
 
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
+        MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
 
         updateVisitorChart();
         updateLabels();
         updateTableView();
+    }
+
+    @FXML
+    public void notificationButtonHandler() {
+        MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
     }
 
     @FXML
