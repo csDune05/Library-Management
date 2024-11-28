@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="165.0" prefWidth="276.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.VerifyCodeController">
+    <children>
+        <Label layoutX="14.0" layoutY="29.0" text="Enter the code sent to your email:">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <TextField fx:id="verificationCodeField" layoutX="14.0" layoutY="70.0" prefWidth="250.0" />
+        <Button layoutX="97.0" layoutY="108.0" mnemonicParsing="false" onAction="#verifyCode" text="Verify Code" />
+    </children>
+</AnchorPane>

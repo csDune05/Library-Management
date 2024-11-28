@@ -17,6 +17,7 @@ module com.example.librabry_management {
     requires com.google.zxing.javase;
     requires java.desktop;
     requires java.prefs;
+    requires java.mail;
     opens com.example.Controller to javafx.fxml;
     opens com.example.librabry_management to javafx.fxml;
     exports com.example.librabry_management;
