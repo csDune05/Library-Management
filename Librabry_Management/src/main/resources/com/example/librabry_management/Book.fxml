@@ -129,7 +129,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="myLibraryButton" layoutX="1.0" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="myLibraryButton" layoutX="-5.0" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="90.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" spacing="3.0" stylesheets="@style.css">
                      <children>
@@ -175,7 +175,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button layoutX="1.0" layoutY="623.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="logoutButton" layoutX="1.0" layoutY="623.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>

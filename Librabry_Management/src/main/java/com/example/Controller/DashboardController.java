@@ -76,6 +76,9 @@ public class DashboardController {
     private Button myLibraryButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private Label borrowedBooksLabel;
 
     @FXML
@@ -142,8 +145,8 @@ public class DashboardController {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
-    public void logOutHandler() {
-        
+    public void LogOutButtonHandler() {
+        MainStaticObjectControl.logOut(getCurrentStage());
     }
 
     private void updateVisitorChart() {

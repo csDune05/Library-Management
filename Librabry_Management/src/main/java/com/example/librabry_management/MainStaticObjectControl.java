@@ -179,6 +179,11 @@ public class MainStaticObjectControl {
         }
     }
 
+    public static void logOut(Stage currentStage) {
+        currentStage.close();
+        openWelcomeStage();
+    }
+
     // cai dat combobox options.
     public static void configureOptionsComboBox(ComboBox<String> optionsComboBox) {
         optionsComboBox.getItems().addAll("My Profile", "Log out", "Settings");

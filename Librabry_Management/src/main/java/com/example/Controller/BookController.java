@@ -51,6 +51,9 @@ public class BookController {
     private Button donateUsButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private TextField searchField;
 
     @FXML
@@ -119,6 +122,11 @@ public class BookController {
     @FXML
     public void DonateUsButtonHandler() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
+    }
+
+    @FXML
+    public void LogOutButtonHandler() {
+        MainStaticObjectControl.logOut(getCurrentStage());
     }
 
     @FXML

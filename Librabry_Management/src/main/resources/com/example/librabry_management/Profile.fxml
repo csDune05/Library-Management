@@ -111,7 +111,7 @@
       <Line endX="-3.0" endY="-50.0" layoutX="286.0" layoutY="135.0" opacity="0.2" startX="-6.0" startY="572.0" />
       <HBox layoutX="283.0" layoutY="84.0" prefHeight="54.0" prefWidth="654.0">
          <children>
-            <Label prefHeight="54.0" prefWidth="162.0" styleClass="titleLabel" text="       Edit Profile">
+            <Label prefHeight="54.0" prefWidth="232.0" styleClass="titleLabel" text="       Edit Profile">
                <font>
                   <Font size="24.0" />
                </font>
@@ -195,7 +195,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="myLibraryButton" layoutX="1.0" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="myLibraryButton" layoutX="-4.0" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="89.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" spacing="3.0" stylesheets="@style.css">
                      <children>
@@ -241,7 +241,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button layoutY="628.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="logoutButton" layoutY="628.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>

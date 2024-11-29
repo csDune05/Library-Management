@@ -198,7 +198,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button layoutX="1.0" layoutY="623.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="logoutButton" layoutX="1.0" layoutY="623.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>

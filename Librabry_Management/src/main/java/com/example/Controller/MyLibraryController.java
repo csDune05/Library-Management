@@ -48,6 +48,9 @@ public class MyLibraryController {
     private Button profileButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private ComboBox<String> optionsComboBox;
 
     @FXML
@@ -94,6 +97,11 @@ public class MyLibraryController {
     @FXML
     public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
+    }
+
+    @FXML
+    public void LogOutButtonHandler() {
+        MainStaticObjectControl.logOut(getCurrentStage());
     }
 
     // Phương thức tạo thẻ sách

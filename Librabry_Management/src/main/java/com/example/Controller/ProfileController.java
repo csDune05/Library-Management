@@ -32,6 +32,9 @@ public class ProfileController {
     private Button booksButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private ComboBox<String> optionsComboBox;
 
     @FXML
@@ -149,6 +152,11 @@ public class ProfileController {
     @FXML
     public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
+    }
+
+    @FXML
+    public void LogOutButtonHandler() {
+        MainStaticObjectControl.logOut(getCurrentStage());
     }
 
     private User getCurrentUser() {

@@ -63,6 +63,9 @@ public class BookDetailController implements Initializable {
     private Button myLibraryButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private ComboBox<String> optionsComboBox;
 
     @FXML
@@ -135,6 +138,11 @@ public class BookDetailController implements Initializable {
     @FXML
     public void DonateUsButtonHandler() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
+    }
+
+    @FXML
+    public void LogOutButtonHandler() {
+        MainStaticObjectControl.logOut(getCurrentStage());
     }
 
     @FXML

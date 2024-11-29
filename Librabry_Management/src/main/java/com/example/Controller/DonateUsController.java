@@ -23,7 +23,7 @@ public class DonateUsController {
     private Button profileButton;
 
     @FXML
-    private Button progressButton;
+    private Button logoutButton;
 
     @FXML
     private ComboBox<String> optionsComboBox;
@@ -79,5 +79,10 @@ public class DonateUsController {
 
     public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
+    }
+
+    @FXML
+    public void LogOutButtonHandler() {
+        MainStaticObjectControl.logOut(getCurrentStage());
     }
 }
