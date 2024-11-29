@@ -79,6 +79,9 @@ public class DashboardController {
     private Button logoutButton;
 
     @FXML
+    private Button clearNotificationsButton;
+
+    @FXML
     private Label borrowedBooksLabel;
 
     @FXML
@@ -147,6 +150,11 @@ public class DashboardController {
 
     public void LogOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
+    }
+
+    public void ClearALlButtonHandler() {
+        MainStaticObjectControl.clearAllNotificationsForUser();
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     private void updateVisitorChart() {

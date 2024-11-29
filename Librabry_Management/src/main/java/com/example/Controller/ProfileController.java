@@ -35,6 +35,9 @@ public class ProfileController {
     private Button logoutButton;
 
     @FXML
+    private Button clearNotificationsButton;
+
+    @FXML
     private ComboBox<String> optionsComboBox;
 
     @FXML
@@ -159,6 +162,12 @@ public class ProfileController {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
+    @FXML
+    public void ClearALlButtonHandler() {
+        MainStaticObjectControl.clearAllNotificationsForUser();
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+    }
+
     private User getCurrentUser() {
         return MainStaticObjectControl.getCurrentUser();
     }
@@ -172,8 +181,12 @@ public class ProfileController {
 
     @FXML
     private void handleSave() {
-
         saveUser(currentUser);
+
+        String notification = "You have changed your ptofile.";
+        MainStaticObjectControl.addNotificationToFile(notification);
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+        MainStaticObjectControl.updateNotificationIcon(notificationImageView);
 
         System.out.println("Information saved!");
     }

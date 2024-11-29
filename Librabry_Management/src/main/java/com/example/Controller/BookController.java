@@ -54,6 +54,9 @@ public class BookController {
     private Button logoutButton;
 
     @FXML
+    private Button clearNotificationsButton;
+
+    @FXML
     private TextField searchField;
 
     @FXML
@@ -137,6 +140,12 @@ public class BookController {
             stopRecording();
             processAudio();
         }
+    }
+
+    @FXML
+    public void ClearALlButtonHandler() {
+        MainStaticObjectControl.clearAllNotificationsForUser();
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     private void startRecording() {

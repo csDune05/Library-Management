@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -55,26 +54,27 @@
             </ImageView>
          </graphic>
       </Button>
-      <AnchorPane fx:id="notificationPane" layoutX="934.0" layoutY="84.0" prefHeight="438.0" prefWidth="276.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
+      <AnchorPane fx:id="notificationPane" layoutX="934.0" layoutY="88.0" prefHeight="611.0" prefWidth="276.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
          <children>
-            <Label alignment="BASELINE_CENTER" prefHeight="56.0" prefWidth="163.0" text="Notifications" textFill="#326ae4">
+            <Label alignment="BASELINE_CENTER" layoutX="14.0" layoutY="1.0" prefHeight="56.0" prefWidth="163.0" text="Notifications" textFill="#326ae4">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
             <ScrollPane fx:id="notificationScrollPane" layoutY="57.0" prefHeight="568.0" prefWidth="276.0" styleClass="notification-pane" stylesheets="@style.css">
                <content>
-                  <VBox fx:id="notificationList" prefHeight="567.0" prefWidth="275.0" styleClass="notification-pane" stylesheets="@style.css">
-                     <children>
-                        <TextArea prefHeight="66.0" prefWidth="278.0" />
-                     </children>
-                  </VBox>
+                  <VBox fx:id="notificationList" prefHeight="567.0" prefWidth="275.0" styleClass="notification-pane" stylesheets="@style.css" />
                </content>
             </ScrollPane>
-            <Line endX="159.0" layoutX="101.0" layoutY="47.0" opacity="0.6" startX="-91.0" />
+            <Line endX="150.0" layoutX="101.0" layoutY="47.0" opacity="0.6" startX="-78.0" />
+            <Button fx:id="clearNotificationsButton" layoutX="194.0" layoutY="16.0" mnemonicParsing="false" onAction="#ClearALlButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="clear all">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
-      <Pane prefHeight="709.0" prefWidth="86.0" style="-fx-background-color: #4682B4;">
+      <Pane prefHeight="713.0" prefWidth="86.0" style="-fx-background-color: #4682B4;">
          <children>
             <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="16.0" layoutY="28.0">
                <image>

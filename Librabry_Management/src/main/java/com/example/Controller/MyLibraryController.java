@@ -51,6 +51,9 @@ public class MyLibraryController {
     private Button logoutButton;
 
     @FXML
+    private Button clearNotificationsButton;
+
+    @FXML
     private ComboBox<String> optionsComboBox;
 
     @FXML
@@ -102,6 +105,12 @@ public class MyLibraryController {
     @FXML
     public void LogOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
+    }
+
+    @FXML
+    public void ClearALlButtonHandler() {
+        MainStaticObjectControl.clearAllNotificationsForUser();
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     // Phương thức tạo thẻ sách
@@ -227,6 +236,12 @@ public class MyLibraryController {
                     alert.setTitle("Return Book");
                     alert.setContentText("Book returned successfully!");
                     alert.showAndWait();
+
+                    String notification = "You returned the " + book.getTitle() + " book.";
+
+                    MainStaticObjectControl.addNotificationToFile(notification);
+                    MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+                    MainStaticObjectControl.updateNotificationIcon(notificationImageView);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");

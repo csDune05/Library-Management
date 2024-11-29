@@ -26,6 +26,9 @@ public class DonateUsController {
     private Button logoutButton;
 
     @FXML
+    private Button clearNotificationsButton;
+
+    @FXML
     private ComboBox<String> optionsComboBox;
 
     @FXML
@@ -84,5 +87,11 @@ public class DonateUsController {
     @FXML
     public void LogOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
+    }
+
+    @FXML
+    public void ClearALlButtonHandler() {
+        MainStaticObjectControl.clearAllNotificationsForUser();
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -278,6 +279,19 @@ public class MainStaticObjectControl {
             if (parts.length < 2) continue;
 
             VBox notificationItem = new VBox();
+            notificationItem.setStyle("-fx-padding: 10; -fx-background-color: transparent; -fx-border-color: #ccc; -fx-border-width: 1;");
+            double initialHeight = notificationItem.getHeight();
+            double initialWidth = notificationItem.getWidth();
+
+            // Đổi màu nền khi di chuột vào
+            notificationItem.setOnMouseEntered(event -> {
+                notificationItem.setStyle("-fx-padding: 10; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-width: 1;");
+            });
+
+            // Trả lại màu nền khi chuột rời đi
+            notificationItem.setOnMouseExited(event -> {
+                notificationItem.setStyle("-fx-padding: 10; -fx-background-color: transparent; -fx-border-color: #ccc; -fx-border-width: 1;");
+            });
 
             Text timestampText  = new Text(parts[0]);;
             timestampText.setStyle("-fx-font-size: 14; -fx-fill: gray; -fx-font-style: italic;");
@@ -288,9 +302,32 @@ public class MainStaticObjectControl {
             } else {
                 messageText.setStyle("-fx-font-size: 14; -fx-fill: gray;");
             }
-            notificationItem.getChildren().addAll(timestampText, messageText);
 
+            notificationItem.getChildren().addAll(timestampText, messageText);
             notificationList.getChildren().add(notificationItem);
+
+            notificationItem.setOnMouseClicked(event -> {
+                Boolean isExpanded = (Boolean) notificationItem.getUserData();
+                if (isExpanded == null) {
+                    isExpanded = false;
+                }
+
+                if (!isExpanded) {
+                    if (parts[1].startsWith("[NEW]")) {
+                        parts[1] = parts[1].replace("[NEW]", "[READ]").trim();
+                        messageText.setText(parts[1]);
+                        messageText.setStyle("-fx-font-size: 14; -fx-fill: gray;");
+                    }
+
+                    notificationItem.setPrefHeight(150);
+                    messageText.setWrappingWidth(notificationScrollPane.getWidth() - 40); // chiều rộng tự động xuống dòng
+                } else {
+                    notificationItem.setPrefHeight(initialHeight);
+                    notificationItem.setPrefWidth(initialWidth);
+                }
+
+                notificationItem.setUserData(!isExpanded);
+            });
         }
 
         notificationScrollPane.setContent(notificationList);
@@ -416,6 +453,32 @@ public class MainStaticObjectControl {
             e.printStackTrace();
         }
     }
+
+    public static void clearAllNotificationsForUser() {
+        String username = currentUser.getName();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("notifications.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
+
+            JSONObject root = jsonContent.length() > 0 ? new JSONObject(jsonContent.toString()) : new JSONObject();
+
+            if (root.has(username)) {
+                root.put(username, new JSONArray()); // Xóa toàn bộ thông báo của user
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("notifications.json"))) {
+                writer.write(root.toString(4));
+            }
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static MediaPlayer getMusicPlayer() {
         return TestApplication.getMediaPlayer();

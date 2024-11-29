@@ -95,6 +95,9 @@ public class BookDetailController implements Initializable {
     @FXML
     private Button qrCodeButton;
 
+    @FXML
+    private Button clearNotificationsButton;
+
     private BookController bookController;
 
     public void setBookController(BookController bookController) {
@@ -113,6 +116,12 @@ public class BookDetailController implements Initializable {
             stage.setScene(bookController.getBookScene());
             stage.show();
         }
+    }
+
+    @FXML
+    public void ClearALlButtonHandler() {
+        MainStaticObjectControl.clearAllNotificationsForUser();
+        MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     @FXML
