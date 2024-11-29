@@ -79,6 +79,9 @@ public class MainStaticObjectControl {
             Parent booksRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/MyLibrary.fxml"));
             Scene booksScene = new Scene(booksRoot);
 
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(booksScene);
+
             currentStage.setScene(booksScene);
             currentStage.show();
         } catch (Exception e) {
@@ -131,6 +134,10 @@ public class MainStaticObjectControl {
         try {
             Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Wellcome.fxml"));
             Scene homeScene = new Scene(homeRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(homeScene);
+
             currentStage.setScene(homeScene);
             currentStage.show();
         } catch (Exception e) {
@@ -142,6 +149,10 @@ public class MainStaticObjectControl {
         try {
             Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/AboutUs.fxml"));
             Scene homeScene = new Scene(homeRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(homeScene);
+
             currentStage.setScene(homeScene);
             currentStage.show();
         } catch (Exception e) {
@@ -152,7 +163,12 @@ public class MainStaticObjectControl {
     public static void openProfileStage(Stage currentStage) {
         try {
             Parent profileRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Profile.fxml"));
-            currentStage.setScene(new Scene(profileRoot));
+            Scene profileScene = new Scene(profileRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(profileScene);
+
+            currentStage.setScene(profileScene);
             currentStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,6 +179,10 @@ public class MainStaticObjectControl {
         try {
             Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Dashboard.fxml"));
             Scene homeScene = new Scene(homeRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(homeScene);
+
             currentStage.setScene(homeScene);
             currentStage.show();
         } catch (Exception e) {
@@ -174,6 +194,10 @@ public class MainStaticObjectControl {
         try {
             Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Book.fxml"));
             Scene homeScene = new Scene(homeRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(homeScene);
+
             currentStage.setScene(homeScene);
             currentStage.show();
         } catch (Exception e) {
@@ -185,6 +209,10 @@ public class MainStaticObjectControl {
         try {
             Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/DonateUs.fxml"));
             Scene homeScene = new Scene(homeRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(homeScene);
+
             currentStage.setScene(homeScene);
             currentStage.show();
         } catch (Exception e) {

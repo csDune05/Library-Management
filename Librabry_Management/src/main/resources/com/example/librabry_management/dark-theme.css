@@ -1,0 +1,46 @@
+.root {
+    -fx-background-color: #121212; /* Nền tối */
+    -fx-text-fill: #e6e6e6; /* Màu chữ sáng */
+}
+
+.button {
+    -fx-background-color: #444444; /* Nền nút tối */
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.label {
+    -fx-text-fill: #e6e6e6; /* Màu chữ sáng cho nhãn */
+}
+
+.text-field {
+    -fx-background-color: #333333; /* Nền cho TextField */
+    -fx-text-fill: white; /* Màu chữ cho TextField */
+    -fx-border-color: #666666; /* Viền màu xám cho TextField */
+}
+
+.table-view {
+    -fx-background-color: #2e2e2e; /* Nền tối cho TableView */
+    -fx-control-inner-background: #2e2e2e; /* Nền cho nội dung TableView */
+    -fx-control-inner-background-alt: #333333; /* Nền thay thế cho hàng xen kẽ */
+    -fx-table-cell-border-color: #444444; /* Viền giữa các ô */
+    -fx-text-fill: #e6e6e6; /* Màu chữ sáng */
+}
+
+.table-column-header {
+    -fx-background-color: #3a3a3a; /* Nền tối cho tiêu đề cột */
+    -fx-text-fill: #e6e6e6; /* Màu chữ sáng cho tiêu đề cột */
+}
+
+.bar-chart {
+    -fx-background-color: #2e2e2e; /* Nền tối cho BarChart */
+    -fx-legend-background: #3a3a3a; /* Nền tối cho phần chú thích */
+    -fx-text-fill: #e6e6e6; /* Màu chữ sáng cho nhãn */
+}
+
+.chart-plot-background {
+    -fx-background-color: #2e2e2e; /* Nền tối cho khu vực biểu đồ */
+}
+
+

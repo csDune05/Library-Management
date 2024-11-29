@@ -1,9 +1,12 @@
 package com.example.Controller;
 
 import com.example.librabry_management.MainStaticObjectControl;
+
+
+import com.example.librabry_management.ThemeManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.media.Media;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
@@ -16,6 +19,9 @@ public class SettingsController {
 
     @FXML
     private Button cancelButton;
+
+    @FXML
+    private ToggleButton darkModeToggle; // Thêm ToggleButton cho Dark Mode
 
     private MediaPlayer musicPlayer;
 
@@ -40,6 +46,11 @@ public class SettingsController {
                     musicPlayer.stop();
                 }
             });
+
+            // Liên kết nút ToggleButton với trạng thái Dark Mode
+            ThemeManager themeManager = ThemeManager.getInstance();
+            darkModeToggle.selectedProperty().bindBidirectional(themeManager.darkModeEnabledProperty());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
