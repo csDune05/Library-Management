@@ -206,6 +206,7 @@ public class BookDetailController implements Initializable {
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
+        if(!notificationPane.isVisible()) MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     private Book getCurrentBook() {

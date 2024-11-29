@@ -190,6 +190,7 @@ public class BookController {
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
+        if(!notificationPane.isVisible()) MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     @FXML

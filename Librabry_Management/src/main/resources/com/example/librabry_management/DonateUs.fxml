@@ -79,7 +79,7 @@
          <image>
             <Image url="@Images/donate3.jpg" />
          </image></ImageView>
-      <Button fx:id="notificationButton" layoutX="1142.0" layoutY="23.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+      <Button fx:id="notificationButton" layoutX="1142.0" layoutY="23.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
