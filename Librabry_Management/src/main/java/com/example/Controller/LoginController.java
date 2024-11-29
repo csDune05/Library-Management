@@ -351,6 +351,9 @@ public class LoginController {
                 Parent dashboardRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
                 Scene dashboardScene = new Scene(dashboardRoot);
 
+                // Áp dụng theme từ SceneHelper
+                SceneHelper.applyTheme(dashboardScene);
+
                 Stage currentStage = (Stage) signinButton.getScene().getWindow();
                 currentStage.close();
 
