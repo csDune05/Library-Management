@@ -137,7 +137,7 @@ public class ProfileController {
     }
 
     @FXML
-    public void homeButtonHandler() {
+    public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 

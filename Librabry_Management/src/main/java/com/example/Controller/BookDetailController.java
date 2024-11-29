@@ -2,7 +2,6 @@ package com.example.Controller;
 
 import com.example.librabry_management.*;
 import com.example.Feature.*;
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,7 +45,7 @@ public class BookDetailController implements Initializable {
     private TextFlow bookDescription;
 
     @FXML
-    private Button bookButton;
+    private Button booksButton;
 
     @FXML
     private Button homeButton;
@@ -100,7 +99,7 @@ public class BookDetailController implements Initializable {
     }
 
     private Stage getCurrentStage() {
-        return (Stage) bookButton.getScene().getWindow();
+        return (Stage) booksButton.getScene().getWindow();
     }
 
     @FXML
@@ -119,22 +118,22 @@ public class BookDetailController implements Initializable {
     }
 
     @FXML
-    public void bookButtonHandler() {
+    public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
     @FXML
-    public void homeButtonHandler() {
+    public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
     @FXML
-    public void profileButtonHandler() {
+    public void ProfileButtonHandler() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
     @FXML
-    public void donateUsButtonHandler() {
+    public void DonateUsButtonHandler() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 

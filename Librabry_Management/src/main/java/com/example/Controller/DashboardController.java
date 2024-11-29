@@ -133,7 +133,6 @@ public class DashboardController {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
-
     @FXML
     public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());

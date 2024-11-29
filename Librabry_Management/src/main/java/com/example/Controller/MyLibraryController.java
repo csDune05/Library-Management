@@ -8,11 +8,8 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,7 +19,6 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class MyLibraryController {
@@ -81,7 +77,7 @@ public class MyLibraryController {
     }
 
     @FXML
-    public void bookButtonHandler() {
+    public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
@@ -95,7 +91,8 @@ public class MyLibraryController {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
-    public void homeButtonHandler() {
+    @FXML
+    public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 

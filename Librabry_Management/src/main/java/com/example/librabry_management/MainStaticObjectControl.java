@@ -89,47 +89,6 @@ public class MainStaticObjectControl {
         }
     }
 
-    // cai dat combobox options.
-    public static void configureOptionsComboBox(ComboBox<String> optionsComboBox) {
-        optionsComboBox.getItems().addAll("My Profile", "Log out", "Settings");
-        activeComboBox = optionsComboBox;
-        optionsComboBox.setOnAction(event -> {
-            String selectedOption = optionsComboBox.getValue();
-            // Xử lý log out
-            if ("Log out".equals(selectedOption)) {
-                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmationAlert.setTitle("Confirmation");
-                confirmationAlert.setHeaderText("Are you sure you want to log out?");
-                confirmationAlert.setContentText("Press OK to log out, or Cancel to stay.");
-
-                confirmationAlert.showAndWait().ifPresent(response -> {
-                    if (response == ButtonType.OK) {
-                        optionsComboBox.getScene().getWindow().hide();
-                        openWelcomeStage();
-                    } else {
-                        optionsComboBox.setValue(null);
-                    }
-                });
-            }
-            // Xử lý cho "My Profile"
-            else if ("My Profile".equals(selectedOption)) {
-                // Điều hướng sang giao diện Profile
-                openProfileStage((Stage) optionsComboBox.getScene().getWindow());
-            }
-            // Xử lý cho "Settings"
-            else if ("Settings".equals(selectedOption)) {
-                openSettingsStage();
-            }
-        });
-    }
-
-    public static void resetComboBoxOptions() {
-        if (activeComboBox != null) {
-            activeComboBox.setValue(null);
-            activeComboBox.setPromptText("Options");
-        }
-    }
-
     public static void openWelcomeStage(Stage currentStage) {
         try {
             Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Wellcome.fxml"));
@@ -219,6 +178,41 @@ public class MainStaticObjectControl {
             e.printStackTrace();
         }
     }
+
+    // cai dat combobox options.
+    public static void configureOptionsComboBox(ComboBox<String> optionsComboBox) {
+        optionsComboBox.getItems().addAll("My Profile", "Log out", "Settings");
+        activeComboBox = optionsComboBox;
+        optionsComboBox.setOnAction(event -> {
+            String selectedOption = optionsComboBox.getValue();
+            // Xử lý log out
+            if ("Log out".equals(selectedOption)) {
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Confirmation");
+                confirmationAlert.setHeaderText("Are you sure you want to log out?");
+                confirmationAlert.setContentText("Press OK to log out, or Cancel to stay.");
+
+                confirmationAlert.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        optionsComboBox.getScene().getWindow().hide();
+                        openWelcomeStage();
+                    } else {
+                        optionsComboBox.setValue(null);
+                    }
+                });
+            }
+            // Xử lý cho "My Profile"
+            else if ("My Profile".equals(selectedOption)) {
+                // Điều hướng sang giao diện Profile
+                openProfileStage((Stage) optionsComboBox.getScene().getWindow());
+            }
+            // Xử lý cho "Settings"
+            else if ("Settings".equals(selectedOption)) {
+                openSettingsStage();
+            }
+        });
+    }
+
     public static void openSettingsStage() {
         try {
             if (settingsStage == null) {
@@ -237,6 +231,13 @@ public class MainStaticObjectControl {
             resetComboBoxOptions();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void resetComboBoxOptions() {
+        if (activeComboBox != null) {
+            activeComboBox.setValue(null);
+            activeComboBox.setPromptText("Options");
         }
     }
 

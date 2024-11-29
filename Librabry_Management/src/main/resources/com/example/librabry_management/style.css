@@ -205,15 +205,15 @@
 }
 
 .button-base4:hover {
-    -fx-background-color: #4644E5;
+    -fx-background-color: #2B5070;
 }
 
 .button-base4:pressed {
-    -fx-background-color: #4644E5;
+    -fx-background-color: #2B5070;
 }
 
 .button-base5 {
-    -fx-background-color: #4644E5;
+    -fx-background-color: #2B5070;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 13px;
