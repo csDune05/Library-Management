@@ -143,6 +143,10 @@ public class DashboardController {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
+    public void logOutHandler() {
+        
+    }
+
     private void updateVisitorChart() {
         visitorChart.getData().clear();
 

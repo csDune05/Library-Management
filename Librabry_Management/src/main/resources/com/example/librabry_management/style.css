@@ -196,3 +196,25 @@
 .notification-pane {
     -fx-background-color: #ADD8E6;
 }
+
+.button-base4 {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.button-base4:hover {
+    -fx-background-color: #4644E5;
+}
+
+.button-base4:pressed {
+    -fx-background-color: #4644E5;
+}
+
+.button-base5 {
+    -fx-background-color: #4644E5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}

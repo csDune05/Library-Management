@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -20,44 +27,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.DashboardController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.DashboardController">
    <children>
-      <VBox alignment="BASELINE_CENTER" prefHeight="700.0" prefWidth="149.0" spacing="20.0">
-         <children>
-            <ImageView fitHeight="151.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/logo.png" />
-               </image>
-            </ImageView>
-            <Button mnemonicParsing="false" prefHeight="10.0" prefWidth="149.0" styleClass="button-base" stylesheets="@style.css" text="Home">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="booksButton" mnemonicParsing="false" onAction="#BooksButtonHandler" prefHeight="61.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Books">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="myLibraryButton" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="63.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="My Library">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="profileButton" mnemonicParsing="false" onAction="#ProfileButtonHandler" prefHeight="64.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Profile">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="donateUsButton" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="208.0" prefWidth="149.0" styleClass="HomeButton" stylesheets="@style.css" text="Donate us">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
-      <Line endX="-101.0" endY="673.0" layoutX="250.0" layoutY="27.0" opacity="0.2" startX="-101.0" startY="-27.0" />
-      <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-100.0" />
+      <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-165.0" />
       <Line endX="53.0" endY="-70.5" layoutX="871.0" layoutY="148.0" opacity="0.2" startX="53.0" startY="546.5" />
       <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="935.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -65,37 +37,28 @@
          </image>
       </ImageView>
       <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1005.0" layoutY="19.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
-      <TableView fx:id="loanRecordTableView" layoutX="169.0" layoutY="439.0" prefHeight="261.0" prefWidth="736.0">
+      <TableView fx:id="loanRecordTableView" layoutX="110.0" layoutY="435.0" prefHeight="261.0" prefWidth="793.0">
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="101.68525695800781" text="ID" />
             <TableColumn fx:id="memberColumn" prefWidth="145.81475830078125" text="Member" />
             <TableColumn fx:id="titleColumn" prefWidth="116.47708129882812" text="Tittle" />
             <TableColumn fx:id="authorColumn" prefWidth="116.24081420898438" text="Author" />
-            <TableColumn fx:id="overdueColumn" prefWidth="116.5048828125" text="Overdue" />
-            <TableColumn fx:id="returnDateColumn" prefWidth="147.0" text="Return Date" />
+            <TableColumn fx:id="overdueColumn" prefWidth="136.0" text="Overdue" />
+            <TableColumn fx:id="returnDateColumn" prefWidth="174.0" text="Return Date" />
          </columns>
       </TableView>
       <HBox alignment="CENTER_LEFT" layoutX="163.0" layoutY="392.0" prefHeight="43.0" prefWidth="747.0" spacing="10.0">
          <children>
-            <Label prefHeight="34.0" prefWidth="233.0" text="Overdue book Loans">
+            <Label prefHeight="35.0" prefWidth="228.0" text="Overdue book Loans">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" text="see all" />
-            <TextField prefHeight="25.0" prefWidth="178.0" promptText="Search " />
+            <Button mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="See all" />
+            <TextField prefHeight="25.0" prefWidth="200.0" promptText="Search " />
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="62.0" prefWidth="747.0" spacing="30.0">
-         <children>
-            <Label fx:id="titleLabel" alignment="BASELINE_CENTER" prefHeight="89.0" prefWidth="196.0" styleClass="titleLabel" text="Dashboard">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <BarChart fx:id="visitorChart" layoutX="194.0" layoutY="158.0" legendSide="TOP" legendVisible="false" prefHeight="227.0" prefWidth="658.0">
+      <BarChart fx:id="visitorChart" layoutX="131.0" layoutY="158.0" legendSide="TOP" legendVisible="false" prefHeight="227.0" prefWidth="706.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" fx:id="xAxis" />
          </xAxis>
@@ -181,19 +144,19 @@
             </HBox>
          </children>
       </HBox>
-      <Label layoutX="471.0" layoutY="362.0" prefHeight="8.0" prefWidth="105.0" stylesheets="@style.css" text="Over View">
+      <Label layoutX="432.0" layoutY="362.0" prefHeight="8.0" prefWidth="105.0" stylesheets="@style.css" text="Over View">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="403.0" layoutY="142.0" stylesheets="@style.css" text="Borrowed" />
-      <Label layoutX="496.0" layoutY="142.0" text="Overdue" />
-      <Circle fill="#ff6121" layoutX="381.0" layoutY="150.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#ffa11f" layoutX="478.0" layoutY="150.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="#21cd32" layoutX="564.0" layoutY="149.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="267.0" layoutY="141.0" stylesheets="@style.css" text="Borrowed" />
+      <Label layoutX="399.0" layoutY="141.0" text="Overdue" />
+      <Circle fill="#ff6121" layoutX="246.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#ffa11f" layoutX="382.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#21cd32" layoutX="516.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="#219cff" layoutX="670.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="584.0" layoutY="142.0" text="Visit times" />
-      <Label layoutX="685.0" layoutY="143.0" text="Accounts" />
+      <Label layoutX="537.0" layoutY="141.0" text="Visit times" />
+      <Label layoutX="685.0" layoutY="141.0" text="Accounts" />
       <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -221,5 +184,106 @@
             <Line endX="159.0" layoutX="101.0" layoutY="47.0" opacity="0.6" startX="-91.0" />
          </children>
       </AnchorPane>
+      <Pane prefHeight="701.0" prefWidth="86.0" style="-fx-background-color: #6C6AFF;">
+         <children>
+            <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="16.0" layoutY="28.0">
+               <image>
+                  <Image url="@Images/logoNew.png" />
+               </image>
+            </ImageView>
+            <Button layoutY="111.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="86.0" styleClass="button-base5" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="65.0" prefWidth="304.0" spacing="3.0">
+                     <children>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/dashboard.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="90.0" text="Dashboard" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button fx:id="booksButton" layoutY="197.0" mnemonicParsing="false" onAction="#BooksButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/book1.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="77.0" text="Books" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button fx:id="myLibraryButton" layoutX="1.0" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" spacing="3.0" stylesheets="@style.css">
+                     <children>
+                        <ImageView fitHeight="33.0" fitWidth="33.0">
+                           <image>
+                              <Image url="@Images/bookUser.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="70.0" text="My Books" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button fx:id="profileButton" layoutY="369.0" mnemonicParsing="false" onAction="#ProfileButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
+                     <children>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/profile.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="83.0" text="My Profile" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button fx:id="donateUsButton" layoutY="455.0" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/donate.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="97.0" text="Donate" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+            <Button layoutY="541.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/logout.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="137.0" text="Log out" textAlignment="CENTER" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+      <Label fx:id="titleLabel" alignment="BASELINE_CENTER" layoutX="103.0" prefHeight="70.0" prefWidth="196.0" styleClass="titleLabel" text="Dashboard">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
