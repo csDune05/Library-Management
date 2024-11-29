@@ -99,6 +99,10 @@ public class DashboardController {
     @FXML
     private TextArea notificationText;
 
+    private Stage getCurrentStage() {
+        return (Stage) booksButton.getScene().getWindow();
+    }
+
     @FXML
     public void initialize() {
 
@@ -120,62 +124,22 @@ public class DashboardController {
 
     @FXML
     public void ProfileButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
     @FXML
     public void myLibraryButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
 
     @FXML
     public void BooksButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Book.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) booksButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
     public void DonateUsButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/DonateUs.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) booksButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
     private void updateVisitorChart() {

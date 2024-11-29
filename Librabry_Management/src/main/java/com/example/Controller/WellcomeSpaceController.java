@@ -40,18 +40,12 @@ public class WellcomeSpaceController {
     private MediaPlayer mediaPlayer;
     private boolean isMusicPlaying = true;
 
+    public Stage getCurrentStage() {
+        return (Stage) HomeButton.getScene().getWindow();
+    }
+
     public void AboutUsButtonHandle() {
-        try {
-            Parent AboutUsRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/AboutUs.fxml"));
-            Scene aboutUsScene = new Scene(AboutUsRoot);
-
-            Stage stage = (Stage) HomeButton.getScene().getWindow();
-
-            stage.setScene(aboutUsScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openAboutUsStage(getCurrentStage());
     }
 
     public void openLoginStage() {

@@ -1,5 +1,6 @@
 package com.example.Controller;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
 
+import com.example.Feature.VoskManager;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -31,6 +33,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
+
+import javax.sound.sampled.*;
 
 
 public class BookController {
@@ -79,60 +83,108 @@ public class BookController {
     @FXML
     private TextArea notificationText;
 
+    @FXML
+    private Button voiceButton;
+
     private Scene bookScene;
+
+    private VoskManager voskManager;
+
+    private boolean isRecording = false;
+    private TargetDataLine microphone;
+    private Thread recordingThread;
+
+    private Stage getCurrentStage() {
+        return (Stage) homeButton.getScene().getWindow();
+    }
 
     @FXML
     public void myLibraryButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
     @FXML
     public void homeButtonHandler() {
-        try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
-            Scene homeScene = new Scene(homeRoot);
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-            stage.setScene(homeScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
     @FXML
     public void ProfileButtonHandler() {
+        MainStaticObjectControl.openProfileStage(getCurrentStage());
+    }
+
+    @FXML
+    public void DonateUsButtonHandler() {
+        MainStaticObjectControl.openDonateStage(getCurrentStage());
+    }
+
+    @FXML
+    private void handleVoiceButton() {
+        if (!isRecording) {
+            startRecording();
+        } else {
+            stopRecording();
+            processAudio();
+        }
+    }
+
+    private void startRecording() {
+        isRecording = true;
+        voiceButton.setText("Dừng");
+
         try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-            stage.setScene(booksScene);
-            stage.show();
+            AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
+            microphone = AudioSystem.getTargetDataLine(format);
+            microphone.open(format);
+            microphone.start();
+
+            recordingThread = new Thread(() -> {
+                try {
+                    File audioFile = new File(getClass().getResource("/com/example/librabry_management/Musics/WAVVoskSample.wav").getPath());
+                    AudioSystem.write(new AudioInputStream(microphone), AudioFileFormat.Type.WAVE, audioFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            recordingThread.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    public void DonateUsButtonHandler() {
+    private void stopRecording() {
+        isRecording = false;
+        voiceButton.setText("Ghi");
+
         try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/DonateUs.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-            stage.setScene(booksScene);
-            stage.show();
+            if (microphone != null && microphone.isOpen()) {
+                microphone.stop();
+                microphone.close();
+            }
+
+            if (recordingThread != null && recordingThread.isAlive()) {
+                recordingThread.interrupt();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void processAudio() {
+        new Thread(() -> {
+            try {
+                // Lấy kết quả từ Vosk và hiển thị trực tiếp
+                String result = voskManager.transcribeAudio(
+                        getClass().getResource("/com/example/librabry_management/Musics/WAVVoskSample.wav").getPath()
+                );
+
+                // Hiển thị kết quả trong searchField trên thread JavaFX
+                Platform.runLater(() -> searchField.setText(result.trim()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @FXML
@@ -142,6 +194,12 @@ public class BookController {
 
     @FXML
     public void initialize() {
+        try {
+            voskManager = VoskManager.getInstance(null); // Lấy instance đã khởi tạo từ Singleton
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Platform.runLater(() -> {
             bookScene = homeButton.getScene();
         });
@@ -220,7 +278,7 @@ public class BookController {
 
         // ListView để hiển thị danh sách gợi ý
         ListView<String> suggestionsList = new ListView<>();
-        suggestionsList.setPrefWidth(716); // Đảm bảo kích thước Popup phù hợp
+        suggestionsList.setPrefWidth(659); // Đảm bảo kích thước Popup phù hợp
         suggestionsList.setOnMouseClicked(event -> {
             String selectedSuggestion = suggestionsList.getSelectionModel().getSelectedItem();
             if (selectedSuggestion != null) {
@@ -294,9 +352,6 @@ public class BookController {
         return suggestions;
     }
 
-    private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    private Runnable lastSearchRunnable;
-
     private List<String> getSuggestionsFromAPI(String query) {
         final List<String> suggestions = new ArrayList<>();
         String jsonResponse = GoogleBooksApi.searchBooksForSuggestions(query);  // Lấy phản hồi từ API
@@ -347,6 +402,14 @@ public class BookController {
         knowMoreButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
         knowMoreButton.setPrefWidth(120);
         knowMoreButton.setPrefHeight(30);
+        knowMoreButton.setOnMouseEntered(event -> {
+            knowMoreButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-border-radius: 5px;");
+        });
+
+        knowMoreButton.setOnMouseExited(event -> {
+            knowMoreButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-border-radius: 5px;");
+        });
+
         knowMoreButton.setOnAction(e -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));

@@ -16,19 +16,11 @@ public class AboutUsSpaceController {
     @FXML
     private Button HomeButton;
 
+    private Stage getCurrenStage() {
+        return (Stage) HomeButton.getScene().getWindow();
+    }
+
     public void HomeButtonHandle() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/Wellcome.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) HomeButton.getScene().getWindow();
-
-            Scene welcomeScene = new Scene(root);
-
-            stage.setScene(welcomeScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openWelcomeStage(getCurrenStage());
     }
 }

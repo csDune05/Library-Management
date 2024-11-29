@@ -1,5 +1,6 @@
 package com.example.librabry_management;
 
+import com.example.Feature.VoskManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,12 @@ public class TestApplication extends Application {
             DatabaseHelper.createTable();
             DatabaseHelper.createUsersTable();
             DatabaseHelper.createUserBooksTable();
+
+            String path = getClass().getResource("/com/example/librabry_management/DonateUs.fxml").getPath();
+            path = path.substring(1, path.length() - 60);
+            path += "src/main/resources/vosk-models/vosk-model-small-en-us-0.15";
+
+            VoskManager.getInstance(path);
 
             // Tải giao diện Welcome
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Wellcome.fxml"));
@@ -58,11 +65,13 @@ public class TestApplication extends Application {
     }
 
     @Override
-    public void stop() {
+    public void stop() throws Exception {
         // Dừng nhạc khi ứng dụng thoát
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
+        VoskManager.getInstance(null).close();
+        super.stop();
     }
 
     public static void main(String[] args) {

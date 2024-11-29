@@ -72,6 +72,19 @@ public class MainStaticObjectControl {
         welcomeStage.show();
     }
 
+    @FXML
+    public static void openLibraryStage(Stage currentStage) {
+        try {
+            Parent booksRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/MyLibrary.fxml"));
+            Scene booksScene = new Scene(booksRoot);
+
+            currentStage.setScene(booksScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // cai dat combobox options.
     public static void configureOptionsComboBox(ComboBox<String> optionsComboBox) {
         optionsComboBox.getItems().addAll("My Profile", "Log out", "Settings");
@@ -113,6 +126,28 @@ public class MainStaticObjectControl {
         }
     }
 
+    public static void openWelcomeStage(Stage currentStage) {
+        try {
+            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Wellcome.fxml"));
+            Scene homeScene = new Scene(homeRoot);
+            currentStage.setScene(homeScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openAboutUsStage(Stage currentStage) {
+        try {
+            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/AboutUs.fxml"));
+            Scene homeScene = new Scene(homeRoot);
+            currentStage.setScene(homeScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void openProfileStage(Stage currentStage) {
         try {
             Parent profileRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Profile.fxml"));
@@ -123,6 +158,38 @@ public class MainStaticObjectControl {
         }
     }
 
+    public static void openDashboardStage(Stage currentStage) {
+        try {
+            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Dashboard.fxml"));
+            Scene homeScene = new Scene(homeRoot);
+            currentStage.setScene(homeScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openBookStage(Stage currentStage) {
+        try {
+            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Book.fxml"));
+            Scene homeScene = new Scene(homeRoot);
+            currentStage.setScene(homeScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openDonateStage(Stage currentStage) {
+        try {
+            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/DonateUs.fxml"));
+            Scene homeScene = new Scene(homeRoot);
+            currentStage.setScene(homeScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void openSettingsStage() {
         try {
             if (settingsStage == null) {

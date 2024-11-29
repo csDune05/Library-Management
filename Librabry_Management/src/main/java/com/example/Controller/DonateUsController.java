@@ -56,6 +56,10 @@ public class DonateUsController {
     @FXML
     private TextArea notificationText;
 
+    private Stage getCurrentStage() {
+        return (Stage) homeButton.getScene().getWindow();
+    }
+
     public void initialize() {
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
         MainStaticObjectControl.updateNotificationIcon(notificationImageView);
@@ -70,59 +74,19 @@ public class DonateUsController {
 
     @FXML
     public void myLibraryButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/MyLibrary.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
     @FXML
     public void ProfileButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
     public void HomeButtonHandle() {
-        try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
-            Scene homeScene = new Scene(homeRoot);
-
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-
-            stage.setScene(homeScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
     public void BooksButtonHandle() {
-        try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Book.fxml"));
-            Scene homeScene = new Scene(homeRoot);
-
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-
-            stage.setScene(homeScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 }

@@ -76,80 +76,28 @@ public class MyLibraryController {
 
     private User currentUser;
 
+    private Stage getCurrentStage() {
+        return (Stage) homeButton.getScene().getWindow();
+    }
+
     @FXML
     public void bookButtonHandler() {
-        try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Book.fxml"));
-            Scene homeScene = new Scene(homeRoot);
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-            stage.setScene(homeScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
     @FXML
     public void ProfileButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Profile.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) profileButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
     @FXML
     public void DonateUsButtonHandler() {
-        try {
-            Parent booksRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/DonateUs.fxml"));
-            Scene booksScene = new Scene(booksRoot);
-
-            Stage stage = (Stage) booksButton.getScene().getWindow();
-
-            stage.setScene(booksScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
     public void homeButtonHandler() {
-        try {
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
-            Scene homeScene = new Scene(homeRoot);
-
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-
-            stage.setScene(homeScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
-
-    private void displayBooks(List<Book> books) {
-        gridPane.getChildren().clear(); // Xóa các sách cũ khỏi giao diện
-
-        int row = 0, col = 0; // Điều khiển vị trí trong GridPane
-        int booksPerRow = 5; // Số sách trên mỗi hàng
-
-        for (Book book : books) {
-            VBox bookCard = createBookCard(book); // Tạo thẻ sách
-            gridPane.add(bookCard, col, row); // Thêm thẻ sách vào GridPane
-            col++;
-            if (col >= booksPerRow) {
-                col = 0;
-                row++;
-            }
-        }
-    }
-
 
     // Phương thức tạo thẻ sách
     private VBox createBookCard(Book book) {
@@ -165,7 +113,19 @@ public class MyLibraryController {
         title.setPrefHeight(40);
 
         Button returnButton = new Button("Return Book");
-        returnButton.setStyle("-fx-background-color: #ff6347; -fx-text-fill: white;"); // Style cho nút
+        returnButton.setStyle(
+                "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
+        );
+        returnButton.setOnMouseEntered(event -> {
+            returnButton.setStyle(
+                    "-fx-background-color: #ff7f7f; -fx-text-fill: white; -fx-border-radius: 5px;"
+            ); // Màu khi hover
+        });
+        returnButton.setOnMouseExited(event -> {
+            returnButton.setStyle(
+                    "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
+            ); // Màu mặc định
+        });
         returnButton.setPrefWidth(120);
         returnButton.setOnAction(event -> handleReturnBook(book)); // Gắn sự kiện cho nút
 
@@ -204,13 +164,31 @@ public class MyLibraryController {
         }
     }
 
+    private void updateGridPane() {
+        gridPane.getChildren().clear(); // Xóa toàn bộ nội dung cũ
+
+        int row = 0, col = 0; // Vị trí bắt đầu trong GridPane
+        int booksPerRow = 5; // Số sách mỗi hàng
+
+        for (Book book : borrowedBooks) {
+            VBox bookCard = createBookCard(book); // Tạo thẻ sách mới
+            gridPane.add(bookCard, col, row); // Thêm vào GridPane
+            col++;
+            if (col >= booksPerRow) {
+                col = 0;
+                row++;
+            }
+        }
+    }
+
+
     private void loadUserBooks() {
         if (currentUser == null) {
             System.out.println("No user logged in.");
             return;
         }
 
-        gridPane.getChildren().clear(); // Xóa giao diện cũ
+        borrowedBooks.clear(); // Xóa danh sách cũ
 
         CompletableFuture.supplyAsync(() -> {
             // Tải danh sách sách từ cơ sở dữ liệu trên luồng nền
@@ -221,29 +199,15 @@ public class MyLibraryController {
                 return;
             }
 
-            // Hiển thị sách trên GridPane
-            int booksPerRow = 5; // Số sách trên mỗi hàng
-            int[] rowCol = {0, 0}; // rowCol[0] = row, rowCol[1] = col
-
-            userBooks.forEach(book -> {
-                VBox bookCard = createBookCard(book); // Tạo thẻ sách
-
-                // Cập nhật giao diện trên luồng JavaFX
-                Platform.runLater(() -> {
-                    gridPane.add(bookCard, rowCol[1], rowCol[0]); // Thêm thẻ sách vào GridPane
-                    rowCol[1]++;
-                    if (rowCol[1] >= booksPerRow) {
-                        rowCol[1] = 0;
-                        rowCol[0]++;
-                    }
-                });
-            });
+            borrowedBooks.addAll(userBooks); // Thêm sách vào danh sách
+            Platform.runLater(this::updateGridPane); // Cập nhật giao diện
         }).exceptionally(ex -> {
             // Xử lý ngoại lệ
             ex.printStackTrace();
             return null;
         });
     }
+
 
     private void handleReturnBook(Book book) {
         if (currentUser != null) {
@@ -252,15 +216,9 @@ public class MyLibraryController {
             if (bookId != -1) {
                 boolean success = DatabaseHelper.returnBook(userId, bookId);
                 if (success) {
-                    borrowedBooks.remove(book);
-                    gridPane.getChildren().removeIf(node -> {
-                        if (node instanceof VBox) {
-                            VBox card = (VBox) node;
-                            Label titleLabel = (Label) card.getChildren().get(1);
-                            return titleLabel.getText().equals(book.getTitle());
-                        }
-                        return false;
-                    });
+                    borrowedBooks.remove(book); // Xóa sách khỏi danh sách
+                    updateGridPane(); // Cập nhật lại GridPane
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Return Book");
                     alert.setContentText("Book returned successfully!");
