@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainStaticObjectControl {
     private static Stage welcomeStage;
     private static Stage loginStage;
@@ -30,9 +34,6 @@ public class MainStaticObjectControl {
 
     private static MediaPlayer musicPlayer;
     private static ComboBox<String> activeComboBox;
-    private static AnchorPane notificationPane;
-    private static ScrollPane notificationScrollPane;
-    private static VBox notificationList;
 
     private static int numOfNotifications = 0;
 
@@ -154,67 +155,117 @@ public class MainStaticObjectControl {
             notification.setVisible(false);
             notificationButton.getStyleClass().remove("active");
             numOfNotifications = 0;
+            markAllNotificationsAsRead();
+            updateNotificationIcon((ImageView) notificationButton.getGraphic());
         } else {
             notification.setVisible(true);
             notificationButton.getStyleClass().add("active");
+            markAllNotificationsAsRead();
         }
     }
 
     public static void updateNotifications(ScrollPane notificationScrollPane, VBox notificationList) {
-        List<String> notifications = readNotificationsFromFile();
+        List<String> notifications = readNotificationsForCurrentUser();
 
         notificationList.getChildren().clear();
 
-        // Thêm thông báo vào VBox
-        for (int i = 0; i < notifications.size(); i++) {
-            String line = notifications.get(i);
+        notificationList.setSpacing(20);
+        Collections.reverse(notifications);
 
-            Text notificationText = new Text(line);
+        for (String notification : notifications) {
+            String[] parts = notification.split("\n", 2);
+            if (parts.length < 2) continue;
 
-            // Thiết lập định dạng cho dòng nội dung in đậm
-            if (line.startsWith("**")) {
-                notificationText.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-fill: black;");
+            VBox notificationItem = new VBox();
+
+            Text timestampText  = new Text(parts[0]);;
+            timestampText.setStyle("-fx-font-size: 14; -fx-fill: gray; -fx-font-style: italic;");
+
+            Text messageText = new Text(parts[1]);
+            if (parts[1].startsWith("[NEW]")) {
+                messageText.setStyle("-fx-font-size: 14; -fx-fill: black;");
+            } else {
+                messageText.setStyle("-fx-font-size: 14; -fx-fill: gray;");
             }
+            notificationItem.getChildren().addAll(timestampText, messageText);
 
-            // Thiết lập định dạng cho dòng thời gian in nghiêng
-            if (line.startsWith("_") && !line.startsWith("**")) {
-                notificationText.setStyle("-fx-font-size: 14; -fx-font-style: italic; -fx-fill: gray;");
-            }
-
-            notificationList.getChildren().add(notificationText);
+            notificationList.getChildren().add(notificationItem);
         }
 
         notificationScrollPane.setContent(notificationList);
     }
 
-    // Đọc thông báo từ file notificationsContent.txt sự kiện gần nhất in ra trước.
-    private static List<String> readNotificationsFromFile() {
-        List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("notificationsContent.txt"))) {
+    // Đọc thông báo từ file notifications.json cho user cụ thể
+    private static List<String> readNotificationsForCurrentUser() {
+        List<String> notifications = new ArrayList<>();
+        String username = currentUser.getName();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("notifications.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
-                lines.add(line);
+                jsonContent.append(line);
             }
-        } catch (IOException e) {
+
+            JSONObject root = new JSONObject(jsonContent.toString());
+            JSONArray userNotifications = root.optJSONArray(username);
+
+            if (userNotifications != null) {
+                for (int i = 0; i < userNotifications.length(); i++) {
+                    JSONObject notification = userNotifications.getJSONObject(i);
+                    String timestamp = notification.getString("timestamp");
+                    String message = notification.getString("message");
+                    boolean isRead = notification.getBoolean("read");
+
+                    String formattedMessage = timestamp + "\n" +
+                            (isRead ? "[READ] " : "[NEW] ") + message;
+                    notifications.add(formattedMessage);
+                }
+            }
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        Collections.reverse(lines);
-        return lines;
+        return notifications;
     }
 
     public static void addNotificationToFile(String notification) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("notificationsContent.txt", true))) {
-            writer.write("**" + notification + "**");
-            writer.newLine();
+        String username = currentUser.getName();
 
-            String timestamp = getCurrentTimestamp();
-            writer.write("_" + timestamp + "_");
-            writer.newLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader("notifications.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
 
-            writer.newLine();
+            // Tạo mới một đối tượng JSONObject nếu chưa có nội dung
+            JSONObject root = jsonContent.length() > 0 ? new JSONObject(jsonContent.toString()) : new JSONObject();
 
-            numOfNotifications++;
-        } catch (IOException e) {
+            // Tạo mục thông báo cho user nếu chưa tồn tại
+            if (!root.has(username)) {
+                JSONArray newUserNotifications = new JSONArray();
+                root.put(username, newUserNotifications);
+            }
+
+            // Lấy mục thông báo của user
+            JSONArray userNotifications = root.optJSONArray(username);
+
+            // Tạo thông báo mới
+            JSONObject newNotification = new JSONObject();
+            newNotification.put("message", notification);
+            newNotification.put("timestamp", getCurrentTimestamp());
+            newNotification.put("read", false);
+
+            // thông báo đẩy (mới nhất lên trước)
+            userNotifications.put(newNotification);
+            root.put(username, userNotifications);
+
+            // Ghi vào file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("notifications.json"))) {
+                writer.write(root.toString(4));
+                numOfNotifications++;
+            }
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }
@@ -230,6 +281,38 @@ public class MainStaticObjectControl {
             notificationImageView.setImage(new Image(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Images/bell1.png").toExternalForm()));
         } else {
             notificationImageView.setImage(new Image(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Images/bell2.png").toExternalForm()));
+        }
+    }
+
+    private static void markAllNotificationsAsRead() {
+        String username = currentUser.getName();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("notifications.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
+
+            JSONObject root = new JSONObject(jsonContent.toString());
+            JSONArray userNotifications = root.optJSONArray(username);
+
+            if (userNotifications != null) {
+                for (int i = 0; i < userNotifications.length(); i++) {
+                    JSONObject notification = userNotifications.getJSONObject(i);
+                    boolean isRead = notification.getBoolean("read");
+                    if (!isRead) {
+                        // Đánh dấu là đã đọc
+                        notification.put("read", true);
+                        notification.put("message", notification.getString("message").replace("[NEW]", "[READ]"));
+                    }
+                }
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("notifications.json"))) {
+                    writer.write(root.toString(4));
+                }
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
     }
 
