@@ -86,6 +86,9 @@ public class BookController {
     @FXML
     private Button voiceButton;
 
+    @FXML
+    private ImageView voiceImageView;
+
     private Scene bookScene;
 
     private VoskManager voskManager;
@@ -130,7 +133,7 @@ public class BookController {
 
     private void startRecording() {
         isRecording = true;
-        voiceButton.setText("Dừng");
+        voiceImageView.setImage(new Image(getClass().getResource("/com/example/librabry_management/Images/micOff.png").toExternalForm()));
 
         try {
             AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
@@ -155,7 +158,7 @@ public class BookController {
 
     private void stopRecording() {
         isRecording = false;
-        voiceButton.setText("Ghi");
+        voiceImageView.setImage(new Image(getClass().getResource("/com/example/librabry_management/Images/micOn.png").toExternalForm()));
 
         try {
             if (microphone != null && microphone.isOpen()) {
