@@ -9,25 +9,25 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.AdminDashboardController">
-    <children>
-
-        <!-- StackPane để quản lý nội dung trung tâm -->
-        <StackPane fx:id="contentStackPane" layoutX="75.0" prefHeight="700.0" prefWidth="1125.0">
    <children>
-               <!-- User Manager Pane -->
-               <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="1107.0" style="-fx-background-color: #F5F5F5;">
-                   <children>
-                       <TableView fx:id="userTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0">
-                           <columns>
-                               <TableColumn fx:id="userNameColumn" prefWidth="134.0" text="Name" />
-                               <TableColumn fx:id="userEmailColumn" prefWidth="220.0" text="Email" />
+
+      <!-- StackPane để quản lý nội dung trung tâm -->
+      <StackPane fx:id="contentStackPane" layoutX="75.0" prefHeight="700.0" prefWidth="1125.0">
+         <children>
+            <!-- User Manager Pane -->
+            <AnchorPane fx:id="userManagerPane" prefHeight="700.0" prefWidth="1107.0" style="-fx-background-color: #F5F5F5;">
+               <children>
+                  <TableView fx:id="userTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0" stylesheets="@style.css">
+                     <columns>
+                        <TableColumn fx:id="userNameColumn" prefWidth="134.0" text="Name" />
+                        <TableColumn fx:id="userEmailColumn" prefWidth="220.0" text="Email" />
                         <TableColumn fx:id="userBirthdateColumn" prefWidth="186.0" text="Birthdate" />
                         <TableColumn fx:id="userLocationColumn" prefWidth="167.0" text="Location" />
                         <TableColumn fx:id="userPhoneColumn" prefWidth="151.0" text="Phone" />
                         <TableColumn fx:id="userPasswordColumn" prefWidth="143.0" text="Password" />
                         <TableColumn fx:id="actionColumn" prefWidth="85.0" text="Action" />
-                           </columns>
-                       </TableView>
+                     </columns>
+                  </TableView>
                   <Label layoutX="26.0" layoutY="28.0" text="User Manager">
                      <font>
                         <Font name="System Bold" size="30.0" />
@@ -43,16 +43,16 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                   </children>
-               </AnchorPane>
-   
-                     <!-- Book Manager Pane -->
-               <AnchorPane fx:id="bookManagerPane" prefHeight="700.0" prefWidth="1125.0" style="-fx-background-color: #F5F5F5;" visible="false">
-                   <children>
-                       <TableView fx:id="bookTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0">
-                           <columns>
-                               <TableColumn fx:id="titleColumn" prefWidth="194.0" text="Title" />
-                               <TableColumn fx:id="authorColumn" prefWidth="134.0" text="Author" />
+               </children>
+            </AnchorPane>
+
+            <!-- Book Manager Pane -->
+            <AnchorPane fx:id="bookManagerPane" prefHeight="700.0" prefWidth="1125.0" style="-fx-background-color: #F5F5F5;" visible="false">
+               <children>
+                  <TableView fx:id="bookTableView" layoutX="19.0" layoutY="102.0" prefHeight="584.0" prefWidth="1087.0" stylesheets="@style.css">
+                     <columns>
+                        <TableColumn fx:id="titleColumn" prefWidth="194.0" text="Title" />
+                        <TableColumn fx:id="authorColumn" prefWidth="134.0" text="Author" />
                         <TableColumn fx:id="averageRatingColumn" prefWidth="83.0" text="Rating" />
                         <TableColumn fx:id="publisherColumn" prefWidth="131.0" text="Publisher" />
                         <TableColumn fx:id="publishDateColumn" prefWidth="131.0" text="Publish Date" />
@@ -62,8 +62,8 @@
                               <TableColumn fx:id="eraseColumn" prefWidth="49.0" text="Erase" />
                               <TableColumn fx:id="editColumn" prefWidth="52.0" text="Edit" />
                            </columns></TableColumn>
-                           </columns>
-                       </TableView>
+                     </columns>
+                  </TableView>
                   <Label layoutX="26.0" layoutY="28.0" text="Book Manager">
                      <font>
                         <Font name="System Bold" size="30.0" />
@@ -80,10 +80,10 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                   </children>
-               </AnchorPane>
-   </children>
-        </StackPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
       <Pane prefHeight="700.0" prefWidth="75.0" style="-fx-background-color: #e8e4f4;">
          <children>
             <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="10.0" layoutY="21.0">
@@ -159,10 +159,10 @@
          </children>
       </AnchorPane>
       <TabPane fx:id="addBookStackPane" layoutX="200.0" layoutY="74.0" prefHeight="514.0" prefWidth="800.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" visible="false">
-        <tabs>
-          <Tab text="From Admin">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="443.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;">
+         <tabs>
+            <Tab text="From Admin">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="443.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;">
                      <children>
                         <Button fx:id="addBookButton" layoutX="415.0" layoutY="377.0" mnemonicParsing="false" onAction="#addBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base2" stylesheets="@style.css" text="ADD" />
                         <Button layoutX="86.0" layoutY="377.0" mnemonicParsing="false" onAction="#cancelAddBookHandler" prefHeight="55.0" prefWidth="299.0" styleClass="button-base3" stylesheets="@style.css" text="CANCEL" />
@@ -184,7 +184,7 @@
                         <TextField fx:id="bookAddDescriptionField" layoutX="415.0" layoutY="229.0" prefHeight="45.0" prefWidth="261.0" promptText="Description" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
                         <TextField fx:id="bookAddRatingField" layoutX="415.0" layoutY="292.0" prefHeight="45.0" prefWidth="261.0" promptText="Rating" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #808080;" />
                      </children></AnchorPane>
-            </content>
+               </content>
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="16.0">
                      <image>
@@ -192,10 +192,10 @@
                      </image>
                   </ImageView>
                </graphic>
-          </Tab>
-          <Tab text="From API">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FAFAFA;">
+            </Tab>
+            <Tab text="From API">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FAFAFA;">
                      <children>
                         <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="68.0" layoutY="25.0">
                            <image>
@@ -261,7 +261,7 @@
                         </Label>
                         <TextField fx:id="searchAPIField" layoutX="415.0" layoutY="49.0" prefHeight="31.0" prefWidth="299.0" promptText="🔍 Search by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
                      </children></AnchorPane>
-            </content>
+               </content>
                <graphic>
                   <ImageView fitHeight="16.0" fitWidth="22.0">
                      <image>
@@ -269,8 +269,8 @@
                      </image>
                   </ImageView>
                </graphic>
-          </Tab>
-        </tabs>
+            </Tab>
+         </tabs>
       </TabPane>
       <AnchorPane fx:id="editBookPane" layoutX="200.0" layoutY="112.5" prefHeight="475.0" prefWidth="800.0" style="-fx-background-color: #FAFAFA;" visible="false">
          <children>
@@ -295,5 +295,5 @@
             </ImageView>
          </children>
       </AnchorPane>
-    </children>
+   </children>
 </AnchorPane>

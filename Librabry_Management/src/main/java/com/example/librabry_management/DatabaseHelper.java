@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.example.Controller.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,8 +81,38 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
+    public static Book getTopView() {
+        String sql = "SELECT * FROM books ORDER BY view DESC LIMIT 1;";
+        Book book = null;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                book = new Book(
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("thumbnail_url"),
+                        rs.getString("publisher"),
+                        rs.getString("published_date"),
+                        rs.getString("average_rating")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return book;
+    }
+
     public static List<Book> getTopRateBooks() {
-        String sql = "SELECT * FROM books ORDER BY average_rating LIMIT 5;";
+        String sql = """
+        SELECT * FROM books
+        WHERE average_rating REGEXP '^[0-9]+(\\.[0-9]+)?$'
+        ORDER BY CAST(average_rating AS DECIMAL) DESC
+        LIMIT 5;
+    """;
         List<Book> books = new ArrayList<>();
 
         try (Connection conn = connect();
@@ -107,8 +136,6 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
-
-
     // Tạo bảng Books if chưa tồn tại
     public static void createTable() {
         String sql = """
@@ -121,12 +148,24 @@ public class DatabaseHelper extends Application {
                   publisher TEXT,
                   published_date TEXT,
                   average_rating TEXT,
+                  view INT DEFAULT 0,
                   UNIQUE (title, author)
               );
             """;
-
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void incrementBookView(int bookId) {
+        String sql = "UPDATE books SET view = view + 1 WHERE id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, bookId);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -155,6 +194,52 @@ public class DatabaseHelper extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Book> getRelatedBooks(String title, String author) {
+        List<Book> books = new ArrayList<>();
+        String query = """
+            SELECT *, 
+            (CASE 
+                WHEN title LIKE ? THEN 3
+                WHEN author LIKE ? THEN 2
+                ELSE 1
+            END) AS relevance
+            FROM books
+            WHERE (title LIKE ? OR author LIKE ? OR description LIKE ?)
+            AND NOT (title = ? AND author = ?)
+            ORDER BY relevance DESC, title ASC
+            LIMIT 5;
+            """;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            String keyword = "%" + title.split(" ")[0] + "%";
+            pstmt.setString(1, "%" + title + "%");
+            pstmt.setString(2, "%" + author + "%");
+            pstmt.setString(3, keyword);
+            pstmt.setString(4, keyword);
+            pstmt.setString(5, keyword);
+            pstmt.setString(6, title);
+            pstmt.setString(7, author);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("thumbnail_url"),
+                        rs.getString("publisher"),
+                        rs.getString("published_date"),
+                        rs.getString("average_rating")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
     }
 
     // Tạo bảng users
@@ -356,6 +441,38 @@ public class DatabaseHelper extends Application {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static int getNewMember() {
+        String sql = "SELECT COUNT(*) FROM users WHERE DATEDIFF(CURRENT_TIMESTAMP, created_at) <= 1;";
+        int count = 0;
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int getTotalBook() {
+        String sql = "SELECT COUNT(*) FROM books;";
+        int count = 0;
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
     public static User getUserByEmail(String email) {

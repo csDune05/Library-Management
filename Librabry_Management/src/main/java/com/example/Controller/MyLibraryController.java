@@ -267,7 +267,7 @@ public class MyLibraryController {
                         "-fx-border-width: 2px; " +
                         "-fx-border-radius: 10px; " +
                         "-fx-background-radius: 10px; " +
-                        "-fx-background-color: #d4edff; " +
+                        "-fx-background-color: #f2fbff; " +
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
         );
 
@@ -289,7 +289,7 @@ public class MyLibraryController {
                             "-fx-border-width: 2px; " +
                             "-fx-border-radius: 10px; " +
                             "-fx-background-radius: 10px; " +
-                            "-fx-background-color: #d4edff; " +
+                            "-fx-background-color: #f2fbff; " +
                             "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
             );
         });

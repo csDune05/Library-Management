@@ -173,7 +173,7 @@
             </Button>
          </children>
       </Pane>
-          <Label fx:id="titleLabel" layoutX="103.0" prefHeight="70.0" prefWidth="196.0" styleClass="titleLabel" text="My Library" textAlignment="CENTER">
+          <Label fx:id="titleLabel" layoutX="103.0" prefHeight="70.0" styleClass="titleLabel" text="My Library" textAlignment="CENTER">
               <font>
                   <Font name="System Bold" size="36.0" />
               </font>

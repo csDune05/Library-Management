@@ -2,9 +2,12 @@ package com.example.Controller;
 
 import com.example.librabry_management.*;
 import com.example.Feature.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,9 +25,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+
+import static com.example.librabry_management.DatabaseHelper.incrementBookView;
 
 public class BookDetailController implements Initializable {
+    @FXML
+    private VBox relatedBooksVBox;
 
     @FXML
     private ImageView bookImage;
@@ -312,13 +321,15 @@ public class BookDetailController implements Initializable {
         }
     }
 
-    // Phương thức nhận dữ liệu từ BookController
     public void setBookDetail(Book book) {
-        bookImage.setImage(new Image(book.getThumbnailUrl())); // Ảnh bìa
+        CompletableFuture.runAsync(() -> {
+            Image image = new Image(book.getThumbnailUrl(), true);
+            Platform.runLater(() -> bookImage.setImage(image));
+        });
         bookTitle.setText(book.getTitle()); // Tiêu đề
         bookAuthor.setText(book.getAuthor()); // Tác giả
         bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
-        bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Mã sách
+        bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
         ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "★");
 
         String Description = "Description: ";
@@ -328,11 +339,66 @@ public class BookDetailController implements Initializable {
         descriptionText.setStyle("-fx-font-size: 18;"); // Thiết lập font-size
         bookDescription.getChildren().clear(); // Xóa nội dung cũ nếu có
         bookDescription.getChildren().addAll(descriptionTextTitle, descriptionText);
+
+        incrementBookView(book);
+        // Gọi loadRelatedBooks để tải sách liên quan
+        loadRelatedBooks();
     }
+
+    private void loadRelatedBooks() {
+        CompletableFuture.runAsync(() -> {
+            // Lấy danh sách sách liên quan từ cơ sở dữ liệu
+            List<Book> relatedBooks = DatabaseHelper.getRelatedBooks(bookTitle.getText(), bookAuthor.getText());
+
+            Platform.runLater(() -> {
+                relatedBooksVBox.getChildren().clear(); // Xóa nội dung cũ
+                for (Book book : relatedBooks) {
+                    VBox bookCard = createBookCard(book); // Tạo card sách
+                    relatedBooksVBox.getChildren().add(bookCard); // Thêm card vào VBox
+                }
+            });
+        }).exceptionally(ex -> {
+            ex.printStackTrace();
+            return null;
+        });
+    }
+
+    private VBox createBookCard(Book book) {
+        return BookCard.createBookCard(book, this::openBookDetail);
+    }
+
+
+    private void incrementBookView(Book book) {
+        int bookId = DatabaseHelper.getBookId(book.getTitle(), book.getAuthor());
+        if (bookId > 0) {
+            DatabaseHelper.incrementBookView(bookId);
+        }
+    }
+
+    private void openBookDetail(Book book) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
+            Parent root = loader.load();
+
+            BookDetailController detailController = loader.getController();
+            detailController.setBookDetail(book);
+            detailController.setDashboardController(dashboardController); // Nếu cần chuyển lại Dashboard
+
+            Stage stage = (Stage) relatedBooksVBox.getScene().getWindow();
+            stage.setTitle("Book Details - " + book.getTitle());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseHelper.createUserBooksTable();
+
+
 
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);

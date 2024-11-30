@@ -258,10 +258,33 @@
 }
 
 .scroll-pane {
-    -fx-background-color: transparent; /* Nền của ScrollPane trong suốt */
-    -fx-border-color: transparent;    /* Loại bỏ viền của ScrollPane */
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .scroll-pane .viewport {
-    -fx-background-color: transparent; /* Nền của nội dung bên trong ScrollPane trong suốt */
+    -fx-background-color: transparent;
+}
+
+.rounded-shadow-pane {
+    -fx-background-color: #f5fcff;
+    -fx-border-color: lightgray;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 4);
+    }
+
+.rounded-shadow-pane:hover {
+    -fx-background-color: #e6f7ff;
+    -fx-border-color: #007bff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0.5, 0, 4);
+}
+
+.rounded-pane {
+    -fx-border-color: lightgray;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-background-color: #f8fcff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 3, 0.2, 0, 1);
 }

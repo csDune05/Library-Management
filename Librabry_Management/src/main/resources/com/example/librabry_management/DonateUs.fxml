@@ -168,7 +168,7 @@
             </Button>
          </children>
       </Pane>
-      <Label fx:id="titleLabel" alignment="CENTER" layoutX="103.0" prefHeight="70.0" prefWidth="196.0" styleClass="titleLabel" text="Donate us" textAlignment="CENTER">
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="103.0" prefHeight="70.0" styleClass="titleLabel" text="Donate us" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>

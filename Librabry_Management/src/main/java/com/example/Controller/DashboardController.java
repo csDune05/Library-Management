@@ -29,6 +29,12 @@ import java.util.concurrent.CompletableFuture;
 public class DashboardController {
 
     @FXML
+    private Label newMemberLabel;
+
+    @FXML
+    private Label totalBookLabel;
+
+    @FXML
     private BarChart<String, Number> visitorChart;
 
     @FXML
@@ -124,6 +130,11 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
+
+        totalBookLabel.setText(String.valueOf(DatabaseHelper.getTotalBook()));
+        newMemberLabel.setText(String.valueOf(DatabaseHelper.getNewMember()));
+        totalBookLabel.setStyle("-fx-font-size: 25;" + "-fx-font-weight: bold;");
+        newMemberLabel.setStyle("-fx-font-size: 25;" + "-fx-font-weight: bold;");
 
         loadBookCards();
 
@@ -249,83 +260,15 @@ public class DashboardController {
     }
 
     private void loadBookCards() {
-        GridPane gridPane = new GridPane(); // Tạo GridPane mới
-        gridPane.setVgap(10); // Khoảng cách dọc giữa các hàng
-
-        List<Book> sampleBooks = DatabaseHelper.getTopRateBooks(); // Lấy 3 sách mẫu
-
-        for (int i = 0; i < sampleBooks.size(); i++) {
-            Book book = sampleBooks.get(i);
-            VBox bookCard = createBookCard(book); // Tạo BookCard cho từng sách
-            gridPane.add(bookCard, 0, i); // Thêm vào cột 0, hàng i
-        }
-
-        bookCardContainer.getChildren().add(gridPane); // Thêm GridPane vào VBox
+        Book sampleBooks = DatabaseHelper.getTopView();
+        VBox bookCard = createBookCard(sampleBooks); // Tạo BookCard cho từng sách
+        bookCardContainer.getChildren().add(bookCard); // Thêm GridPane vào VBox
     }
 
 
     private VBox createBookCard(Book book) {
-        ImageView thumbnail = new ImageView();
-        thumbnail.setFitWidth(100);
-        thumbnail.setFitHeight(150);
-
-        CompletableFuture.runAsync(() -> {
-            Image image = new Image(book.getThumbnailUrl(), true);
-            Platform.runLater(() -> thumbnail.setImage(image));
-        });
-
-        Label title = new Label(book.getTitle());
-        title.setWrapText(true);
-        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-
-        Label author = new Label("By: " + book.getAuthor());
-        author.setStyle("-fx-font-size: 12px;");
-
-        Button viewDetailsButton = new Button("View Details");
-        viewDetailsButton.setOnAction(e -> viewBookDetails(book));
-        viewDetailsButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
-        viewDetailsButton.setOnMouseEntered(event -> {
-            viewDetailsButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-border-radius: 5px;");
-        });
-        viewDetailsButton.setOnMouseExited(event -> {
-            viewDetailsButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-border-radius: 5px;");
-        });
-
-        VBox card = new VBox(10, thumbnail, title, author, viewDetailsButton);
-        card.setAlignment(Pos.CENTER);
-        card.setPadding(new Insets(10));
-        card.setStyle(
-                "-fx-border-color: lightgray; " +
-                        "-fx-border-width: 2px; " +
-                        "-fx-border-radius: 10px; " +
-                        "-fx-background-radius: 10px; " +
-                        "-fx-background-color: #f5fcff; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
-        );
-
-        // Thêm hiệu ứng hover cho card
-        card.setOnMouseEntered(event -> {
-            card.setStyle(
-                    "-fx-border-color: #007bff; " +
-                            "-fx-border-width: 2px; " +
-                            "-fx-border-radius: 10px; " +
-                            "-fx-background-radius: 10px; " +
-                            "-fx-background-color: #e6f7ff; " +
-                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.5, 0, 4);"
-            );
-        });
-
-        card.setOnMouseExited(event -> {
-            card.setStyle(
-                    "-fx-border-color: lightgray; " +
-                            "-fx-border-width: 2px; " +
-                            "-fx-border-radius: 10px; " +
-                            "-fx-background-radius: 10px; " +
-                            "-fx-background-color: #f5fcff; " +
-                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
-            );
-        });
-
+        VBox card = BookCard.createBookCard(book, this::viewBookDetails);
+        card.setPrefHeight(260);
         return card;
     }
 

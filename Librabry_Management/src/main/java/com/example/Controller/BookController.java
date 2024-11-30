@@ -42,6 +42,9 @@ public class BookController {
     private TextField bookTitle;
 
     @FXML
+    private VBox topRateBook;
+
+    @FXML
     private Button homeButton;
 
     @FXML
@@ -215,6 +218,7 @@ public class BookController {
 
     @FXML
     public void initialize() {
+        loadBookCards();
         try {
             voskManager = VoskManager.getInstance(null); // Lấy instance đã khởi tạo từ Singleton
         } catch (Exception e) {
@@ -299,7 +303,7 @@ public class BookController {
 
         // ListView để hiển thị danh sách gợi ý
         ListView<String> suggestionsList = new ListView<>();
-        suggestionsList.setPrefWidth(659); // Đảm bảo kích thước Popup phù hợp
+        suggestionsList.setPrefWidth(749); // Đảm bảo kích thước Popup phù hợp
         suggestionsList.setOnMouseClicked(event -> {
             String selectedSuggestion = suggestionsList.getSelectionModel().getSelectedItem();
             if (selectedSuggestion != null) {
@@ -431,22 +435,7 @@ public class BookController {
             knowMoreButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-border-radius: 5px;");
         });
 
-        knowMoreButton.setOnAction(e -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
-                Parent root = loader.load();
-
-                BookDetailController detailController = loader.getController();
-                detailController.setBookDetail(book);
-                detailController.setBookController(this);
-
-                Stage stage = (Stage) knowMoreButton.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        knowMoreButton.setOnAction(e -> viewBookDetails(book));
 
         VBox card = new VBox(5, thumbnail, title, knowMoreButton);
         card.setPadding(new Insets(10));
@@ -457,7 +446,7 @@ public class BookController {
                         "-fx-border-width: 2px; " +
                         "-fx-border-radius: 10px; " +
                         "-fx-background-radius: 10px; " +
-                        "-fx-background-color: #d4edff; " +
+                        "-fx-background-color: #f2fbff; " +
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
         );
 
@@ -479,7 +468,7 @@ public class BookController {
                             "-fx-border-width: 2px; " +
                             "-fx-border-radius: 10px; " +
                             "-fx-background-radius: 10px; " +
-                            "-fx-background-color: #d4edff; " +
+                            "-fx-background-color: #f2fbff; " +
                             "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
             );
         });
@@ -528,6 +517,73 @@ public class BookController {
         }
     }
 
+    private void loadBookCards() {
+        GridPane gridPane = new GridPane(); // Tạo GridPane mới
+        gridPane.setVgap(10); // Khoảng cách dọc giữa các hàng
+
+        List<Book> sampleBooks = DatabaseHelper.getTopRateBooks(); // Lấy 3 sách mẫu
+
+        for (int i = 0; i < sampleBooks.size(); i++) {
+            Book book = sampleBooks.get(i);
+            VBox bookCard = createTopBookCard(book); // Tạo BookCard cho từng sách
+            gridPane.add(bookCard, 0, i); // Thêm vào cột 0, hàng i
+        }
+
+        topRateBook.getChildren().add(gridPane); // Thêm GridPane vào VBox
+    }
+
+
+    private VBox createTopBookCard(Book book) {
+        VBox card = BookCard.createBookCard(book, this::viewBookDetails);
+        card.setStyle(
+                "-fx-border-color: lightgray; " +
+                        "-fx-border-width: 2px; " +
+                        "-fx-border-radius: 10px; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-background-color: #f2fbff; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+        );
+
+        card.setOnMouseEntered(event -> {
+            card.setStyle(
+                    "-fx-border-color: #007bff; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #cce7ff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.5, 0, 4);"
+            );
+        });
+        card.setOnMouseExited(event -> {
+            card.setStyle(
+                    "-fx-border-color: lightgray; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #f2fbff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+            );
+        });
+        return card;
+    }
+
+    private void viewBookDetails(Book book) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
+            Parent root = loader.load();
+
+            BookDetailController detailController = loader.getController();
+            detailController.setBookDetail(book);
+            detailController.setBookController(this);
+
+            Stage stage = (Stage) homeButton.getScene().getWindow();
+            stage.setTitle("Book Details - " + book.getTitle());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public Scene getBookScene() {
         return bookScene;
