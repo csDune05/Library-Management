@@ -100,8 +100,14 @@ public class BookDetailController implements Initializable {
 
     private BookController bookController;
 
+    private DashboardController dashboardController;
+
     public void setBookController(BookController bookController) {
         this.bookController = bookController;
+    }
+
+    public void setDashboardController(DashboardController dashboardController) {
+        this.dashboardController = dashboardController;
     }
 
     private Stage getCurrentStage() {
@@ -112,8 +118,11 @@ public class BookDetailController implements Initializable {
     public void backButtonHandler() {
         if (bookController != null) {
             Stage stage = (Stage) backButton.getScene().getWindow();
-
             stage.setScene(bookController.getBookScene());
+            stage.show();
+        } else {
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.setScene(dashboardController.getScene());
             stage.show();
         }
     }

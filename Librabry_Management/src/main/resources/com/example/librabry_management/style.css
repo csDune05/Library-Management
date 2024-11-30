@@ -218,3 +218,50 @@
     -fx-font-weight: bold;
     -fx-font-size: 13px;
 }
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
+}
+
+.table-view .column-header, .table-view .column-header .label {
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1px 0;
+    -fx-background-color: #f9f9f9;
+    -fx-padding: 10px 0px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+.table-view .cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 5px 0 5px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-alignment: CENTER;
+}
+
+.table-view .cell:selected {
+    -fx-background-color: #f2f2f2;
+    -fx-text-fill: #333333;
+}
+
+.table-view .row-cell:focused {
+    -fx-background-color: #f2f2f2;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent; /* Nền của ScrollPane trong suốt */
+    -fx-border-color: transparent;    /* Loại bỏ viền của ScrollPane */
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent; /* Nền của nội dung bên trong ScrollPane trong suốt */
+}

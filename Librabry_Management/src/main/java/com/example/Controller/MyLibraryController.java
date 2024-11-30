@@ -8,8 +8,11 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -113,49 +116,11 @@ public class MyLibraryController {
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
-    // Phương thức tạo thẻ sách
-    private VBox createBookCard(Book book) {
-        ImageView thumbnail = new ImageView();
-        thumbnail.setImage(new Image(book.getThumbnailUrl(), 120, 180, true, true));
-        thumbnail.setFitWidth(110);
-        thumbnail.setFitHeight(160);
-
-        Label title = new Label(book.getTitle());
-        title.setWrapText(true);
-        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-        title.setMaxWidth(120);
-        title.setPrefHeight(40);
-
-        Button returnButton = new Button("Return Book");
-        returnButton.setStyle(
-                "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
-        );
-        returnButton.setOnMouseEntered(event -> {
-            returnButton.setStyle(
-                    "-fx-background-color: #ff7f7f; -fx-text-fill: white; -fx-border-radius: 5px;"
-            ); // Màu khi hover
-        });
-        returnButton.setOnMouseExited(event -> {
-            returnButton.setStyle(
-                    "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
-            ); // Màu mặc định
-        });
-        returnButton.setPrefWidth(120);
-        returnButton.setOnAction(event -> handleReturnBook(book)); // Gắn sự kiện cho nút
-
-        VBox card = new VBox(5, thumbnail, title, returnButton);
-        card.setPadding(new Insets(10));
-        card.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5px; -fx-background-color: #f9f9f9;");
-        card.setPrefWidth(150);
-        card.setPrefHeight(270);
-        card.setAlignment(Pos.CENTER);
-        return card;
-    }
-
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
-        if(!notificationPane.isVisible()) MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+        if (!notificationPane.isVisible())
+            MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
     @FXML
@@ -180,6 +145,8 @@ public class MyLibraryController {
     private void updateGridPane() {
         gridPane.getChildren().clear(); // Xóa toàn bộ nội dung cũ
 
+        gridPane.setHgap(22);
+
         int row = 0, col = 0; // Vị trí bắt đầu trong GridPane
         int booksPerRow = 5; // Số sách mỗi hàng
 
@@ -200,6 +167,7 @@ public class MyLibraryController {
             System.out.println("No user logged in.");
             return;
         }
+        gridPane.setHgap(20);
 
         borrowedBooks.clear(); // Xóa danh sách cũ
 
@@ -255,5 +223,81 @@ public class MyLibraryController {
             alert.setContentText("Invalid user information.");
             alert.showAndWait();
         }
+    }
+
+    private VBox createBookCard(Book book) {
+        ImageView thumbnail = new ImageView();
+        thumbnail.setFitWidth(110);
+        thumbnail.setFitHeight(160);
+
+        CompletableFuture.runAsync(() -> {
+            Image image = new Image(book.getThumbnailUrl(), true);
+            Platform.runLater(() -> thumbnail.setImage(image));
+        });
+
+        Label title = new Label(book.getTitle());
+        title.setWrapText(true);
+        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        title.setMaxWidth(120);
+        title.setPrefHeight(40);
+
+        Button returnButton = new Button("Return Book");
+        returnButton.setStyle(
+                "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
+        );
+        returnButton.setOnMouseEntered(event -> {
+            returnButton.setStyle(
+                    "-fx-background-color: #ff7f7f; -fx-text-fill: white; -fx-border-radius: 5px;"
+            ); // Màu khi hover
+        });
+        returnButton.setOnMouseExited(event -> {
+            returnButton.setStyle(
+                    "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
+            ); // Màu mặc định
+        });
+        returnButton.setPrefWidth(120);
+        returnButton.setOnAction(event -> handleReturnBook(book)); // Gắn sự kiện cho nút
+
+        VBox card = new VBox(5, thumbnail, title, returnButton);
+        card.setPadding(new Insets(10));
+
+        // Áp dụng viền và hiệu ứng bóng cho card
+        card.setStyle(
+                "-fx-border-color: lightgray; " +
+                        "-fx-border-width: 2px; " +
+                        "-fx-border-radius: 10px; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-background-color: #d4edff; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+        );
+
+        // Thêm hiệu ứng hover cho card
+        card.setOnMouseEntered(event -> {
+            card.setStyle(
+                    "-fx-border-color: #007bff; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #cce7ff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.5, 0, 4);"
+            );
+        });
+
+        card.setOnMouseExited(event -> {
+            card.setStyle(
+                    "-fx-border-color: lightgray; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #d4edff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+            );
+        });
+
+        card.setPrefWidth(150);
+        card.setPrefHeight(270);
+        card.setAlignment(Pos.CENTER);
+
+        return card;
     }
 }

@@ -1,36 +1,5 @@
 {
-    "Dung": [
-        {
-            "message": "You borrowed the Messi book.",
-            "read": true,
-            "timestamp": "12h03 29/11/2024"
-        },
-        {
-            "message": "You returned the Messi book.",
-            "read": true,
-            "timestamp": "12h03 29/11/2024"
-        },
-        {
-            "message": "You borrowed the Lionel Messi book.",
-            "read": true,
-            "timestamp": "12h14 29/11/2024"
-        },
-        {
-            "message": "You returned the Lionel Messi book.",
-            "read": true,
-            "timestamp": "12h14 29/11/2024"
-        },
-        {
-            "message": "You borrowed the Focus On: 100 Most Popular Expatriate Footballers in Spain book.",
-            "read": true,
-            "timestamp": "12h18 29/11/2024"
-        },
-        {
-            "message": "You returned the Focus On: 100 Most Popular Expatriate Footballers in Spain book.",
-            "read": true,
-            "timestamp": "12h19 29/11/2024"
-        }
-    ],
+    "Dung": [],
     "csDune": [
         {
             "message": "You borrowed the Focus On: 100 Most Popular Expatriate Footballers in Spain book.",

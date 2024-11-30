@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -13,25 +19,16 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.DonateUsController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.DonateUsController">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutX="87.0" layoutY="1.0" prefHeight="89.0" prefWidth="829.0" spacing="30.0">
-         <children>
-            <Label fx:id="titleLabel" alignment="CENTER" prefHeight="89.0" prefWidth="196.0" styleClass="titleLabel" text="Donate us" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <ComboBox fx:id="optionsComboBox" layoutX="1001.0" layoutY="33.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
-      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="936.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+      <ComboBox fx:id="optionsComboBox" layoutX="1005.0" layoutY="19.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
+      <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="935.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/avatar.png" />
          </image>
       </ImageView>
       <Line endX="-174.0" endY="672.5" layoutX="260.0" layoutY="30.0" opacity="0.2" startX="-174.0" startY="-30.0" />
-      <Line endX="923.0" endY="52.5" layoutX="260.0" layoutY="36.0" opacity="0.2" startX="-173.5" startY="52.5" />
+      <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-165.0" />
       <ImageView fitHeight="196.0" fitWidth="241.0" layoutX="209.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/donate1.jpg" />
@@ -45,7 +42,7 @@
          <image>
             <Image url="@Images/donate3.jpg" />
          </image></ImageView>
-      <Button fx:id="notificationButton" layoutX="1142.0" layoutY="23.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+      <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -90,7 +87,7 @@
                               <Image url="@Images/dashboard.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="21.0" prefWidth="90.0" text="Dashboard" textAlignment="CENTER" textFill="WHITE" />
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="90.0" text="Dashboard" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </VBox>
                </graphic>
@@ -109,7 +106,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="myLibraryButton" layoutX="-5.0" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="90.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="myLibraryButton" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" spacing="3.0" stylesheets="@style.css">
                      <children>
@@ -118,7 +115,7 @@
                               <Image url="@Images/bookUser.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="21.0" prefWidth="70.0" text="My Books" textFill="WHITE" />
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="70.0" text="My Books" textFill="WHITE" />
                      </children>
                   </VBox>
                </graphic>
@@ -132,7 +129,7 @@
                               <Image url="@Images/profile.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="21.0" prefWidth="83.0" text="My Profile" textAlignment="CENTER" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="21.0" prefWidth="83.0" text="My Profile" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -155,7 +152,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="logoutButton" layoutX="1.0" layoutY="623.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="logoutButton" layoutY="615.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -171,5 +168,10 @@
             </Button>
          </children>
       </Pane>
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="103.0" prefHeight="70.0" prefWidth="196.0" styleClass="titleLabel" text="Donate us" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -39,7 +39,6 @@ public class JsonParserEx {
                     String publisher = volumeInfo.has("publisher") ? volumeInfo.get("publisher").getAsString() : null;
                     String publishedDate = volumeInfo.has("publishedDate") ? volumeInfo.get("publishedDate").getAsString() : null;
                     String averageRating = volumeInfo.has("averageRating") ? volumeInfo.get("averageRating").getAsString() : null;
-
                     Book book = new Book(title, author, description, thumbnailUrl, publisher, publishedDate, averageRating);
                     books.add(book);
 

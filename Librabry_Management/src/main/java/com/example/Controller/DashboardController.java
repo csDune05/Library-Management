@@ -1,8 +1,11 @@
 package com.example.Controller;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -11,13 +14,17 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 
 import java.io.*;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class DashboardController {
 
@@ -103,6 +110,12 @@ public class DashboardController {
     private VBox notificationList;
 
     @FXML
+    private VBox bookCardContainer;
+
+    @FXML
+    private Scene dashboardScene;
+
+    @FXML
     private TextArea notificationText;
 
     private Stage getCurrentStage() {
@@ -111,6 +124,12 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
+
+        loadBookCards();
+
+        Platform.runLater(() -> {
+            dashboardScene = booksButton.getScene();
+        });
 
         titleLabel.setText("Dashboard");
 
@@ -226,7 +245,109 @@ public class DashboardController {
 
         // Lấy dữ liệu từ DatabaseHelper và cập nhật TableView
         ObservableList<LoanRecord> data = DatabaseHelper.getLoanRecords();
-        System.out.println("Data size: " + data.size());
         loanRecordTableView.setItems(data);
+    }
+
+    private void loadBookCards() {
+        GridPane gridPane = new GridPane(); // Tạo GridPane mới
+        gridPane.setVgap(10); // Khoảng cách dọc giữa các hàng
+
+        List<Book> sampleBooks = DatabaseHelper.getTopRateBooks(); // Lấy 3 sách mẫu
+
+        for (int i = 0; i < sampleBooks.size(); i++) {
+            Book book = sampleBooks.get(i);
+            VBox bookCard = createBookCard(book); // Tạo BookCard cho từng sách
+            gridPane.add(bookCard, 0, i); // Thêm vào cột 0, hàng i
+        }
+
+        bookCardContainer.getChildren().add(gridPane); // Thêm GridPane vào VBox
+    }
+
+
+    private VBox createBookCard(Book book) {
+        ImageView thumbnail = new ImageView();
+        thumbnail.setFitWidth(100);
+        thumbnail.setFitHeight(150);
+
+        CompletableFuture.runAsync(() -> {
+            Image image = new Image(book.getThumbnailUrl(), true);
+            Platform.runLater(() -> thumbnail.setImage(image));
+        });
+
+        Label title = new Label(book.getTitle());
+        title.setWrapText(true);
+        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+
+        Label author = new Label("By: " + book.getAuthor());
+        author.setStyle("-fx-font-size: 12px;");
+
+        Button viewDetailsButton = new Button("View Details");
+        viewDetailsButton.setOnAction(e -> viewBookDetails(book));
+        viewDetailsButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
+        viewDetailsButton.setOnMouseEntered(event -> {
+            viewDetailsButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-border-radius: 5px;");
+        });
+        viewDetailsButton.setOnMouseExited(event -> {
+            viewDetailsButton.setStyle("-fx-background-color: #007bff; -fx-text-fill: white; -fx-border-radius: 5px;");
+        });
+
+        VBox card = new VBox(10, thumbnail, title, author, viewDetailsButton);
+        card.setAlignment(Pos.CENTER);
+        card.setPadding(new Insets(10));
+        card.setStyle(
+                "-fx-border-color: lightgray; " +
+                        "-fx-border-width: 2px; " +
+                        "-fx-border-radius: 10px; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-background-color: #f5fcff; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+        );
+
+        // Thêm hiệu ứng hover cho card
+        card.setOnMouseEntered(event -> {
+            card.setStyle(
+                    "-fx-border-color: #007bff; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #e6f7ff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.5, 0, 4);"
+            );
+        });
+
+        card.setOnMouseExited(event -> {
+            card.setStyle(
+                    "-fx-border-color: lightgray; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #f5fcff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+            );
+        });
+
+        return card;
+    }
+
+    private void viewBookDetails(Book book) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
+            Parent root = loader.load();
+
+            BookDetailController detailController = loader.getController();
+            detailController.setBookDetail(book);
+            detailController.setDashboardController(this);
+
+            Stage stage = (Stage) booksButton.getScene().getWindow();
+            stage.setTitle("Book Details - " + book.getTitle());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Scene getScene() {
+        return dashboardScene;
     }
 }

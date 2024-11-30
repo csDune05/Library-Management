@@ -55,10 +55,10 @@ public class DatabaseHelper extends Application {
     }
 
     /**
-     * Get 10 books when open Books.
+     * Get 50 books when open Books.
      */
     public static List<Book> getDefaultBooks() {
-        String sql = "SELECT * FROM books LIMIT 40;";
+        String sql = "SELECT * FROM books ORDER BY RAND() LIMIT 50;";
         List<Book> books = new ArrayList<>();
 
         try (Connection conn = connect();
@@ -79,9 +79,35 @@ public class DatabaseHelper extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return books;
     }
+
+    public static List<Book> getTopRateBooks() {
+        String sql = "SELECT * FROM books ORDER BY average_rating LIMIT 5;";
+        List<Book> books = new ArrayList<>();
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                books.add(new Book(
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getString("description"),
+                        rs.getString("thumbnail_url"),
+                        rs.getString("publisher"),
+                        rs.getString("published_date"),
+                        rs.getString("average_rating")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+
 
     // Tạo bảng Books if chưa tồn tại
     public static void createTable() {

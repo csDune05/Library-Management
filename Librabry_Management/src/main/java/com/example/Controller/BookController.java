@@ -450,16 +450,69 @@ public class BookController {
 
         VBox card = new VBox(5, thumbnail, title, knowMoreButton);
         card.setPadding(new Insets(10));
-        card.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5px; -fx-background-color: #f9f9f9;");
+
+        // Áp dụng viền và hiệu ứng bóng cho card
+        card.setStyle(
+                "-fx-border-color: lightgray; " +
+                        "-fx-border-width: 2px; " +
+                        "-fx-border-radius: 10px; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-background-color: #d4edff; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+        );
+
+        // Thêm hiệu ứng hover cho card
+        card.setOnMouseEntered(event -> {
+            card.setStyle(
+                    "-fx-border-color: #007bff; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #cce7ff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.5, 0, 4);"
+            );
+        });
+
+        card.setOnMouseExited(event -> {
+            card.setStyle(
+                    "-fx-border-color: lightgray; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #d4edff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+            );
+        });
+
         card.setPrefWidth(150);
         card.setPrefHeight(270);
         card.setAlignment(Pos.CENTER);
 
+        card.setOnMouseClicked(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
+                Parent root = loader.load();
+
+                BookDetailController detailController = loader.getController();
+                detailController.setBookDetail(book);
+                detailController.setBookController(this);
+
+                Stage stage = (Stage) knowMoreButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         return card;
     }
 
+
     private void displayBooks(List<Book> books) {
         gridPane.getChildren().clear(); // Xóa giao diện cũ
+
+        gridPane.setHgap(22);
 
         int row = 0, col = 0; // Vị trí bắt đầu trong GridPane
         int booksPerRow = 5; // Số sách trên mỗi hàng
