@@ -263,8 +263,8 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="316.0" layoutY="402.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" styleClass="button-base1" stylesheets="@style.css" text="See all" />
-      <TextField layoutX="592.0" layoutY="402.0" prefHeight="25.0" prefWidth="230.0" promptText="Search " />
-      <Button layoutX="831.0" layoutY="402.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
+      <Button fx:id="seeAllButton" layoutX="316.0" layoutY="402.0" mnemonicParsing="false" onAction="#SeeAllButtonHandler" prefHeight="25.0" prefWidth="51.0" styleClass="button-base1" stylesheets="@style.css" text="See all" />
+      <TextField fx:id="searchField" layoutX="592.0" layoutY="402.0" onAction="#performSearch" prefHeight="25.0" prefWidth="230.0" promptText="Search Books" />
+      <Button fx:id="searchButton" layoutX="831.0" layoutY="402.0" mnemonicParsing="false" onAction="#performSearch" prefHeight="25.0" prefWidth="70.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
    </children>
 </AnchorPane>

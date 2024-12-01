@@ -1,7 +1,9 @@
 package com.example.Controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -57,6 +59,17 @@ public class DashboardController {
 
     @FXML
     private TableView<LoanRecord> loanRecordTableView;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button seeAllButton;
+
+    @FXML
+    private Button searchButton;
+
+    private ObservableList<Book> bookData = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<LoanRecord, String> idColumn;
@@ -272,6 +285,27 @@ public class DashboardController {
         if (data.isEmpty()) {
             System.out.println("No loan records found: " + currentUserName);
         }
+    }
+
+    public void performSearch() {
+        String query = searchField.getText().trim().toLowerCase();
+
+        if (query.isEmpty()) {
+            updateTableView();
+            return;
+        }
+
+        ObservableList<LoanRecord> filteredRecords = DatabaseHelper.getLoanRecords().filtered(record ->
+                record.getTitle().toLowerCase().contains(query)
+        );
+
+        loanRecordTableView.setItems(filteredRecords);
+    }
+
+    @FXML
+    private void SeeAllButtonHandler() {
+        searchField.clear();
+        updateTableView();
     }
 
     private void loadBookCards() {
