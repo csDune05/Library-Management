@@ -240,10 +240,10 @@ public class DashboardController {
         int totalAccounts = DatabaseHelper.getTotalAccounts();
         int visitTimes = getVisitTimes();
 
-        borrowedBooksLabel.setText(String.valueOf(totalBorrowed));
-        overdueBooksLabel.setText(String.valueOf(totalOverdue));
-        visitTimesLabel.setText(String.valueOf(visitTimes));
-        membersLabel.setText(String.valueOf(totalAccounts));
+        borrowedBooksLabel.setText("(" + totalBorrowed + ")");
+        overdueBooksLabel.setText("(" + totalOverdue + ")");
+        visitTimesLabel.setText("(" + visitTimes + ")");
+        membersLabel.setText("(" + totalAccounts + ")");
     }
 
     private void updateTableView() {
@@ -254,9 +254,24 @@ public class DashboardController {
         overdueColumn.setCellValueFactory(new PropertyValueFactory<>("overdue"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
+        User currentUser = MainStaticObjectControl.getCurrentUser();
+
+        if (currentUser == null) {
+            System.out.println("Can not find current user");
+            return;
+        }
+
+        String currentUserName = currentUser.getName();
+
         // Lấy dữ liệu từ DatabaseHelper và cập nhật TableView
-        ObservableList<LoanRecord> data = DatabaseHelper.getLoanRecords();
+        ObservableList<LoanRecord> allData = DatabaseHelper.getLoanRecords();
+        ObservableList<LoanRecord> data = allData.filtered(record ->
+                record.getMember().equals(currentUserName)
+        );
         loanRecordTableView.setItems(data);
+        if (data.isEmpty()) {
+            System.out.println("No loan records found: " + currentUserName);
+        }
     }
 
     private void loadBookCards() {

@@ -111,6 +111,12 @@ public class BookDetailController implements Initializable {
 
     private DashboardController dashboardController;
 
+    private Scene previousScene;
+
+    public void setPreviousScene(Scene previousScene) {
+        this.previousScene = previousScene;
+    }
+
     public void setBookController(BookController bookController) {
         this.bookController = bookController;
     }
@@ -125,15 +131,15 @@ public class BookDetailController implements Initializable {
 
     @FXML
     public void backButtonHandler() {
-        if (bookController != null) {
-            Stage stage = (Stage) backButton.getScene().getWindow();
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        if (previousScene != null) {
+            stage.setScene(previousScene);
+        } else if (bookController != null) {
             stage.setScene(bookController.getBookScene());
-            stage.show();
         } else {
-            Stage stage = (Stage) backButton.getScene().getWindow();
             stage.setScene(dashboardController.getScene());
-            stage.show();
         }
+        stage.show();
     }
 
     @FXML
@@ -382,7 +388,8 @@ public class BookDetailController implements Initializable {
 
             BookDetailController detailController = loader.getController();
             detailController.setBookDetail(book);
-            detailController.setDashboardController(dashboardController); // Nếu cần chuyển lại Dashboard
+            detailController.setDashboardController(dashboardController);// Nếu cần chuyển lại Dashboard
+            detailController.setPreviousScene(backButton.getScene());// chuyển lại detail của sách trước đó
 
             Stage stage = (Stage) relatedBooksVBox.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -396,8 +403,6 @@ public class BookDetailController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseHelper.createUserBooksTable();
-
-
 
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
