@@ -6,30 +6,34 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
-
-import static com.example.librabry_management.DatabaseHelper.incrementBookView;
 
 public class BookDetailController implements Initializable {
     @FXML
@@ -107,7 +111,30 @@ public class BookDetailController implements Initializable {
     @FXML
     private Button clearNotificationsButton;
 
+    @FXML
+    private ScrollPane desdescriptionScrollPane;
+
+    @FXML
+    private AnchorPane CommentPane;
+
+    @FXML
+    private ScrollPane CommentScrollPane;
+
+    @FXML
+    private Button commentButton;
+
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private TextField commentTextField;
+
+    @FXML
+    private VBox commentListBox;
+
     private BookController bookController;
+
+    private String currentBookName;
 
     private DashboardController dashboardController;
 
@@ -332,7 +359,8 @@ public class BookDetailController implements Initializable {
             Image image = new Image(book.getThumbnailUrl(), true);
             Platform.runLater(() -> bookImage.setImage(image));
         });
-        bookTitle.setText(book.getTitle()); // Tiêu đề
+        bookTitle.setText(book.getTitle());// Tiêu đề
+        currentBookName = book.getTitle();
         bookAuthor.setText(book.getAuthor()); // Tác giả
         bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
         bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
@@ -399,15 +427,161 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    @FXML
+    public void commentButtonHandler() {
+        Book currentBook = getCurrentBook();
+        if (currentBook != null) {
+            if (desdescriptionScrollPane.isVisible() && !CommentPane.isVisible()) {
+                desdescriptionScrollPane.setVisible(false);
+                CommentPane.setVisible(true);
+            } else if (!desdescriptionScrollPane.isVisible() && CommentPane.isVisible()) {
+                desdescriptionScrollPane.setVisible(true);
+                CommentPane.setVisible(false);
+            }
+            updateComment(CommentScrollPane, commentListBox);
+        }
+    }
+
+    @FXML
+    public void confirmButtonHandler() {
+        String commentText = commentTextField.getText();
+        if (!commentText.trim().isEmpty()) {
+            String username = MainStaticObjectControl.getCurrentUser().getName();
+            addCommentToFile(commentText, username);
+            updateComment(CommentScrollPane, commentListBox);
+            commentTextField.clear();
+        }
+    }
+
+    public void updateComment(ScrollPane CommentScrollPane, VBox commentListBox) {
+        List<String> comments = readCommentsForBook();
+        commentListBox.getChildren().clear();
+
+        VBox commentList = new VBox();
+        commentList.setSpacing(10);
+
+        for (String comment : comments) {
+            String[] parts = comment.split("_", 3);
+
+            VBox commentItem = new VBox();
+            commentItem.setStyle("-fx-padding: 10; -fx-background-color: transparent; -fx-border-color: #ccc; -fx-border-width: 1;");
+
+            Label usernameLabel = new Label(parts[0]);
+            usernameLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: black;");
+
+            Label timestampLabel = new Label("_" + parts[2] + "_");
+            timestampLabel.setStyle("-fx-font-size: 14; -fx-font-style: italic; -fx-text-fill: gray;");
+
+            Text commentText = new Text(parts[1]);
+            commentText.setStyle("-fx-font-size: 14; -fx-text-fill: black;");
+            commentText.setWrappingWidth(CommentScrollPane.getWidth());
+
+            commentItem.getChildren().addAll(usernameLabel, commentText, timestampLabel);
+            commentList.getChildren().add(commentItem);
+        }
+
+        CommentScrollPane.setContent(commentList);
+    }
+
+    public void addCommentToFile(String comment, String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
+
+            // Taoj mục comment mới cho book nếu chưa có nội dung
+            JSONObject root;
+            if (jsonContent.length() > 0) {
+                try {
+                    root = new JSONObject(jsonContent.toString());
+                } catch (JSONException e) {
+                    root = new JSONObject();
+                }
+            } else {
+                root = new JSONObject();
+            }
+
+            // Tạo mục bình luận cho sách nếu chưa tồn tại
+            if (!root.has(currentBookName)) {
+                JSONArray newBookComments = new JSONArray();
+                root.put(currentBookName, newBookComments);
+            }
+
+            // Thêm bình luận
+            JSONArray comments = root.getJSONArray(currentBookName);
+            JSONObject commentObject = new JSONObject();
+            commentObject.put("username", username);
+            commentObject.put("timestamp", getCurrentTimestamp());
+            commentObject.put("comment", comment);
+            comments.put(commentObject);
+            root.put(currentBookName, comments);
+
+            // Ghi lại vào file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("comments.json"))) {
+                writer.write(root.toString(4));
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getCurrentTimestamp() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH'h'mm dd/MM/yyyy");
+        return now.format(formatter);
+    }
+
+    private List<String> readCommentsForBook() {
+        List<String> comments = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
+
+            if (jsonContent.length() > 0) {
+                JSONObject root;
+                try {
+                    root = new JSONObject(jsonContent.toString());
+                } catch (JSONException e) {
+                    System.out.println("Error parsing JSON: " + e.getMessage());
+                    return comments;
+                }
+
+                JSONArray bookComments = root.optJSONArray(currentBookName);
+                if (bookComments != null) {
+                    for (int i = 0; i < bookComments.length(); i++) {
+                        JSONObject comment = bookComments.getJSONObject(i);
+                        String username = comment.getString("username");
+                        String commentText = comment.getString("comment");
+                        String timestamp = comment.getString("timestamp");
+                        comments.add(username + "_" + commentText + "_" + timestamp);
+                    }
+                }
+            }
+        } catch (JSONException | IOException e) {
+            System.out.println("Error parsing JSON: " + e.getMessage());
+        }
+
+        return comments;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseHelper.createUserBooksTable();
+        Book currentBook = getCurrentBook();
 
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
 
         // notification
         MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
+
+        // comment
+        updateComment(CommentScrollPane, commentListBox);
     }
 }
