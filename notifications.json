@@ -1,31 +1,5 @@
 {
-    "Dung": [
-        {
-            "message": "You borrowed the A-E book.",
-            "read": true,
-            "timestamp": "20h07 30/11/2024"
-        },
-        {
-            "message": "You borrowed the The Greatest Cult Television Shows of All Time book.",
-            "read": true,
-            "timestamp": "20h07 30/11/2024"
-        },
-        {
-            "message": "You borrowed the Dictionnaire universel francois et latin ... avec des remarques d'eridition et de critique ... Nouv. ed. corr. et considerablement augm book.",
-            "read": true,
-            "timestamp": "20h07 30/11/2024"
-        },
-        {
-            "message": "You borrowed the Naruto: the Broken Bond book.",
-            "read": true,
-            "timestamp": "23h51 30/11/2024"
-        },
-        {
-            "message": "You returned the Naruto: the Broken Bond book.",
-            "read": true,
-            "timestamp": "00h30 01/12/2024"
-        }
-    ],
+    "Dung": [],
     "csDune": [
         {
             "message": "You borrowed the Focus On: 100 Most Popular Expatriate Footballers in Spain book.",

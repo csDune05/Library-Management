@@ -11,7 +11,7 @@
     <children>
       <ScrollPane layoutX="947.0" layoutY="104.0" prefHeight="606.0" prefWidth="263.0" stylesheets="@style.css">
          <content>
-            <VBox fx:id="relatedBooksVBox" prefHeight="601.0" prefWidth="242.0" />
+            <VBox fx:id="relatedBooksVBox" prefHeight="601.0" prefWidth="242.0" spacing="15.0" />
          </content></ScrollPane>
       <Label layoutX="1016.0" layoutY="75.0" text="Related Book">
          <font>

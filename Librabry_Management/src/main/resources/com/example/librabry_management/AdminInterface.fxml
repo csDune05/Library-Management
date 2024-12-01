@@ -70,7 +70,7 @@
                      </font>
                   </Label>
                   <Button fx:id="resetBookManagerButton" layoutX="246.0" layoutY="35.0" mnemonicParsing="false" onAction="#resetBookTable" styleClass="button-base2" stylesheets="@style.css" text="Reset" textFill="RED" />
-                  <TextField fx:id="bookTitleAuthorSearchField" layoutX="850.0" layoutY="35.0" onAction="#searchByTitleAuthorHandler" prefHeight="31.0" prefWidth="253.0" promptText="🔍 Seach by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <TextField fx:id="bookTitleAuthorSearchField" layoutX="850.0" layoutY="35.0" onAction="#searchByTitleAuthorHandler" prefHeight="31.0" prefWidth="253.0" promptText="🔍  Seach by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
                   <Button fx:id="bookStackAdd" layoutX="717.0" layoutY="35.0" mnemonicParsing="false" onAction="#bookTabAdd" prefHeight="31.0" prefWidth="119.0" styleClass="button-base2" stylesheets="@style.css" text="Add book">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0">
@@ -259,7 +259,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="searchAPIField" layoutX="415.0" layoutY="49.0" prefHeight="31.0" prefWidth="299.0" promptText="🔍 Search by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField fx:id="searchAPIField" layoutX="415.0" layoutY="49.0" prefHeight="31.0" prefWidth="299.0" promptText="🔍  Search by Title or Author" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
                      </children></AnchorPane>
                </content>
                <graphic>

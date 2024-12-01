@@ -385,7 +385,6 @@ public class BookDetailController implements Initializable {
             detailController.setDashboardController(dashboardController); // Nếu cần chuyển lại Dashboard
 
             Stage stage = (Stage) relatedBooksVBox.getScene().getWindow();
-            stage.setTitle("Book Details - " + book.getTitle());
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {

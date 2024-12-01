@@ -260,16 +260,25 @@ public class DashboardController {
     }
 
     private void loadBookCards() {
-        Book sampleBooks = DatabaseHelper.getTopView();
-        VBox bookCard = createBookCard(sampleBooks); // Tạo BookCard cho từng sách
-        bookCardContainer.getChildren().add(bookCard); // Thêm GridPane vào VBox
+        try {
+            Book sampleBooks = DatabaseHelper.getTopView();
+            VBox bookCard = createBookCard(sampleBooks); // Tạo BookCard cho từng sách
+            bookCardContainer.getChildren().add(bookCard); // Thêm GridPane vào VBox
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
     private VBox createBookCard(Book book) {
-        VBox card = BookCard.createBookCard(book, this::viewBookDetails);
-        card.setPrefHeight(260);
-        return card;
+        try {
+            VBox card = BookCard.createBookCard(book, this::viewBookDetails);
+            card.setPrefHeight(260);
+            return card;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void viewBookDetails(Book book) {
@@ -282,7 +291,6 @@ public class DashboardController {
             detailController.setDashboardController(this);
 
             Stage stage = (Stage) booksButton.getScene().getWindow();
-            stage.setTitle("Book Details - " + book.getTitle());
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {

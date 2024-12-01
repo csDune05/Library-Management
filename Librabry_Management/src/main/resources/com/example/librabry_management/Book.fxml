@@ -31,7 +31,7 @@
       </Label>
       <ScrollPane hbarPolicy="NEVER" layoutX="946.0" layoutY="105.0" prefHeight="593.0" prefWidth="251.0" stylesheets="@style.css">
          <content>
-            <VBox fx:id="topRateBook" prefHeight="588.0" prefWidth="230.0" />
+            <VBox fx:id="topRateBook" prefHeight="588.0" prefWidth="230.0" spacing="15.0" />
          </content>
       </ScrollPane>
 

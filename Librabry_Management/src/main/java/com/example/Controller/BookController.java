@@ -518,20 +518,18 @@ public class BookController {
     }
 
     private void loadBookCards() {
-        GridPane gridPane = new GridPane(); // Tạo GridPane mới
-        gridPane.setVgap(10); // Khoảng cách dọc giữa các hàng
+        // Lấy danh sách sách mẫu
+        List<Book> sampleBooks = DatabaseHelper.getTopRateBooks();
 
-        List<Book> sampleBooks = DatabaseHelper.getTopRateBooks(); // Lấy 3 sách mẫu
+        // Xóa nội dung cũ nếu có
+        topRateBook.getChildren().clear();
 
-        for (int i = 0; i < sampleBooks.size(); i++) {
-            Book book = sampleBooks.get(i);
-            VBox bookCard = createTopBookCard(book); // Tạo BookCard cho từng sách
-            gridPane.add(bookCard, 0, i); // Thêm vào cột 0, hàng i
+        // Thêm từng BookCard vào VBox
+        for (Book book : sampleBooks) {
+            VBox bookCard = createTopBookCard(book);
+            topRateBook.getChildren().add(bookCard);
         }
-
-        topRateBook.getChildren().add(gridPane); // Thêm GridPane vào VBox
     }
-
 
     private VBox createTopBookCard(Book book) {
         VBox card = BookCard.createBookCard(book, this::viewBookDetails);
@@ -577,7 +575,6 @@ public class BookController {
             detailController.setBookController(this);
 
             Stage stage = (Stage) homeButton.getScene().getWindow();
-            stage.setTitle("Book Details - " + book.getTitle());
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
