@@ -22,6 +22,9 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class MyLibraryController {
@@ -73,9 +76,6 @@ public class MyLibraryController {
 
     @FXML
     private VBox notificationList;
-
-    @FXML
-    private TextArea notificationText;
 
     private ObservableList<Book> borrowedBooks = FXCollections.observableArrayList(); // Danh sách sách đã mượn
 
@@ -159,6 +159,49 @@ public class MyLibraryController {
                 row++;
             }
         }
+    }
+
+    @FXML
+    private void searchHandler() {
+        if (currentUser == null) {
+            System.out.println("No user logged in.");
+            return;
+        }
+
+        String query = searchField.getText();
+        if (query == null || query.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Search Error");
+            alert.setContentText("Please enter a keyword to search.");
+            alert.showAndWait();
+            return;
+        }
+
+        borrowedBooks.clear(); // Xóa danh sách cũ
+        gridPane.getChildren().clear(); // Xóa nội dung cũ trên GridPane
+
+        CompletableFuture.supplyAsync(() -> DatabaseHelper.searchBooksForUser(currentUser.getId(), query))
+                .thenAccept(searchResults -> {
+                    if (searchResults == null || searchResults.isEmpty()) {
+                        Platform.runLater(this::showNoResultsMessage); // Hiển thị thông báo
+                    } else {
+                        Platform.runLater(() -> {
+                            borrowedBooks.setAll(searchResults); // Thêm sách tìm được
+                            updateGridPane(); // Cập nhật GridPane
+                        });
+                    }
+                }).exceptionally(ex -> {
+                    ex.printStackTrace();
+                    return null;
+                });
+    }
+
+    private void showNoResultsMessage() {
+        Label noResults = new Label("No books found.");
+        noResults.setStyle("-fx-font-size: 18px; -fx-text-fill: gray; -fx-font-weight: bold;");
+        gridPane.getChildren().clear();
+        gridPane.add(noResults, 0, 0);
+        GridPane.setColumnSpan(noResults, 5); // Giãn nhãn ra toàn bộ 5 cột
     }
 
 
