@@ -268,6 +268,8 @@ public class MainStaticObjectControl {
 
     public static void updateNotifications(ScrollPane notificationScrollPane, VBox notificationList) {
         List<String> notifications = readNotificationsForCurrentUser();
+        notificationScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        notificationScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         notificationList.getChildren().clear();
 
@@ -302,6 +304,7 @@ public class MainStaticObjectControl {
             } else {
                 messageText.setStyle("-fx-font-size: 14; -fx-fill: gray;");
             }
+            messageText.setWrappingWidth(notificationScrollPane.getWidth() - 40);
 
             notificationItem.getChildren().addAll(timestampText, messageText);
             notificationList.getChildren().add(notificationItem);
@@ -319,7 +322,7 @@ public class MainStaticObjectControl {
                         messageText.setStyle("-fx-font-size: 14; -fx-fill: gray;");
                     }
 
-                    notificationItem.setPrefHeight(150);
+                    notificationItem.setPrefHeight(120);
                     messageText.setWrappingWidth(notificationScrollPane.getWidth() - 40); // chiều rộng tự động xuống dòng
                 } else {
                     notificationItem.setPrefHeight(initialHeight);

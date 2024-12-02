@@ -60,8 +60,8 @@
          </font>
       </Label>
       <Button fx:id="borrowBook" layoutX="255.0" layoutY="250.0" mnemonicParsing="false" onAction="#borrowBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
-      <Button fx:id="returnBook" layoutX="417.0" layoutY="250.0" mnemonicParsing="false" onAction="#returnBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
-      <Button fx:id="qrCodeButton" layoutX="808.0" layoutY="250.0" mnemonicParsing="false" onAction="#qrCodeButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="QR Code" />
+      <Button fx:id="returnBook" layoutX="391.0" layoutY="250.0" mnemonicParsing="false" onAction="#returnBookHandler" prefHeight="25.0" prefWidth="75.0" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
+      <Button fx:id="qrCodeButton" layoutX="536.0" layoutY="250.0" mnemonicParsing="false" onAction="#qrCodeButtonHandler" prefHeight="25.0" prefWidth="75.0" styleClass="button-base1" stylesheets="@style.css" text="QR Code" />
       <Label fx:id="bookAuthor" layoutX="322.0" layoutY="119.0" text="Label">
          <font>
             <Font size="18.0" />
@@ -235,6 +235,6 @@
          </children>
       </Pane>
       <ImageView fx:id="bookImage" fitHeight="211.0" fitWidth="163.0" layoutX="90.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="commentButton" layoutX="605.0" layoutY="250.0" mnemonicParsing="false" onAction="#commentButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Comment" />
+      <Button fx:id="commentButton" layoutX="846.0" layoutY="250.0" mnemonicParsing="false" onAction="#commentButtonHandler" prefHeight="25.0" prefWidth="75.0" styleClass="button-base1" stylesheets="@style.css" text="Comment" />
     </children>
 </AnchorPane>

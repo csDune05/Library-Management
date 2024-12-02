@@ -30,27 +30,7 @@
       <Pane layoutX="124.0" layoutY="131.0" prefHeight="261.0" prefWidth="777.0" style="-fx-border-color: lightgray; -fx-border-radius: 20; -fx-background-radius: 20;" styleClass="rounded-pane" stylesheets="@style.css">
          <children>
             <Label layoutX="138.0" layoutY="12.0" stylesheets="@style.css" text="Borrowed" />
-            <Label fx:id="borrowedBooksLabel" layoutX="192.0" layoutY="12.0" text="Label">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="overdueBooksLabel" layoutX="320.0" layoutY="12.0" text="Label">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="visitTimesLabel" layoutX="470.0" layoutY="10.0" text="Label">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
             <Label layoutX="272.0" layoutY="12.0" text="Overdue" />
-            <Label fx:id="membersLabel" layoutX="625.0" layoutY="12.0" text="Label">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
             <Circle fill="#219cff" layoutX="557.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
             <Label layoutX="574.0" layoutY="12.0" text="Accounts" />
          </children></Pane>
@@ -120,9 +100,9 @@
             <NumberAxis fx:id="yAxis" side="LEFT" />
          </yAxis>
       </BarChart>
-      <Label layoutX="464.0" layoutY="92.0" prefHeight="8.0" prefWidth="105.0" stylesheets="@style.css" text="Over View">
+      <Label layoutX="460.0" layoutY="362.0" prefHeight="8.0" prefWidth="105.0" stylesheets="@style.css" text="Over View" textFill="#00b0fc">
          <font>
-            <Font size="20.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <Circle fill="#ff6121" layoutX="246.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
@@ -266,5 +246,65 @@
       <Button fx:id="seeAllButton" layoutX="316.0" layoutY="402.0" mnemonicParsing="false" onAction="#SeeAllButtonHandler" prefHeight="25.0" prefWidth="51.0" styleClass="button-base1" stylesheets="@style.css" text="See all" />
       <TextField fx:id="searchField" layoutX="592.0" layoutY="402.0" onAction="#performSearch" prefHeight="25.0" prefWidth="230.0" promptText="Search Books" />
       <Button fx:id="searchButton" layoutX="831.0" layoutY="402.0" mnemonicParsing="false" onAction="#performSearch" prefHeight="25.0" prefWidth="70.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="202.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/bookborrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="391.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/overdue.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="577.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/visitors.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="771.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/newmember.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="borrowedBooksLabel" layoutX="262.0" layoutY="99.0" text="Label">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="overdueBooksLabel" layoutX="450.0" layoutY="99.0" text="Label">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="visitTimesLabel" layoutX="650.0" layoutY="99.0" text="Label">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="membersLabel" layoutX="842.0" layoutY="99.0" text="Label">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="246.0" layoutY="80.0" text="Borrowed">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="434.0" layoutY="80.0" text="Overdue">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="629.0" layoutY="82.0" text="Visit times">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="822.0" layoutY="82.0" text="Members">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

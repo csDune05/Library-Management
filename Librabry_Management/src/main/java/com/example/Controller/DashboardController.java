@@ -253,10 +253,10 @@ public class DashboardController {
         int totalAccounts = DatabaseHelper.getTotalAccounts();
         int visitTimes = getVisitTimes();
 
-        borrowedBooksLabel.setText("(" + totalBorrowed + ")");
-        overdueBooksLabel.setText("(" + totalOverdue + ")");
-        visitTimesLabel.setText("(" + visitTimes + ")");
-        membersLabel.setText("(" + totalAccounts + ")");
+        borrowedBooksLabel.setText(String.valueOf(totalBorrowed));
+        overdueBooksLabel.setText(String.valueOf(totalOverdue));
+        visitTimesLabel.setText(String.valueOf(visitTimes));
+        membersLabel.setText(String.valueOf(totalAccounts));
     }
 
     private void updateTableView() {
