@@ -178,7 +178,7 @@
                   <Font name="System Bold" size="36.0" />
               </font>
           </Label>
-            <TextField layoutX="86.0" layoutY="74.0" prefHeight="38.0" prefWidth="770.0" promptText="Enter book's title or author" />
-            <Button defaultButton="true" layoutX="856.0" layoutY="74.0" prefHeight="38.0" prefWidth="92.0" text="Search" />
+            <TextField fx:id="searchField" layoutX="86.0" layoutY="74.0" onAction="#searchHandler" prefHeight="38.0" prefWidth="770.0" promptText="Enter book's title or author" />
+            <Button fx:id="searchButton" defaultButton="true" layoutX="856.0" layoutY="74.0" onAction="#searchHandler" prefHeight="38.0" prefWidth="92.0" text="Search" />
     </children>
 </AnchorPane>

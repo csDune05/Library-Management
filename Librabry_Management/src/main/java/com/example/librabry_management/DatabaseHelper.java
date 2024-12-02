@@ -426,7 +426,44 @@ public class DatabaseHelper extends Application {
         return -1;
     }
 
-    public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
+    public static List<Book> searchBooksForUser(int userId, String query) {
+        String sql = """
+        SELECT b.id, b.title, b.author, b.description, b.thumbnail_url, 
+               b.publisher, b.published_date, b.average_rating
+        FROM books b
+        JOIN user_books ub ON b.id = ub.book_id
+        WHERE ub.user_id = ? AND 
+              (b.title LIKE ? OR b.author LIKE ? OR b.description LIKE ?);
+    """;
+
+        List<Book> books = new ArrayList<>();
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            String keyword = "%" + query + "%";
+            pstmt.setString(2, keyword);
+            pstmt.setString(3, keyword);
+            pstmt.setString(4, keyword);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(new Book(
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("description"),
+                            rs.getString("thumbnail_url"),
+                            rs.getString("publisher"),
+                            rs.getString("published_date"),
+                            rs.getString("average_rating")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+        public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
         String sql = "SELECT COUNT(*) FROM user_books WHERE user_id = ? AND book_id = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
