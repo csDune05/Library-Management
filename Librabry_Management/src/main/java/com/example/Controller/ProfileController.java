@@ -138,6 +138,9 @@ public class ProfileController {
     }
 
     @FXML
+    public void passwordAndSecurityButtonHandler() {MainStaticObjectControl.openProfilePasswordAndSecurityStage(getCurrentStage());}
+
+    @FXML
     public void myLibraryButtonHandler() {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
