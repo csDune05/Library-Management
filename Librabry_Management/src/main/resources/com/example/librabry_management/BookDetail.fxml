@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
     <children>
       <ScrollPane layoutX="947.0" layoutY="104.0" prefHeight="606.0" prefWidth="263.0" stylesheets="@style.css">
          <content>
@@ -53,7 +60,7 @@
          </font>
       </Label>
       <Button fx:id="borrowBook" layoutX="255.0" layoutY="250.0" mnemonicParsing="false" onAction="#borrowBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
-      <Button fx:id="returnBook" layoutX="541.0" layoutY="250.0" mnemonicParsing="false" onAction="#returnBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
+      <Button fx:id="returnBook" layoutX="417.0" layoutY="250.0" mnemonicParsing="false" onAction="#returnBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Trả sách" />
       <Button fx:id="qrCodeButton" layoutX="808.0" layoutY="250.0" mnemonicParsing="false" onAction="#qrCodeButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="QR Code" />
       <Label fx:id="bookAuthor" layoutX="322.0" layoutY="119.0" text="Label">
          <font>
@@ -70,7 +77,23 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ScrollPane hbarPolicy="NEVER" layoutX="90.0" layoutY="291.0" prefHeight="420.0" prefWidth="852.0" styleClass="scroll-base" stylesheets="@style.css">
+      <AnchorPane fx:id="CommentPane" layoutX="85.0" layoutY="291.0" prefHeight="420.0" prefWidth="859.0" visible="false">
+         <children>
+            <Label layoutX="22.0" layoutY="14.0" text="Comment">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Line endX="717.0" layoutX="123.0" layoutY="57.0" opacity="0.5" startX="-100.0" />
+            <ScrollPane fx:id="CommentScrollPane" layoutX="22.0" layoutY="58.0" prefHeight="318.0" prefWidth="818.0">
+               <content>
+                  <VBox fx:id="commentListBox" prefHeight="316.0" prefWidth="814.0" />
+               </content></ScrollPane>
+            <TextField fx:id="commentTextField" layoutX="23.0" layoutY="381.0" prefHeight="34.0" prefWidth="739.0" promptText="Write your comment" />
+            <Button fx:id="confirmButton" layoutX="771.0" layoutY="383.0" mnemonicParsing="false" onAction="#confirmButtonHandler" prefHeight="30.0" prefWidth="69.0" styleClass="button-base1" stylesheets="@style.css" text="Confirm" />
+         </children>
+      </AnchorPane>
+      <ScrollPane fx:id="desdescriptionScrollPane" hbarPolicy="NEVER" layoutX="90.0" layoutY="291.0" prefHeight="420.0" prefWidth="852.0" styleClass="scroll-base" stylesheets="@style.css">
          <content>
             <TextFlow fx:id="bookDescription" prefHeight="411.0" prefWidth="834.0" style="-fx-border-color: transparent;" textAlignment="JUSTIFY" />
          </content>
@@ -84,7 +107,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="245.0" layoutY="20.0" mnemonicParsing="false" onAction="#backButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Back" />
+      <Button fx:id="backButton" layoutX="244.0" layoutY="23.0" mnemonicParsing="false" onAction="#backButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Back" />
       <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -94,7 +117,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <AnchorPane fx:id="notificationPane" layoutX="899.0" layoutY="83.0" prefHeight="626.0" prefWidth="311.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
+      <AnchorPane fx:id="notificationPane" layoutX="899.0" layoutY="72.0" prefHeight="637.0" prefWidth="311.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
          <children>
             <Label alignment="BASELINE_CENTER" layoutX="6.0" layoutY="2.0" prefHeight="56.0" prefWidth="163.0" text="Notifications" textFill="#326ae4">
                <font>
@@ -212,5 +235,6 @@
          </children>
       </Pane>
       <ImageView fx:id="bookImage" fitHeight="211.0" fitWidth="163.0" layoutX="90.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="commentButton" layoutX="605.0" layoutY="250.0" mnemonicParsing="false" onAction="#commentButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Comment" />
     </children>
 </AnchorPane>

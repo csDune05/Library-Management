@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -16,13 +10,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookController">
     <children>
       <Label layoutX="993.0" layoutY="74.0" text="Top Rating Book">
          <font>
@@ -70,7 +63,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <AnchorPane fx:id="notificationPane" layoutX="948.0" layoutY="86.0" prefHeight="601.0" prefWidth="237.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
+      <AnchorPane fx:id="notificationPane" layoutX="948.0" layoutY="74.0" prefHeight="618.0" prefWidth="252.0" styleClass="notification-pane" stylesheets="@style.css" visible="false">
          <children>
             <Label alignment="BASELINE_CENTER" layoutY="8.0" prefHeight="56.0" prefWidth="163.0" text="Notifications" textFill="#326ae4">
                <font>

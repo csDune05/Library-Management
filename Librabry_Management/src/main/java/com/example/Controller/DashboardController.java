@@ -1,7 +1,9 @@
 package com.example.Controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -57,6 +59,17 @@ public class DashboardController {
 
     @FXML
     private TableView<LoanRecord> loanRecordTableView;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button seeAllButton;
+
+    @FXML
+    private Button searchButton;
+
+    private ObservableList<Book> bookData = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<LoanRecord, String> idColumn;
@@ -240,10 +253,10 @@ public class DashboardController {
         int totalAccounts = DatabaseHelper.getTotalAccounts();
         int visitTimes = getVisitTimes();
 
-        borrowedBooksLabel.setText(String.valueOf(totalBorrowed));
-        overdueBooksLabel.setText(String.valueOf(totalOverdue));
-        visitTimesLabel.setText(String.valueOf(visitTimes));
-        membersLabel.setText(String.valueOf(totalAccounts));
+        borrowedBooksLabel.setText("(" + totalBorrowed + ")");
+        overdueBooksLabel.setText("(" + totalOverdue + ")");
+        visitTimesLabel.setText("(" + visitTimes + ")");
+        membersLabel.setText("(" + totalAccounts + ")");
     }
 
     private void updateTableView() {
@@ -254,9 +267,45 @@ public class DashboardController {
         overdueColumn.setCellValueFactory(new PropertyValueFactory<>("overdue"));
         returnDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnDate"));
 
+        User currentUser = MainStaticObjectControl.getCurrentUser();
+
+        if (currentUser == null) {
+            System.out.println("Can not find current user");
+            return;
+        }
+
+        String currentUserName = currentUser.getName();
+
         // Lấy dữ liệu từ DatabaseHelper và cập nhật TableView
-        ObservableList<LoanRecord> data = DatabaseHelper.getLoanRecords();
+        ObservableList<LoanRecord> allData = DatabaseHelper.getLoanRecords();
+        ObservableList<LoanRecord> data = allData.filtered(record ->
+                record.getMember().equals(currentUserName)
+        );
         loanRecordTableView.setItems(data);
+        if (data.isEmpty()) {
+            System.out.println("No loan records found: " + currentUserName);
+        }
+    }
+
+    public void performSearch() {
+        String query = searchField.getText().trim().toLowerCase();
+
+        if (query.isEmpty()) {
+            updateTableView();
+            return;
+        }
+
+        ObservableList<LoanRecord> filteredRecords = DatabaseHelper.getLoanRecords().filtered(record ->
+                record.getTitle().toLowerCase().contains(query)
+        );
+
+        loanRecordTableView.setItems(filteredRecords);
+    }
+
+    @FXML
+    private void SeeAllButtonHandler() {
+        searchField.clear();
+        updateTableView();
     }
 
     private void loadBookCards() {
