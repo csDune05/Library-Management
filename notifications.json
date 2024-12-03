@@ -144,6 +144,11 @@
             "message": "You returned the Messi book.",
             "read": true,
             "timestamp": "17h46 03/12/2024"
+        },
+        {
+            "message": "You borrowed the Messi book.",
+            "read": false,
+            "timestamp": "17h49 03/12/2024"
         }
     ],
     "csDune": [

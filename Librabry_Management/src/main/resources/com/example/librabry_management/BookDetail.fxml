@@ -19,9 +19,9 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
     <children>
-      <Pane layoutX="532.0" layoutY="563.0" prefHeight="94.0" prefWidth="399.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 30; -fx-border-radius: 30;" />
-      <Pane layoutX="534.0" layoutY="144.0" prefHeight="367.0" prefWidth="399.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 30; -fx-border-radius: 30;" />
-      <Pane layoutX="201.0" layoutY="575.0" prefHeight="70.0" prefWidth="242.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 25; -fx-border-radius: 25;">
+      <Pane layoutX="507.0" layoutY="562.0" prefHeight="94.0" prefWidth="399.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 30; -fx-border-radius: 30;" />
+      <Pane layoutX="508.0" layoutY="144.0" prefHeight="367.0" prefWidth="399.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 30; -fx-border-radius: 30;" />
+      <Pane layoutX="178.0" layoutY="575.0" prefHeight="70.0" prefWidth="242.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 25; -fx-border-radius: 25;">
          <children>
             <Button fx:id="borrowBook" layoutX="21.0" layoutY="10.0" mnemonicParsing="false" onAction="#borrowBookHandler" prefHeight="50.0" prefWidth="50.0" styleClass="button-base6" stylesheets="@style.css">
                <graphic>
@@ -51,18 +51,18 @@
                </graphic>
             </Button>
          </children></Pane>
-      <Circle fill="WHITESMOKE" layoutX="322.0" layoutY="328.0" radius="170.0" stroke="WHITE" strokeType="INSIDE" />
-      <Label fx:id="bookYear" layoutX="661.0" layoutY="623.0" opacity="0.6" prefHeight="20.0" prefWidth="126.0" text="date" wrapText="true">
+      <Circle fill="WHITESMOKE" layoutX="299.0" layoutY="328.0" radius="170.0" stroke="WHITE" strokeType="INSIDE" />
+      <Label fx:id="bookYear" layoutX="636.0" layoutY="622.0" opacity="0.6" prefHeight="20.0" prefWidth="126.0" text="date" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="812.0" layoutY="577.0" text="View:">
+      <Label layoutX="787.0" layoutY="576.0" text="View:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="bookView" layoutX="869.0" layoutY="577.0" opacity="0.6" text="Label">
+      <Label fx:id="bookView" layoutX="844.0" layoutY="576.0" opacity="0.6" text="Label">
          <font>
             <Font size="14.0" />
          </font>
@@ -76,19 +76,19 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Line endX="307.2000732421875" layoutX="637.0" layoutY="531.0" opacity="0.15" startX="-104.70001220703125" />
+      <Line endX="270.20001220703125" layoutX="635.0" layoutY="539.0" opacity="0.15" startX="-125.0" />
         <Line endX="958.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-162.5" />
         <Line endX="50.0" endY="-75.49999237060547" layoutX="894.0" layoutY="149.0" opacity="0.15" startX="50.0" startY="558.0" />
-      <ImageView fx:id="bookImage" fitHeight="330.0" fitWidth="220.0" layoutX="212.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="bookImage" fitHeight="330.0" fitWidth="220.0" layoutX="189.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="935.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@Images/avatar.png" />
             </image>
         </ImageView>
         <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1005.0" layoutY="19.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" />
-      <VBox layoutX="549.0" layoutY="151.0" prefHeight="341.0" prefWidth="386.0">
+      <VBox layoutX="523.0" layoutY="151.0" prefHeight="341.0" prefWidth="386.0">
          <children>
-            <Label fx:id="bookTitle" prefHeight="12.0" prefWidth="344.0" text="Dế mèn phiêu lưu kí" wrapText="true">
+            <Label fx:id="bookTitle" prefHeight="12.0" prefWidth="344.0" text="Xuân Huấn dạy triết lý" wrapText="true">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
@@ -122,26 +122,26 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="549.0" layoutY="623.0" text="Release Date:">
+      <Label layoutX="524.0" layoutY="622.0" text="Release Date:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="549.0" layoutY="577.0" text="Publisher:">
+      <Label layoutX="524.0" layoutY="576.0" text="Publisher:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="bookPublisher" layoutX="663.0" layoutY="577.0" opacity="0.6" prefHeight="20.0" prefWidth="126.0" text="nxb" wrapText="true">
+      <Label fx:id="bookPublisher" layoutX="638.0" layoutY="576.0" opacity="0.6" prefHeight="20.0" prefWidth="126.0" text="nxb" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="812.0" layoutY="623.0" text="Rating:">
+      <Label layoutX="787.0" layoutY="622.0" text="Rating:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="ratingStarLabel" layoutX="869.0" layoutY="623.0" opacity="0.6" text="rt" textAlignment="CENTER">
+      <Label fx:id="ratingStarLabel" layoutX="844.0" layoutY="622.0" opacity="0.6" text="rt" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
