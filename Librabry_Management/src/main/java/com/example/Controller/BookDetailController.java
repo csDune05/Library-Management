@@ -103,9 +103,6 @@ public class BookDetailController implements Initializable {
     private Button borrowBook;
 
     @FXML
-    private Button returnBook;
-
-    @FXML
     private Button qrCodeButton;
 
     @FXML
@@ -299,6 +296,11 @@ public class BookDetailController implements Initializable {
         return null;
     }
 
+    @FXML
+    private void exitComment() {
+        CommentPane.setVisible(false);
+    }
+
     private int getCurrentBookId() {
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1")) {
@@ -314,63 +316,28 @@ public class BookDetailController implements Initializable {
         return -1; // Return -1 if the book is not found
     }
 
-    @FXML
-    public void returnBookHandler() {
-        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
-        if (currentUser != null) {
-            int bookId = getCurrentBookId(); // Lấy book_id của sách hiện tại
-            if (bookId > 0) {
-                boolean success = DatabaseHelper.returnBook(currentUser.getId(), bookId);
-                if (success) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Return Book");
-                    alert.setContentText("Book returned successfully!");
-                    alert.showAndWait();
-
-                    // Thêm thông báo trả sách.
-                    String bookTitle = this.bookTitle.getText();
-                    String notification = "You returned the " + bookTitle + " book.";
-
-                    MainStaticObjectControl.addNotificationToFile(notification);
-                    MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
-                    MainStaticObjectControl.updateNotificationIcon(notificationImageView);
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Return Book");
-                    alert.setContentText("This book is not found in your library.");
-                    alert.showAndWait();
-                }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Return Book");
-                alert.setContentText("Book ID not found to return.");
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Return Book");
-            alert.setContentText("User information not found. Please log in again.");
-            alert.showAndWait();
-        }
-    }
-
     public void setBookDetail(Book book) {
         CompletableFuture.runAsync(() -> {
             Image image = new Image(book.getThumbnailUrl(), true);
-            Platform.runLater(() -> bookImage.setImage(image));
+            Platform.runLater(() -> {
+                bookImage.setImage(image);
+                bookImage.setPreserveRatio(true); // Giữ tỷ lệ hình ảnh
+                bookImage.setFitWidth(200); // Đặt chiều rộng tối đa (hoặc chiều cao nếu cần)
+                bookImage.setFitHeight(300);
+            });
         });
         bookTitle.setText(book.getTitle());// Tiêu đề
         currentBookName = book.getTitle();
-        bookAuthor.setText(book.getAuthor()); // Tác giả
+        bookAuthor.setText(book.getAuthor().toUpperCase()); // Tác giả
         bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
         bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
-        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "★");
+        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "  ★");
 
         String Description = "Description: ";
         Text descriptionTextTitle = new Text(Description + "\n");
-        descriptionTextTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18");
+        descriptionTextTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14");
         Text descriptionText = new Text("\t" + book.getDescription());
-        descriptionText.setStyle("-fx-font-size: 18;"); // Thiết lập font-size
+        descriptionText.setStyle("-fx-font-size: 14;"); // Thiết lập font-size
         bookDescription.getChildren().clear(); // Xóa nội dung cũ nếu có
         bookDescription.getChildren().addAll(descriptionTextTitle, descriptionText);
 
@@ -431,13 +398,7 @@ public class BookDetailController implements Initializable {
     public void commentButtonHandler() {
         Book currentBook = getCurrentBook();
         if (currentBook != null) {
-            if (desdescriptionScrollPane.isVisible() && !CommentPane.isVisible()) {
-                desdescriptionScrollPane.setVisible(false);
-                CommentPane.setVisible(true);
-            } else if (!desdescriptionScrollPane.isVisible() && CommentPane.isVisible()) {
-                desdescriptionScrollPane.setVisible(true);
-                CommentPane.setVisible(false);
-            }
+            CommentPane.setVisible(true);
             updateComment(CommentScrollPane, commentListBox);
         }
     }

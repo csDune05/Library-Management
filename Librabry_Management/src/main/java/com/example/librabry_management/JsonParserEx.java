@@ -8,7 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JsonParserEx {
 
@@ -82,6 +84,26 @@ public class JsonParserEx {
         }
 
         return suggestions;
+    }
+
+    public static String getVideoUrl(String jsonResponse) {
+        try {
+            JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
+            JsonArray items = jsonObject.getAsJsonArray("items");
+
+            if (items != null && items.size() > 0) {
+                JsonObject firstItem = items.get(0).getAsJsonObject();
+                JsonObject idObject = firstItem.getAsJsonObject("id");
+
+                if (idObject != null) {
+                    String videoId = idObject.get("videoId").getAsString();
+                    return "https://www.youtube.com/watch?v=" + videoId;  // Trả về URL video
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;  // Nếu không tìm thấy hoặc có lỗi, trả về null
     }
 
 }
