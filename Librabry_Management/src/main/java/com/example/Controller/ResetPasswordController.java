@@ -38,7 +38,7 @@ public class ResetPasswordController {
         }
 
         if (newPassword.equals(confirmPassword)) {
-            // Logic để cập nhật mật khẩu trong cơ sở dữ liệu
+
             try (Connection connection = DatabaseHelper.connect()) {
                 String updatePasswordQuery = "UPDATE users SET password = ? WHERE email = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(updatePasswordQuery);

@@ -90,7 +90,7 @@
                </font>
             </Button>
             <Line endX="388.4329833984375" endY="-1.1587142944335938E-4" opacity="0.2" startX="196.84719848632812" />
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="211.0" styleClass="HomeButton" stylesheets="@style.css" text="Password &amp; Security">
+            <Button mnemonicParsing="false" onAction="#passwordAndSecurityButtonHandler" prefHeight="37.0" prefWidth="211.0" styleClass="HomeButton" stylesheets="@style.css" text="Password &amp; Security">
                <font>
                   <Font size="18.0" />
                </font>

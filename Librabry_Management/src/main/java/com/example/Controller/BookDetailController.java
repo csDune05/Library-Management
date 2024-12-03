@@ -6,6 +6,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -101,9 +103,6 @@ public class BookDetailController implements Initializable {
 
     @FXML
     private Button borrowBook;
-
-    @FXML
-    private Button returnBook;
 
     @FXML
     private Button qrCodeButton;
@@ -299,6 +298,11 @@ public class BookDetailController implements Initializable {
         return null;
     }
 
+    @FXML
+    private void exitComment() {
+        CommentPane.setVisible(false);
+    }
+
     private int getCurrentBookId() {
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1")) {
@@ -314,63 +318,28 @@ public class BookDetailController implements Initializable {
         return -1; // Return -1 if the book is not found
     }
 
-    @FXML
-    public void returnBookHandler() {
-        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
-        if (currentUser != null) {
-            int bookId = getCurrentBookId(); // Lấy book_id của sách hiện tại
-            if (bookId > 0) {
-                boolean success = DatabaseHelper.returnBook(currentUser.getId(), bookId);
-                if (success) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Return Book");
-                    alert.setContentText("Book returned successfully!");
-                    alert.showAndWait();
-
-                    // Thêm thông báo trả sách.
-                    String bookTitle = this.bookTitle.getText();
-                    String notification = "You returned the " + bookTitle + " book.";
-
-                    MainStaticObjectControl.addNotificationToFile(notification);
-                    MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
-                    MainStaticObjectControl.updateNotificationIcon(notificationImageView);
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Return Book");
-                    alert.setContentText("This book is not found in your library.");
-                    alert.showAndWait();
-                }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Return Book");
-                alert.setContentText("Book ID not found to return.");
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Return Book");
-            alert.setContentText("User information not found. Please log in again.");
-            alert.showAndWait();
-        }
-    }
-
     public void setBookDetail(Book book) {
         CompletableFuture.runAsync(() -> {
             Image image = new Image(book.getThumbnailUrl(), true);
-            Platform.runLater(() -> bookImage.setImage(image));
+            Platform.runLater(() -> {
+                bookImage.setImage(image);
+                bookImage.setPreserveRatio(true); // Giữ tỷ lệ hình ảnh
+                bookImage.setFitWidth(200); // Đặt chiều rộng tối đa (hoặc chiều cao nếu cần)
+                bookImage.setFitHeight(300);
+            });
         });
         bookTitle.setText(book.getTitle());// Tiêu đề
         currentBookName = book.getTitle();
-        bookAuthor.setText(book.getAuthor()); // Tác giả
+        bookAuthor.setText(book.getAuthor().toUpperCase()); // Tác giả
         bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
         bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
-        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "★");
+        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "  ★");
 
         String Description = "Description: ";
         Text descriptionTextTitle = new Text(Description + "\n");
-        descriptionTextTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18");
+        descriptionTextTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14");
         Text descriptionText = new Text("\t" + book.getDescription());
-        descriptionText.setStyle("-fx-font-size: 18;"); // Thiết lập font-size
+        descriptionText.setStyle("-fx-font-size: 14;"); // Thiết lập font-size
         bookDescription.getChildren().clear(); // Xóa nội dung cũ nếu có
         bookDescription.getChildren().addAll(descriptionTextTitle, descriptionText);
 
@@ -431,13 +400,7 @@ public class BookDetailController implements Initializable {
     public void commentButtonHandler() {
         Book currentBook = getCurrentBook();
         if (currentBook != null) {
-            if (desdescriptionScrollPane.isVisible() && !CommentPane.isVisible()) {
-                desdescriptionScrollPane.setVisible(false);
-                CommentPane.setVisible(true);
-            } else if (!desdescriptionScrollPane.isVisible() && CommentPane.isVisible()) {
-                desdescriptionScrollPane.setVisible(true);
-                CommentPane.setVisible(false);
-            }
+            CommentPane.setVisible(true);
             updateComment(CommentScrollPane, commentListBox);
         }
     }
@@ -447,7 +410,7 @@ public class BookDetailController implements Initializable {
         String commentText = commentTextField.getText();
         if (!commentText.trim().isEmpty()) {
             String username = MainStaticObjectControl.getCurrentUser().getName();
-            addCommentToFile(commentText, username);
+            addCommentToFile(commentText, username, 0, 0);
             updateComment(CommentScrollPane, commentListBox);
             commentTextField.clear();
         }
@@ -456,34 +419,145 @@ public class BookDetailController implements Initializable {
     public void updateComment(ScrollPane CommentScrollPane, VBox commentListBox) {
         List<String> comments = readCommentsForBook();
         commentListBox.getChildren().clear();
+        boolean[] isLiked = {false};
+        boolean[] isDisliked = {false};
 
         VBox commentList = new VBox();
         commentList.setSpacing(10);
 
         for (String comment : comments) {
-            String[] parts = comment.split("_", 3);
+            String[] parts = comment.split("_", 5);
 
             VBox commentItem = new VBox();
             commentItem.setStyle("-fx-padding: 10; -fx-background-color: transparent; -fx-border-color: #ccc; -fx-border-width: 1;");
 
+            // Username và thời gian
+            HBox headerBox = new HBox();
+            headerBox.setSpacing(10);
+            headerBox.setAlignment(Pos.BASELINE_LEFT);
+
             Label usernameLabel = new Label(parts[0]);
-            usernameLabel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: black;");
+            usernameLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: navy;");
 
             Label timestampLabel = new Label("_" + parts[2] + "_");
-            timestampLabel.setStyle("-fx-font-size: 14; -fx-font-style: italic; -fx-text-fill: gray;");
+            timestampLabel.setStyle("-fx-font-size: 12; -fx-font-style: italic; -fx-text-fill: gray;");
 
+            headerBox.getChildren().addAll(usernameLabel, timestampLabel);
+
+            // nội dung
             Text commentText = new Text(parts[1]);
             commentText.setStyle("-fx-font-size: 14; -fx-text-fill: black;");
             commentText.setWrappingWidth(CommentScrollPane.getWidth());
 
-            commentItem.getChildren().addAll(usernameLabel, commentText, timestampLabel);
+            // nút like
+            Button likeButton = new Button(parts[3]);
+            ImageView likeImage = new ImageView(new Image(BookDetailController.class.getResource("/com/example/librabry_management/Images/like.png").toExternalForm()));
+            likeImage.setFitHeight(20);
+            likeImage.setFitWidth(20);
+            likeButton.setGraphic(likeImage);likeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;");
+            likeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;");
+            likeButton.setAlignment(Pos.CENTER_LEFT);
+
+            // nút unlike
+            Button unlikeButton = new Button(parts[4]);
+            ImageView dislikeImage = new ImageView(new Image(BookDetailController.class.getResource("/com/example/librabry_management/Images/dislike.png").toExternalForm()));
+            dislikeImage.setFitHeight(20);
+            dislikeImage.setFitWidth(20);
+            unlikeButton.setGraphic(dislikeImage);
+            unlikeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;");
+            unlikeButton.setAlignment(Pos.CENTER_LEFT);
+
+            // xử lí sự kiện like unlike
+            likeButton.setOnAction(event -> {
+                if (isLiked[0]) {
+                    isLiked[0] = false;
+                    likeButton.setStyle("-fx-background-color: transparent;");
+                    likeButton.setText(String.valueOf(Integer.parseInt(likeButton.getText()) - 1));
+                    updateLikesInJson(parts, -1, 0);
+                } else {
+                    isLiked[0] = true;
+                    likeButton.setStyle("-fx-background-color: lightblue;");
+                    likeButton.setText(String.valueOf(Integer.parseInt(likeButton.getText()) + 1));
+
+                    if (isDisliked[0]) {
+                        isDisliked[0] = false;
+                        unlikeButton.setStyle("-fx-background-color: transparent;");
+                        unlikeButton.setText(String.valueOf(Integer.parseInt(unlikeButton.getText()) - 1));
+                        updateLikesInJson(parts, 1, -1);
+                    } else {
+                        updateLikesInJson(parts, 1, 0);
+                    }
+                }
+            });
+
+            unlikeButton.setOnAction(event -> {
+                if (isDisliked[0]) {
+                    isDisliked[0] = false;
+                    unlikeButton.setStyle("-fx-background-color: transparent;");
+                    unlikeButton.setText(String.valueOf(Integer.parseInt(unlikeButton.getText()) - 1));
+                    updateLikesInJson(parts, 0, -1);
+                } else {
+                    isDisliked[0] = true;
+                    unlikeButton.setStyle("-fx-background-color: lightcoral;");
+                    unlikeButton.setText(String.valueOf(Integer.parseInt(unlikeButton.getText()) + 1));
+
+                    if (isLiked[0]) {
+                        isLiked[0] = false;
+                        likeButton.setStyle("-fx-background-color: transparent;");
+                        likeButton.setText(String.valueOf(Integer.parseInt(likeButton.getText()) - 1));
+                        updateLikesInJson(parts, -1, 1);
+                    } else {
+                        updateLikesInJson(parts, 0, 1);
+                    }
+                }
+            });
+
+            HBox emotionBox = new HBox();
+            emotionBox.setSpacing(10);
+            emotionBox.getChildren().addAll(likeButton, unlikeButton);
+            VBox.setMargin(emotionBox, new Insets(10, 0, 0, 0));
+
+            commentItem.getChildren().addAll(headerBox, commentText, emotionBox);
             commentList.getChildren().add(commentItem);
         }
 
         CommentScrollPane.setContent(commentList);
     }
 
-    public void addCommentToFile(String comment, String username) {
+    private void updateLikesInJson(String[] parts, int likeChange, int dislikeChange) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
+
+            JSONObject root = new JSONObject(jsonContent.toString());
+            JSONArray comments = root.getJSONArray(currentBookName);
+
+            for (int i = 0; i < comments.length(); i++) {
+                JSONObject comment = comments.getJSONObject(i);
+                if (comment.getString("username").equals(parts[0]) &&
+                        comment.getString("timestamp").equals(parts[2])) {
+                    // Cập nhật likes và dislikes
+                    int newLikes = Math.max(0, comment.getInt("likes") + likeChange);
+                    int newDislikes = Math.max(0, comment.getInt("dislikes") + dislikeChange);
+
+                    comment.put("likes", newLikes);
+                    comment.put("dislikes", newDislikes);
+                    break;
+                }
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("comments.json"))) {
+                writer.write(root.toString(4));
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addCommentToFile(String comment, String username, int countLike, int countDislike) {
         try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
             StringBuilder jsonContent = new StringBuilder();
             String line;
@@ -515,6 +589,8 @@ public class BookDetailController implements Initializable {
             commentObject.put("username", username);
             commentObject.put("timestamp", getCurrentTimestamp());
             commentObject.put("comment", comment);
+            commentObject.put("likes", countLike);
+            commentObject.put("dislikes", countDislike);
             comments.put(commentObject);
             root.put(currentBookName, comments);
 
@@ -559,7 +635,9 @@ public class BookDetailController implements Initializable {
                         String username = comment.getString("username");
                         String commentText = comment.getString("comment");
                         String timestamp = comment.getString("timestamp");
-                        comments.add(username + "_" + commentText + "_" + timestamp);
+                        int countLikes = comment.getInt("likes");
+                        int countDislikes = comment.getInt("dislikes");
+                        comments.add(username + "_" + commentText + "_" + timestamp + "_" + countLikes + "_" + countDislikes);
                     }
                 }
             }
