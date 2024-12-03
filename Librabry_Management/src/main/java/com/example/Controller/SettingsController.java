@@ -1,9 +1,7 @@
 package com.example.Controller;
 
-import com.example.librabry_management.MainStaticObjectControl;
-
-
-import com.example.librabry_management.ThemeManager;
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;

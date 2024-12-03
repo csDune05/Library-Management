@@ -4,7 +4,8 @@ import org.vosk.Model;
 import org.vosk.Recognizer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import com.example.librabry_management.*;
+import com.example.Controller.*;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.nio.charset.StandardCharsets;

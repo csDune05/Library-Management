@@ -345,7 +345,7 @@ public class BookDetailController implements Initializable {
         bookAuthor.setText(book.getAuthor().toUpperCase()); // Tác giả
         bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
         bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
-        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "  ★");
+        ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + " ★");
         bookView.setText(String.valueOf(book.getView()));
 
 

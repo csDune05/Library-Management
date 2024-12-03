@@ -7,13 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import com.example.librabry_management.*;
+import com.example.Feature.*;
 
 public class SignUpController implements Initializable {
     @FXML

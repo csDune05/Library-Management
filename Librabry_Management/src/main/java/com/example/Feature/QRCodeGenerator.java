@@ -5,7 +5,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-
+import com.example.librabry_management.*;
+import com.example.Controller.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;

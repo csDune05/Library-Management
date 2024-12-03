@@ -7,7 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
+import com.example.Controller.*;
+import com.example.Feature.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 

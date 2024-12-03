@@ -15,9 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 

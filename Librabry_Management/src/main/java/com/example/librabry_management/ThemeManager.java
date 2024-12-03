@@ -1,7 +1,10 @@
 package com.example.librabry_management;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import java.util.prefs.Preferences;
+import com.example.Controller.*;
+import com.example.Feature.*;
 
 public class ThemeManager {
 

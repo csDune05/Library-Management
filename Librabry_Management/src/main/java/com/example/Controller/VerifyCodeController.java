@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 
 public class VerifyCodeController {
     @FXML
