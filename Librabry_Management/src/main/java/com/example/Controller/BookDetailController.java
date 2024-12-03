@@ -419,8 +419,6 @@ public class BookDetailController implements Initializable {
     public void updateComment(ScrollPane CommentScrollPane, VBox commentListBox) {
         List<String> comments = readCommentsForBook();
         commentListBox.getChildren().clear();
-        boolean[] isLiked = {false};
-        boolean[] isDisliked = {false};
 
         VBox commentList = new VBox();
         commentList.setSpacing(10);
@@ -454,7 +452,7 @@ public class BookDetailController implements Initializable {
             ImageView likeImage = new ImageView(new Image(BookDetailController.class.getResource("/com/example/librabry_management/Images/like.png").toExternalForm()));
             likeImage.setFitHeight(20);
             likeImage.setFitWidth(20);
-            likeButton.setGraphic(likeImage);likeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;");
+            likeButton.setGraphic(likeImage);
             likeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;");
             likeButton.setAlignment(Pos.CENTER_LEFT);
 
@@ -467,22 +465,27 @@ public class BookDetailController implements Initializable {
             unlikeButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;");
             unlikeButton.setAlignment(Pos.CENTER_LEFT);
 
-            // xử lí sự kiện like unlike
+            // xử lí sự kiện like
             likeButton.setOnAction(event -> {
-                if (isLiked[0]) {
-                    isLiked[0] = false;
+                Boolean isLiked = (Boolean) likeButton.getProperties().getOrDefault("isLiked", false);
+                Boolean isDisliked = (Boolean) unlikeButton.getProperties().getOrDefault("isDisliked", false);
+
+                if (isLiked) {
                     likeButton.setStyle("-fx-background-color: transparent;");
                     likeButton.setText(String.valueOf(Integer.parseInt(likeButton.getText()) - 1));
+                    likeButton.getProperties().put("isLiked", false);
+
                     updateLikesInJson(parts, -1, 0);
                 } else {
-                    isLiked[0] = true;
                     likeButton.setStyle("-fx-background-color: lightblue;");
                     likeButton.setText(String.valueOf(Integer.parseInt(likeButton.getText()) + 1));
+                    likeButton.getProperties().put("isLiked", true);
 
-                    if (isDisliked[0]) {
-                        isDisliked[0] = false;
+                    if (isDisliked) {
                         unlikeButton.setStyle("-fx-background-color: transparent;");
                         unlikeButton.setText(String.valueOf(Integer.parseInt(unlikeButton.getText()) - 1));
+                        unlikeButton.getProperties().put("isDisliked", false);
+
                         updateLikesInJson(parts, 1, -1);
                     } else {
                         updateLikesInJson(parts, 1, 0);
@@ -490,21 +493,27 @@ public class BookDetailController implements Initializable {
                 }
             });
 
+            // xử lí sự kiện unlike
             unlikeButton.setOnAction(event -> {
-                if (isDisliked[0]) {
-                    isDisliked[0] = false;
+                Boolean isLiked = (Boolean) likeButton.getProperties().getOrDefault("isLiked", false);
+                Boolean isDisliked = (Boolean) unlikeButton.getProperties().getOrDefault("isDisliked", false);
+
+                if (isDisliked) {
                     unlikeButton.setStyle("-fx-background-color: transparent;");
                     unlikeButton.setText(String.valueOf(Integer.parseInt(unlikeButton.getText()) - 1));
+                    unlikeButton.getProperties().put("isDisliked", false);
+
                     updateLikesInJson(parts, 0, -1);
                 } else {
-                    isDisliked[0] = true;
                     unlikeButton.setStyle("-fx-background-color: lightcoral;");
                     unlikeButton.setText(String.valueOf(Integer.parseInt(unlikeButton.getText()) + 1));
+                    unlikeButton.getProperties().put("isDisliked", true);
 
-                    if (isLiked[0]) {
-                        isLiked[0] = false;
+                    if (isLiked) {
                         likeButton.setStyle("-fx-background-color: transparent;");
                         likeButton.setText(String.valueOf(Integer.parseInt(likeButton.getText()) - 1));
+                        likeButton.getProperties().put("isLiked", false);
+
                         updateLikesInJson(parts, -1, 1);
                     } else {
                         updateLikesInJson(parts, 0, 1);
