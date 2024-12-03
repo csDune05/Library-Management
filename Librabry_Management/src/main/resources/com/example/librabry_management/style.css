@@ -356,5 +356,50 @@
     -fx-opacity: 1; /* Hiện thanh cuộn khi rê chuột vào */
 }
 
+/* Định dạng chung cho ComboBox */
+.combo-box {
+    -fx-background-color: #ffffff;  /* Màu nền trắng */
+    -fx-border-color: transparent;  /* Mất viền */
+    -fx-background-radius: 5px;  /* Bo tròn góc */
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);  /* Độ bóng nhẹ */
+    -fx-font-size: 14px;  /* Phông chữ */
+    -fx-font-family: "Arial", sans-serif;  /* Phông chữ */
+    -fx-text-fill: #333;  /* Màu chữ đen */
+    -fx-pref-height: 30px;  /* Chiều cao mặc định */
+}
 
+/* Hiệu ứng khi hover trên ComboBox */
+.combo-box:hover {
+    -fx-background-color: #e0f7fa;  /* Màu nền khi hover */
+}
+
+/* Tùy chỉnh các mục trong dropdown */
+.combo-box .list-cell {
+    -fx-background-color: #ffffff;  /* Nền trắng */
+    -fx-text-fill: #333;  /* Màu chữ đen */
+    -fx-padding: 5px 10px;  /* Khoảng cách các mục trong dropdown */
+    -fx-font-size: 13px;  /* Phông chữ nhỏ hơn */
+}
+
+/* Hiệu ứng khi hover vào mục trong dropdown */
+.combo-box .list-cell:hover {
+    -fx-background-color: #b2ebf2;  /* Màu nền khi hover */
+    -fx-text-fill: #00796b;  /* Màu chữ sáng xanh */
+}
+
+/* Tùy chỉnh khi mục được chọn */
+.combo-box .list-cell:focused {
+    -fx-background-color: #009688;  /* Màu nền khi chọn */
+    -fx-text-fill: white;  /* Màu chữ sáng trắng khi chọn */
+}
+
+/* Tùy chỉnh mũi tên */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;  /* Ẩn mũi tên nền */
+}
+
+/* Hiệu ứng mũi tên khi hover */
+.combo-box .arrow-button:hover {
+    -fx-background-color: #e0f7fa;  /* Màu nền mũi tên khi hover */
+}
 
