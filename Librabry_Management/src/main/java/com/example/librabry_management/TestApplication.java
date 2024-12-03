@@ -1,5 +1,8 @@
 package com.example.librabry_management;
 
+
+import com.example.Feature.*;
+import com.example.Controller.*;
 import com.example.Feature.VoskManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

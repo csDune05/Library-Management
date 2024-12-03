@@ -14,9 +14,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -28,18 +25,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
-
+import com.example.Feature.*;
 import javax.sound.sampled.*;
 
 
 public class BookController {
-    @FXML
-    private TextField bookTitle;
 
     @FXML
     private VBox topRateBook;
@@ -88,9 +82,6 @@ public class BookController {
 
     @FXML
     private VBox notificationList;
-
-    @FXML
-    private TextArea notificationText;
 
     @FXML
     private Button voiceButton;

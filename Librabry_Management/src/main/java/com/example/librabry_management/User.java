@@ -1,5 +1,8 @@
 package com.example.librabry_management;
 
+import com.example.Controller.*;
+import com.example.Feature.*;
+
 public class User {
     protected int id;
     protected String name;

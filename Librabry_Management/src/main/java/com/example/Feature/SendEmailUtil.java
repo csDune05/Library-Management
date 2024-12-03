@@ -1,8 +1,10 @@
-package com.example.librabry_management;
+package com.example.Feature;
 
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
+import com.example.librabry_management.*;
+import com.example.Controller.*;
 
 public class SendEmailUtil {
     private static final String SMTP_HOST = "smtp.gmail.com";

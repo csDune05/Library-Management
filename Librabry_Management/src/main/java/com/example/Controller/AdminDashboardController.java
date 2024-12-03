@@ -1,6 +1,5 @@
 package com.example.Controller;
 
-import com.example.librabry_management.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
-
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -460,7 +460,8 @@ public class AdminDashboardController {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 ));
             }
             bookTableView.setItems(bookList);
@@ -508,7 +509,7 @@ public class AdminDashboardController {
             return;
         }
 
-        Book newBook = new Book(title, author, description, "", publisher, date, rating);
+        Book newBook = new Book(title, author, description, "", publisher, date, rating, 0);
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("INSERT INTO books (title, author, description, publisher, published_date, average_rating) VALUES (?, ?, ?, ?, ?, ?)");) {
             pstmt.setString(1, newBook.getTitle());

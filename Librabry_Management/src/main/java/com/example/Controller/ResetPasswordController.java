@@ -1,14 +1,10 @@
 package com.example.Controller;
 
-import com.example.librabry_management.DatabaseHelper;
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

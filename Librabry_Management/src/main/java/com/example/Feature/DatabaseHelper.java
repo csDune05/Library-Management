@@ -1,5 +1,7 @@
-package com.example.librabry_management;
+package com.example.Feature;
 
+import com.example.librabry_management.*;
+import com.example.Controller.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -72,7 +74,8 @@ public class DatabaseHelper extends Application {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 ));
             }
         } catch (SQLException e) {
@@ -97,13 +100,32 @@ public class DatabaseHelper extends Application {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return book;
+    }
+
+    public static int getViewOfBook(String title) {
+        String sql = "SELECT view FROM books WHERE title = ?;";
+        int res = 0;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                res = rs.getInt("view");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     public static List<Book> getTopRateBooks() {
@@ -127,7 +149,8 @@ public class DatabaseHelper extends Application {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 ));
             }
         } catch (SQLException e) {
@@ -233,7 +256,8 @@ public class DatabaseHelper extends Application {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 ));
             }
         } catch (SQLException e) {
@@ -253,6 +277,7 @@ public class DatabaseHelper extends Application {
             birthdate DATE NOT NULL,
             phone_number VARCHAR(15) NOT NULL,
             location VARCHAR(255) NOT NULL,
+            lastReturnBook TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         """;
@@ -284,6 +309,76 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    public static void saveLastReturnBook(int userId, String lastReturnBookInfo) {
+        String sql = """
+        UPDATE users
+        SET lastReturnBook = ?
+        WHERE id = ?;
+    """;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, lastReturnBookInfo);
+            pstmt.setInt(2, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getLastReturnBook(int userId) {
+        String sql = """
+        SELECT lastReturnBook
+        FROM users
+        WHERE id = ?;
+    """;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("lastReturnBook");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Nếu không có dữ liệu
+    }
+
+    public static Book getBookByTitleAndAuthor(String title, String author) {
+        String sql = """
+        SELECT * FROM books
+        WHERE title = ? AND author = ?;
+    """;
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, author);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Book(
+                            rs.getString("title"), // Title
+                            rs.getString("author"), // Author
+                            rs.getString("description"), // Description
+                            rs.getString("thumbnail_url"), // Thumbnail URL
+                            rs.getString("publisher"), // Publisher
+                            rs.getString("published_date"), // Date Published
+                            rs.getString("average_rating"), // Rating
+                            rs.getInt("view") // View count
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Không tìm thấy sách
+    }
+
+
     public static List<Book> searchBooks(String query) {
         String sql = "SELECT * FROM books WHERE title LIKE ?" + "LIMIT 10;";
         List<Book> books = new ArrayList<>();
@@ -300,7 +395,8 @@ public class DatabaseHelper extends Application {
                             rs.getString("thumbnail_url"),
                             rs.getString("publisher"),
                             rs.getString("published_date"),
-                            rs.getString("average_rating")
+                            rs.getString("average_rating"),
+                            rs.getInt("view")
                     ));
                 }
             }
@@ -348,7 +444,7 @@ public class DatabaseHelper extends Application {
     public static List<Book> getBooksForUser(int userId) {
         String sql = """
         SELECT b.title, b.author, b.description, b.thumbnail_url, b.publisher, 
-               b.published_date, b.average_rating
+               b.published_date, b.average_rating, b.view
         FROM user_books ub
         JOIN books b ON ub.book_id = b.id
         WHERE ub.user_id = ?;
@@ -368,7 +464,8 @@ public class DatabaseHelper extends Application {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 ));
             }
         } catch (SQLException e) {
@@ -429,7 +526,7 @@ public class DatabaseHelper extends Application {
     public static List<Book> searchBooksForUser(int userId, String query) {
         String sql = """
         SELECT b.id, b.title, b.author, b.description, b.thumbnail_url, 
-               b.publisher, b.published_date, b.average_rating
+               b.publisher, b.published_date, b.average_rating, b.view
         FROM books b
         JOIN user_books ub ON b.id = ub.book_id
         WHERE ub.user_id = ? AND 
@@ -454,7 +551,8 @@ public class DatabaseHelper extends Application {
                             rs.getString("thumbnail_url"),
                             rs.getString("publisher"),
                             rs.getString("published_date"),
-                            rs.getString("average_rating")
+                            rs.getString("average_rating"),
+                            rs.getInt("view")
                     ));
                 }
             }

@@ -1,20 +1,13 @@
 package com.example.librabry_management;
 
+import com.example.Controller.*;
+import com.example.Feature.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 
 public class Book {
     private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     private String title;
     private String author;
     private String description;
@@ -24,6 +17,7 @@ public class Book {
     private String publisher;
     private Timestamp borrowAt;
     private Timestamp mustReturnAt;
+    private int view;
 
     public Timestamp getBorrowAt() {
         return borrowAt;
@@ -54,7 +48,7 @@ public class Book {
         return Objects.hash(title, author);
     }
     // Constructor
-    public Book(String title, String author, String description, String thumbnailUrl, String publisher, String datePublished, String rating) {
+    public Book(String title, String author, String description, String thumbnailUrl, String publisher, String datePublished, String rating, int view) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -62,6 +56,7 @@ public class Book {
         this.rating = rating;
         this.datePublished = datePublished;
         this.publisher = publisher;
+        this.view = view;
     }
 
     // Getter cho tiêu đề
@@ -112,19 +107,27 @@ public class Book {
         description = newDescription;
     }
 
-    public void viewBook() {
-
-    }
-
-    public String getInfo() {
-        return null;
-    }
-
     public String getDate() {
         return datePublished == null ? "Unknown Date" : datePublished;
     }
 
     public String getRating() {
         return rating == null ? "Unrated" : rating;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

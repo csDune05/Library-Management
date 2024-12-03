@@ -219,6 +219,23 @@
     -fx-font-size: 13px;
 }
 
+.button-base6 {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.button-base6:hover {
+    -fx-background-color: #EDEDED;
+}
+
+.button-base6:pressed {
+    -fx-background-color: #EDEDED;
+}
+
 .table-view {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent;
@@ -288,3 +305,56 @@
     -fx-background-color: #f8fcff;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 3, 0.2, 0, 1);
 }
+
+/* Toàn bộ ScrollPane */
+.scroll-pane1 {
+    -fx-background-color: transparent; /* Nền trong suốt */
+    -fx-border-color: transparent; /* Xóa viền */
+}
+
+/* Viewport (vùng hiển thị nội dung cuộn) */
+.scroll-pane1 .viewport {
+    -fx-background-color: transparent; /* Nền trong suốt */
+}
+
+/* Thanh cuộn dọc */
+.scroll-pane1 .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.3); /* Màu mờ cho thanh cuộn */
+    -fx-background-radius: 4px; /* Bo góc */
+    -fx-pref-width: 6px; /* Chiều rộng thanh cuộn */
+}
+
+.scroll-pane1 .scroll-bar:vertical {
+    -fx-background-color: transparent; /* Nền trong suốt của thanh cuộn */
+    -fx-padding: 5; /* Khoảng cách giữa nội dung và thanh cuộn */
+}
+
+/* Thanh cuộn ngang */
+.scroll-pane1 .scroll-bar:horizontal .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.3); /* Màu mờ cho thanh cuộn ngang */
+    -fx-background-radius: 4px; /* Bo góc */
+    -fx-pref-height: 6px; /* Chiều cao thanh cuộn ngang */
+}
+
+.scroll-pane1 .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* Nền trong suốt của thanh cuộn ngang */
+    -fx-padding: 5; /* Khoảng cách giữa nội dung và thanh cuộn */
+}
+
+/* Hiệu ứng hover khi rê chuột vào thanh cuộn */
+.scroll-pane1 .scroll-bar .thumb:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.5); /* Đậm hơn khi hover */
+}
+
+/* Ẩn thanh cuộn khi không sử dụng */
+.scroll-pane1 .scroll-bar {
+    -fx-opacity: 0; /* Mặc định ẩn */
+    -fx-background-color: transparent;
+}
+
+.scroll-pane1:hover .scroll-bar {
+    -fx-opacity: 1; /* Hiện thanh cuộn khi rê chuột vào */
+}
+
+
+

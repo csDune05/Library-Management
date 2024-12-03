@@ -15,11 +15,11 @@ module com.example.librabry_management {
     requires javafx.graphics;
     requires com.google.zxing;
     requires com.google.zxing.javase;
-    requires java.desktop;
-    requires java.prefs;
     requires java.mail;
     requires vosk;
     requires jdk.compiler;
+    requires java.desktop;
+    requires java.prefs;
     opens com.example.Controller to javafx.fxml;
     opens com.example.librabry_management to javafx.fxml, com.google.gson;
     exports com.example.librabry_management;

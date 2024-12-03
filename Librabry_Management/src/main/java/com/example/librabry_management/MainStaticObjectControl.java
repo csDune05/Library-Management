@@ -8,12 +8,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import com.example.Controller.*;
+import com.example.Feature.*;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ public class MainStaticObjectControl {
 
     private static MediaPlayer musicPlayer;
     private static ComboBox<String> activeComboBox;
+    private static Book lastReturnBook;
 
     private static int numOfNotifications = 0;
 
@@ -56,6 +58,14 @@ public class MainStaticObjectControl {
 
     public static void setDashboardStage(Stage stage) {
         dashboardStage = stage;
+    }
+
+    public static void setLastReturnBook(Book book) {
+        lastReturnBook = book;
+    }
+
+    public static Book getLastReturnBook() {
+        return lastReturnBook;
     }
 
     public static void closeWelcomeStage() {

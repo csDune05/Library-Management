@@ -1,7 +1,5 @@
 package com.example.Controller;
 
-import com.example.librabry_management.MainStaticObjectControl;
-import com.example.librabry_management.TestApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,10 +8,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.media.Media;
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 import javafx.scene.media.MediaPlayer;
-
-import java.net.URL;
 
 public class WellcomeSpaceController {
     @FXML

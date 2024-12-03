@@ -1,6 +1,9 @@
-package com.example.librabry_management;
+package com.example.Feature;
+
 import javafx.scene.Scene;
 import java.net.URL;
+import com.example.librabry_management.*;
+import com.example.Controller.*;
 
 public class SceneHelper {
 

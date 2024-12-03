@@ -1,9 +1,6 @@
 package com.example.Controller;
 
-import com.example.librabry_management.Book;
-import com.example.librabry_management.DatabaseHelper;
-import com.example.librabry_management.MainStaticObjectControl;
-import com.example.librabry_management.User;
+import com.example.librabry_management.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,14 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
+import com.example.librabry_management.*;
+import com.example.Feature.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -77,6 +70,15 @@ public class MyLibraryController {
     @FXML
     private VBox notificationList;
 
+    @FXML
+    private VBox bookCardContainer;
+
+    @FXML
+    private VBox likeCardContainer;
+
+    @FXML
+    private Scene libraryScene;
+
     private ObservableList<Book> borrowedBooks = FXCollections.observableArrayList(); // Danh sách sách đã mượn
 
     private User currentUser;
@@ -125,7 +127,29 @@ public class MyLibraryController {
 
     @FXML
     public void initialize() {
+        Platform.runLater(() -> {
+            libraryScene = booksButton.getScene();
+        });
         currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy thông tin người dùng hiện tại
+        if (currentUser != null) {
+            String lastReturnBookInfo = DatabaseHelper.getLastReturnBook(currentUser.getId());
+            if (lastReturnBookInfo != null && !lastReturnBookInfo.isEmpty()) {
+                String[] details = lastReturnBookInfo.split(" - ");
+                if (details.length == 2) {
+                    // Tìm sách dựa trên title và author
+                    Book lastBook = DatabaseHelper.getBookByTitleAndAuthor(details[0], details[1]);
+                    if (lastBook != null) {
+                        MainStaticObjectControl.setLastReturnBook(lastBook);
+                    } else {
+                        System.out.println("Book not found in database: " + lastReturnBookInfo);
+                    }
+                }
+            }
+            loadBookCards();
+            loadLikeBookCards();
+        } else {
+            System.out.println("No user logged in.");
+        }
         if (currentUser != null) {
             loadUserBooks(); // Tải sách của người dùng vào GridPane
         } else {
@@ -232,7 +256,6 @@ public class MyLibraryController {
         });
     }
 
-
     private void handleReturnBook(Book book) {
         if (currentUser != null) {
             int userId = currentUser.getId();
@@ -240,7 +263,15 @@ public class MyLibraryController {
             if (bookId != -1) {
                 boolean success = DatabaseHelper.returnBook(userId, bookId);
                 if (success) {
-                    borrowedBooks.remove(book); // Xóa sách khỏi danh sách
+                    MainStaticObjectControl.setLastReturnBook(book);
+
+                    // Lưu thông tin sách trả vào cơ sở dữ liệu
+                    String lastReturnBookInfo = book.getTitle() + " - " + book.getAuthor();
+                    DatabaseHelper.saveLastReturnBook(userId, lastReturnBookInfo);
+
+                    loadBookCards();
+                    loadLikeBookCards();
+                    borrowedBooks.remove(book); // Xóa sách khỏi danh sách hiển thị
                     updateGridPane(); // Cập nhật lại GridPane
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -249,7 +280,6 @@ public class MyLibraryController {
                     alert.showAndWait();
 
                     String notification = "You returned the " + book.getTitle() + " book.";
-
                     MainStaticObjectControl.addNotificationToFile(notification);
                     MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
                     MainStaticObjectControl.updateNotificationIcon(notificationImageView);
@@ -260,11 +290,6 @@ public class MyLibraryController {
                     alert.showAndWait();
                 }
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Invalid user information.");
-            alert.showAndWait();
         }
     }
 
@@ -342,5 +367,193 @@ public class MyLibraryController {
         card.setAlignment(Pos.CENTER);
 
         return card;
+    }
+
+    private void loadBookCards() {
+        try {
+            Book sampleBook = MainStaticObjectControl.getLastReturnBook();
+            if (sampleBook != null) {
+                bookCardContainer.getChildren().clear(); // Xóa tất cả nội dung cũ
+                VBox bookCard = createBookReturnCard(sampleBook); // Tạo BookCard mới
+                if (bookCard != null) {
+                    bookCardContainer.getChildren().add(bookCard); // Thêm BookCard mới vào VBox
+                }
+            } else {
+                bookCardContainer.getChildren().clear(); // Xóa nếu không có sách trả về gần đây
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private VBox createBookReturnCard(Book book) {
+        try {
+            // Tạo card ban đầu từ BookCard
+            VBox card = BookCard.createBookCard(book, this::viewBookDetails);
+            card.setPrefHeight(260);
+            card.setSpacing(5);
+
+            // Nút Borrow Again
+            Button borrowAgainButton = new Button("Borrow Again");
+            borrowAgainButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px;");
+            borrowAgainButton.setOnMouseEntered(event ->
+                    borrowAgainButton.setStyle("-fx-background-color: #45a049; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            borrowAgainButton.setOnMouseExited(event ->
+                    borrowAgainButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            borrowAgainButton.setOnMousePressed(event ->
+                    borrowAgainButton.setStyle("-fx-background-color: #3e8e41; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            borrowAgainButton.setOnMouseReleased(event ->
+                    borrowAgainButton.setStyle("-fx-background-color: #45a049; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            borrowAgainButton.setOnAction(event -> handleBorrowAgain(book));
+
+            // Nút Comment
+            Button commentButton = new Button("Comment");
+            commentButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-border-radius: 5px;");
+            commentButton.setOnMouseEntered(event ->
+                    commentButton.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            commentButton.setOnMouseExited(event ->
+                    commentButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            commentButton.setOnMousePressed(event ->
+                    commentButton.setStyle("-fx-background-color: #1565C0; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            commentButton.setOnMouseReleased(event ->
+                    commentButton.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-border-radius: 5px;")
+            );
+            commentButton.setOnAction(event -> handleComment(book));
+
+            // Tạo HBox chứa các nút
+            HBox buttonContainer = new HBox(10, borrowAgainButton, commentButton);
+            buttonContainer.setAlignment(Pos.CENTER); // Căn giữa các nút
+
+            // Thêm các nút vào card
+            card.getChildren().add(buttonContainer);
+
+            return card;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private void handleBorrowAgain(Book book) {
+        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
+        if (currentUser != null) {
+            Book last = MainStaticObjectControl.getLastReturnBook();
+            int bookId = DatabaseHelper.getBookId(last.getTitle(), last.getAuthor());
+            if (bookId > 0) {
+                if (!DatabaseHelper.isBookAlreadyBorrowed(currentUser.getId(), bookId)) {
+                    DatabaseHelper.borrowBook(currentUser.getId(), bookId);
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Borrow Book");
+                    alert.setContentText("Book borrowed successfully!");
+                    alert.showAndWait();
+
+                    // Thêm thông báo mượn sách.
+                    String bookTitle = last.getTitle();
+                    String notification = "You borrowed the " + bookTitle + " book.";
+
+                    MainStaticObjectControl.addNotificationToFile(notification);
+                    MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+                    MainStaticObjectControl.updateNotificationIcon(notificationImageView);
+
+                    loadUserBooks();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Borrow Book");
+                    alert.setContentText("You have already borrowed this book.");
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Borrow Book");
+                alert.setContentText("Book not found to borrow.");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Borrow Book");
+            alert.setContentText("User information not found. Please log in again.");
+            alert.showAndWait();
+        }
+    }
+
+    private void handleComment(Book book) {
+        System.out.println("Comment clicked for book: " + book.getTitle());
+    }
+
+    private void loadLikeBookCards() {
+        Book last = MainStaticObjectControl.getLastReturnBook();
+        List<Book> sampleBooks = DatabaseHelper.getRelatedBooks(last.getTitle(), last.getAuthor());
+        // Xóa nội dung cũ nếu có
+        likeCardContainer.getChildren().clear();
+
+        // Thêm từng BookCard vào VBox
+        for (Book book : sampleBooks) {
+            VBox bookCard = createLikeBookCard(book);
+            likeCardContainer.getChildren().add(bookCard);
+        }
+    }
+
+    private VBox createLikeBookCard(Book book) {
+        VBox card = BookCard.createBookCard(book, this::viewBookDetails);
+        card.setStyle(
+                "-fx-border-color: lightgray; " +
+                        "-fx-border-width: 2px; " +
+                        "-fx-border-radius: 10px; " +
+                        "-fx-background-radius: 10px; " +
+                        "-fx-background-color: #f2fbff; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+        );
+
+        card.setOnMouseEntered(event -> {
+            card.setStyle(
+                    "-fx-border-color: #007bff; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #cce7ff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.5, 0, 4);"
+            );
+        });
+        card.setOnMouseExited(event -> {
+            card.setStyle(
+                    "-fx-border-color: lightgray; " +
+                            "-fx-border-width: 2px; " +
+                            "-fx-border-radius: 10px; " +
+                            "-fx-background-radius: 10px; " +
+                            "-fx-background-color: #f2fbff; " +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
+            );
+        });
+        return card;
+    }
+
+    private void viewBookDetails(Book book) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
+            Parent root = loader.load();
+
+            BookDetailController detailController = loader.getController();
+            detailController.setBookDetail(book);
+            detailController.setLibraryController(this);
+
+            Stage stage = (Stage) booksButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Scene getScene() {
+        return libraryScene;
     }
 }

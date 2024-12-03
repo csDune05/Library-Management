@@ -3,11 +3,8 @@ package com.example.Controller;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -15,21 +12,21 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
-
+import com.example.Feature.*;
 import java.io.*;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+
 
 public class DashboardController {
-
     @FXML
     private Label newMemberLabel;
 
@@ -134,16 +131,12 @@ public class DashboardController {
     @FXML
     private Scene dashboardScene;
 
-    @FXML
-    private TextArea notificationText;
-
     private Stage getCurrentStage() {
         return (Stage) booksButton.getScene().getWindow();
     }
 
     @FXML
     public void initialize() {
-
         totalBookLabel.setText(String.valueOf(DatabaseHelper.getTotalBook()));
         newMemberLabel.setText(String.valueOf(DatabaseHelper.getNewMember()));
         totalBookLabel.setStyle("-fx-font-size: 25;" + "-fx-font-weight: bold;");
