@@ -134,6 +134,9 @@ public class BookDetailController implements Initializable {
     @FXML
     private VBox commentListBox;
 
+    @FXML
+    private ComboBox<String> sortComboBox;
+
     private BookController bookController;
 
     private String currentBookName;
@@ -432,6 +435,31 @@ public class BookDetailController implements Initializable {
 
     public void updateComment(ScrollPane CommentScrollPane, VBox commentListBox) {
         List<String> comments = readCommentsForBook();
+
+        String sortOption = sortComboBox.getValue();
+        if ("Newest".equals(sortOption)) {
+            // Sắp xếp theo thời gian gần nhất
+            comments.sort((c1, c2) -> {
+                String timestamp1 = c1.split("_")[2];
+                String timestamp2 = c2.split("_")[2];
+                return timestamp2.compareTo(timestamp1);
+            });
+        } else if ("Oldest".equals(sortOption)) {
+            // Sắp xếp theo thời gian cũ nhất
+            comments.sort((c1, c2) -> {
+                String timestamp1 = c1.split("_")[2];
+                String timestamp2 = c2.split("_")[2];
+                return timestamp1.compareTo(timestamp2);  // So sánh thời gian
+            });
+        } else if ("Popular".equals(sortOption)) {
+            // Sắp xếp theo số lượt like
+            comments.sort((c1, c2) -> {
+                int likes1 = Integer.parseInt(c1.split("_")[3]);
+                int likes2 = Integer.parseInt(c2.split("_")[3]);
+                return Integer.compare(likes2, likes1);  // So sánh số lượt like
+            });
+        }
+
         commentListBox.getChildren().clear();
 
         VBox commentList = new VBox();
@@ -679,10 +707,15 @@ public class BookDetailController implements Initializable {
         // combo box options
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
 
-        // notification
-        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
-
+        // combo box sort
+        sortComboBox.getItems().addAll("Newest", "Oldest", "Popular");
+        sortComboBox.setValue("Newest");
         // comment
         updateComment(CommentScrollPane, commentListBox);
+        sortComboBox.setOnAction(event -> updateComment(CommentScrollPane, commentListBox));
+
+        // notification
+        MainStaticObjectControl.configureNotificationButton(notificationImageView, notificationButton);
     }
+
 }
