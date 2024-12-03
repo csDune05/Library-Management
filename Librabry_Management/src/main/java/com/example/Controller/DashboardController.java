@@ -288,7 +288,12 @@ public class DashboardController {
             return;
         }
 
-        ObservableList<LoanRecord> filteredRecords = DatabaseHelper.getLoanRecords().filtered(record ->
+        ObservableList<LoanRecord> allData = DatabaseHelper.getLoanRecords();
+        User currentUser = MainStaticObjectControl.getCurrentUser();
+        String currentUserName = currentUser.getName();
+
+        ObservableList<LoanRecord> userData = allData.filtered(record -> record.getMember().equals(currentUserName));
+        ObservableList<LoanRecord> filteredRecords = userData.filtered(record ->
                 record.getTitle().toLowerCase().contains(query)
         );
 
