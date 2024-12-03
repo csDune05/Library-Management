@@ -138,6 +138,9 @@ public class ProfileController {
     }
 
     @FXML
+    public void notesProfileButtonHandler() {MainStaticObjectControl.openProfileNotesStage(getCurrentStage());}
+
+    @FXML
     public void passwordAndSecurityButtonHandler() {MainStaticObjectControl.openProfilePasswordAndSecurityStage(getCurrentStage());}
 
     @FXML

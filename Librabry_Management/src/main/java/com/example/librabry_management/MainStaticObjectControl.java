@@ -255,6 +255,21 @@ public class MainStaticObjectControl {
         }
     }
 
+    public static void openProfileNotesStage(Stage currentStage) {
+        try {
+            Parent profileRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Notes.fxml"));
+            Scene profileScene = new Scene(profileRoot);
+
+            // Áp dụng theme từ SceneHelper
+            SceneHelper.applyTheme(profileScene);
+
+            currentStage.setScene(profileScene);
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void resetComboBoxOptions() {
         if (activeComboBox != null) {
             activeComboBox.setValue(null);

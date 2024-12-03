@@ -134,6 +134,10 @@ public class ChangePasswordController {
         alert.showAndWait();
     }
 
+    @FXML
+    public void notesProfileButtonHandler() {MainStaticObjectControl.openProfileNotesStage(getCurrentStage());}
+
+    @FXML
     public void editProfileButtonHandler() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }

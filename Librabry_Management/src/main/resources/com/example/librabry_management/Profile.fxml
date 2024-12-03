@@ -84,7 +84,7 @@
                </font>
             </Button>
             <Line endX="380.81170654296875" endY="7.748603820800781E-7" opacity="0.2" startX="572.1046142578125" startY="-1.2159347534179688E-5" />
-            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="235.0" styleClass="HomeButton" stylesheets="@style.css" text="Choose Plan">
+            <Button mnemonicParsing="false" onAction="#notesProfileButtonHandler" prefHeight="32.0" prefWidth="235.0" styleClass="HomeButton" stylesheets="@style.css" text="Notes">
                <font>
                   <Font size="18.0" />
                </font>

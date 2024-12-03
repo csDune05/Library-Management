@@ -21,7 +21,7 @@ module com.example.librabry_management {
     requires vosk;
     requires jdk.compiler;
     opens com.example.Controller to javafx.fxml;
-    opens com.example.librabry_management to javafx.fxml;
+    opens com.example.librabry_management to javafx.fxml, com.google.gson;
     exports com.example.librabry_management;
     exports com.example.Controller;
     exports com.example.Feature;

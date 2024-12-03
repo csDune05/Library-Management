@@ -97,5 +97,17 @@
         "message": "You borrowed the NET for Java Developers Migrating to C# book.",
         "read": true,
         "timestamp": "12h05 01/12/2024"
-    }]
+    }],
+    "duydz": [
+        {
+            "message": "You have changed your ptofile.",
+            "read": true,
+            "timestamp": "18h27 03/12/2024"
+        },
+        {
+            "message": "You borrowed the The Delineator book.",
+            "read": true,
+            "timestamp": "18h33 03/12/2024"
+        }
+    ]
 }
