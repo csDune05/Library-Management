@@ -147,8 +147,13 @@
         },
         {
             "message": "You borrowed the Messi book.",
-            "read": false,
+            "read": true,
             "timestamp": "17h49 03/12/2024"
+        },
+        {
+            "message": "You returned the Messi book.",
+            "read": true,
+            "timestamp": "20h25 03/12/2024"
         }
     ],
     "csDune": [
@@ -218,11 +223,28 @@
             "timestamp": "00h42 02/12/2024"
         }
     ],
-    "dung": [{
-        "message": "You borrowed the NET for Java Developers Migrating to C# book.",
-        "read": true,
-        "timestamp": "12h05 01/12/2024"
-    }],
+    "dung": [
+        {
+            "message": "You borrowed the NET for Java Developers Migrating to C# book.",
+            "read": true,
+            "timestamp": "12h05 01/12/2024"
+        },
+        {
+            "message": "You borrowed the Name Your Baby book.",
+            "read": true,
+            "timestamp": "20h34 03/12/2024"
+        },
+        {
+            "message": "You returned the Name Your Baby book.",
+            "read": true,
+            "timestamp": "20h35 03/12/2024"
+        },
+        {
+            "message": "You borrowed the Name Your Baby book.",
+            "read": true,
+            "timestamp": "20h35 03/12/2024"
+        }
+    ],
     "duydz": [
         {
             "message": "You have changed your ptofile.",

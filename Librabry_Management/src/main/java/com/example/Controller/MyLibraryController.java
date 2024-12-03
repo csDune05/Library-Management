@@ -146,7 +146,9 @@ public class MyLibraryController {
                 }
             }
             loadBookCards();
-            loadLikeBookCards();
+            if (MainStaticObjectControl.getLastReturnBook() != null) {
+                loadLikeBookCards();
+            }
         } else {
             System.out.println("No user logged in.");
         }

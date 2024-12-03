@@ -277,7 +277,7 @@ public class DatabaseHelper extends Application {
             birthdate DATE NOT NULL,
             phone_number VARCHAR(15) NOT NULL,
             location VARCHAR(255) NOT NULL,
-            lastReturnBook TEXT,
+            lastReturnBook VARCHAR(255),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         """;
