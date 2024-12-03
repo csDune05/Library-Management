@@ -63,6 +63,9 @@ public class BookDetailController implements Initializable {
     private Button booksButton;
 
     @FXML
+    private Label bookView;
+
+    @FXML
     private Button homeButton;
 
     @FXML
@@ -137,6 +140,8 @@ public class BookDetailController implements Initializable {
 
     private DashboardController dashboardController;
 
+    private MyLibraryController myLibraryController;
+
     private Scene previousScene;
 
     public void setPreviousScene(Scene previousScene) {
@@ -151,6 +156,10 @@ public class BookDetailController implements Initializable {
         this.dashboardController = dashboardController;
     }
 
+    public void setLibraryController(MyLibraryController libraryController) {
+        myLibraryController = libraryController;
+    }
+
     private Stage getCurrentStage() {
         return (Stage) booksButton.getScene().getWindow();
     }
@@ -162,8 +171,10 @@ public class BookDetailController implements Initializable {
             stage.setScene(previousScene);
         } else if (bookController != null) {
             stage.setScene(bookController.getBookScene());
-        } else {
+        } else if (dashboardController != null) {
             stage.setScene(dashboardController.getScene());
+        } else {
+            stage.setScene(myLibraryController.getScene());
         }
         stage.show();
     }
@@ -289,7 +300,8 @@ public class BookDetailController implements Initializable {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 );
             }
         } catch (SQLException e) {
@@ -323,9 +335,9 @@ public class BookDetailController implements Initializable {
             Image image = new Image(book.getThumbnailUrl(), true);
             Platform.runLater(() -> {
                 bookImage.setImage(image);
-                bookImage.setPreserveRatio(true); // Giữ tỷ lệ hình ảnh
-                bookImage.setFitWidth(200); // Đặt chiều rộng tối đa (hoặc chiều cao nếu cần)
-                bookImage.setFitHeight(300);
+                bookImage.setPreserveRatio(false); // Giữ tỷ lệ hình ảnh
+                bookImage.setFitWidth(220); // Đặt chiều rộng tối đa (hoặc chiều cao nếu cần)
+                bookImage.setFitHeight(330);
             });
         });
         bookTitle.setText(book.getTitle());// Tiêu đề
@@ -334,6 +346,8 @@ public class BookDetailController implements Initializable {
         bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
         bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
         ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + "  ★");
+        bookView.setText(String.valueOf(book.getView()));
+
 
         String Description = "Description: ";
         Text descriptionTextTitle = new Text(Description + "\n");

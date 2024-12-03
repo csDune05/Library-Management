@@ -38,8 +38,6 @@ import javax.sound.sampled.*;
 
 
 public class BookController {
-    @FXML
-    private TextField bookTitle;
 
     @FXML
     private VBox topRateBook;
@@ -88,9 +86,6 @@ public class BookController {
 
     @FXML
     private VBox notificationList;
-
-    @FXML
-    private TextArea notificationText;
 
     @FXML
     private Button voiceButton;

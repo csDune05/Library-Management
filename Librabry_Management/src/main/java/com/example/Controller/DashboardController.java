@@ -344,6 +344,7 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+
     public Scene getScene() {
         return dashboardScene;
     }

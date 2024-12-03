@@ -16,6 +16,22 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.MyLibraryController">
     <children>
+      <Label layoutX="1013.0" layoutY="371.0" text="You May Like">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <ScrollPane hbarPolicy="NEVER" layoutX="955.0" layoutY="405.0" prefHeight="292.0" prefWidth="242.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="likeCardContainer" prefHeight="290.0" prefWidth="222.0" />
+         </content>
+      </ScrollPane>
+      <Label layoutX="993.0" layoutY="78.0" text="Last Return Book">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <VBox fx:id="bookCardContainer" layoutX="959.0" layoutY="112.0" prefHeight="234.0" prefWidth="234.0" />
 
         <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-163.5" />
 

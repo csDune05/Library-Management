@@ -460,7 +460,8 @@ public class AdminDashboardController {
                         rs.getString("thumbnail_url"),
                         rs.getString("publisher"),
                         rs.getString("published_date"),
-                        rs.getString("average_rating")
+                        rs.getString("average_rating"),
+                        rs.getInt("view")
                 ));
             }
             bookTableView.setItems(bookList);
@@ -508,7 +509,7 @@ public class AdminDashboardController {
             return;
         }
 
-        Book newBook = new Book(title, author, description, "", publisher, date, rating);
+        Book newBook = new Book(title, author, description, "", publisher, date, rating, 0);
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("INSERT INTO books (title, author, description, publisher, published_date, average_rating) VALUES (?, ?, ?, ?, ?, ?)");) {
             pstmt.setString(1, newBook.getTitle());
