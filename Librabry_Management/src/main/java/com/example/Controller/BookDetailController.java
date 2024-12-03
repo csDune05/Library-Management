@@ -39,6 +39,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class BookDetailController implements Initializable {
     @FXML
+    private Button explainButton;
+
+    @FXML
+    private TextField queryTextField;
+
+    @FXML
     private VBox relatedBooksVBox;
 
     @FXML
@@ -684,5 +690,29 @@ public class BookDetailController implements Initializable {
 
         // comment
         updateComment(CommentScrollPane, commentListBox);
+    }
+
+    @FXML
+    private void explainButtonHandler() {
+        // Lấy truy vấn từ TextField
+        String query = queryTextField.getText().trim();
+
+        // Kiểm tra nếu truy vấn trống
+        if (query.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Query");
+            alert.setContentText("Please enter a valid query!");
+            alert.showAndWait();
+            return;
+        }
+
+        // Gửi truy vấn đến API và lấy kết quả
+        String explanation = HuggingFaceAPIHelper.explainTerm(query);
+
+        // Hiển thị kết quả trong Alert
+        Alert resultAlert = new Alert(Alert.AlertType.INFORMATION);
+        resultAlert.setTitle("Explanation for " + query);
+        resultAlert.setContentText(explanation);
+        resultAlert.showAndWait();
     }
 }

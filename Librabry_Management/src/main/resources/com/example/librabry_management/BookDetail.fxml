@@ -291,5 +291,7 @@
             </Button>
          </children>
       </Pane>
+      <Button fx:id="explainButton" layoutX="872.0" layoutY="23.0" mnemonicParsing="false" onAction="#explainButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Explain" />
+      <TextField fx:id="queryTextField" layoutX="650.0" layoutY="23.0" prefHeight="26.0" prefWidth="213.0" promptText="Insert Query" />
     </children>
 </AnchorPane>

@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class GoogleBooksApi {
 
-    private static final String API_KEY = "AIzaSyCYoCFtwwbOF4HI6gnkAHJL1dpXSvnKYp8";
+    private static final String API_KEY = "API_KEY";
     private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 
     public static String searchBooks(String query, int startIndex, int maxResults) {

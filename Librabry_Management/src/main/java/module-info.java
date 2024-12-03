@@ -20,6 +20,7 @@ module com.example.librabry_management {
     requires jdk.compiler;
     requires java.desktop;
     requires java.prefs;
+    requires java.net.http;
     opens com.example.Controller to javafx.fxml;
     opens com.example.librabry_management to javafx.fxml, com.google.gson;
     exports com.example.librabry_management;
