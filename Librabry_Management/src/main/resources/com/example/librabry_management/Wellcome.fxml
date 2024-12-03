@@ -14,7 +14,7 @@
             <Image url="@Images/BackGroundMenu.png" />
          </image>
       </ImageView>
-        <Button fx:id="HomeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" text="Home">
+        <Button fx:id="HomeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" styleClass="button-base1" stylesheets="@style.css" text="Home">
             <font>
                 <Font size="14.0" />
             </font>
@@ -24,17 +24,17 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="GetStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" onAction="#GetStartedButtonHandle" text="Get Started">
+        <Button fx:id="GetStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" onAction="#GetStartedButtonHandle" styleClass="button-base5" text="Get Started">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="SighUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" onAction="#SignUpButtonHandle" text="Sign up">
+        <Button fx:id="SighUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" onAction="#SignUpButtonHandle" styleClass="button-base3" text="Sign up">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="LoginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" onAction="#LoginButtonHandle" text="Log in">
+        <Button fx:id="LoginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" onAction="#LoginButtonHandle" styleClass="button-base3" text="Log in">
             <font>
                 <Font size="14.0" />
             </font>
@@ -59,7 +59,7 @@
             <Image url="@Images/LogoMenu.png" />
          </image>
       </ImageView>
-      <Button fx:id="MusicToggleButton" layoutX="889.0" layoutY="21.0" mnemonicParsing="false" onAction="#MusicToggleButtonHandle" prefHeight="30.0" prefWidth="88.0" text="Music Off">
+      <Button fx:id="MusicToggleButton" layoutX="889.0" layoutY="21.0" mnemonicParsing="false" onAction="#MusicToggleButtonHandle" prefHeight="30.0" prefWidth="88.0" styleClass="button-base3" text="Music Off">
          <font>
             <Font size="14.0" />
          </font></Button>
