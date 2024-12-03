@@ -19,14 +19,29 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.BookDetailController">
     <children>
+      <Pane layoutX="199.0" layoutY="496.0" prefHeight="70.0" prefWidth="242.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 25; -fx-border-radius: 25;" />
       <Circle fill="WHITESMOKE" layoutX="322.0" layoutY="291.0" radius="140.0" stroke="WHITE" strokeType="INSIDE" />
-      <Button fx:id="borrowBook" layoutX="144.0" layoutY="507.0" mnemonicParsing="false" onAction="#borrowBookHandler" styleClass="button-base1" stylesheets="@style.css" text="Mượn sách" />
+      <Button fx:id="borrowBook" layoutX="222.0" layoutY="507.0" mnemonicParsing="false" onAction="#borrowBookHandler" prefHeight="50.0" prefWidth="50.0" styleClass="button-base6" stylesheets="@style.css">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/borrow.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Label fx:id="bookYear" layoutX="661.0" layoutY="623.0" opacity="0.6" prefHeight="20.0" prefWidth="126.0" text="date" wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="qrCodeButton" layoutX="293.0" layoutY="507.0" mnemonicParsing="false" onAction="#qrCodeButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="QR Code" />
+      <Button fx:id="qrCodeButton" layoutX="297.0" layoutY="507.0" mnemonicParsing="false" onAction="#qrCodeButtonHandler" prefHeight="50.0" prefWidth="50.0" styleClass="button-base6" stylesheets="@style.css">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/qr.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Label layoutX="819.0" layoutY="577.0" text="View:">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -37,7 +52,14 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="commentButton" layoutX="428.0" layoutY="507.0" mnemonicParsing="false" onAction="#commentButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="Comment" />
+      <Button fx:id="commentButton" layoutX="369.0" layoutY="507.0" mnemonicParsing="false" onAction="#commentButtonHandler" prefHeight="50.0" prefWidth="50.0" styleClass="button-base6" stylesheets="@style.css">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/comment.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <ScrollPane layoutX="947.0" layoutY="104.0" prefHeight="606.0" prefWidth="263.0" stylesheets="@style.css">
          <content>
             <VBox fx:id="relatedBooksVBox" prefHeight="602.0" prefWidth="242.0" spacing="15.0" />
@@ -47,7 +69,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Line endX="50.0" endY="-75.49999237060547" layoutX="480.0" layoutY="149.0" opacity="0.15" startX="50.0" startY="558.0" />
       <Line endX="307.2000732421875" layoutX="637.0" layoutY="531.0" opacity="0.15" startX="-104.70001220703125" />
         <Line endX="958.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-162.5" />
         <Line endX="50.0" endY="-75.49999237060547" layoutX="894.0" layoutY="149.0" opacity="0.15" startX="50.0" startY="558.0" />

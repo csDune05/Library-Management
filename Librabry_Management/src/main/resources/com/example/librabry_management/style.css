@@ -219,6 +219,23 @@
     -fx-font-size: 13px;
 }
 
+.button-base6 {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+
+.button-base6:hover {
+    -fx-background-color: #EDEDED;
+}
+
+.button-base6:pressed {
+    -fx-background-color: #EDEDED;
+}
+
 .table-view {
     -fx-background-color: #FFFFFF;
     -fx-border-color: transparent;
