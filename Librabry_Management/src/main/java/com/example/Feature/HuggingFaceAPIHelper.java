@@ -12,7 +12,7 @@ import com.google.gson.JsonParser;
 
 public class HuggingFaceAPIHelper {
     private static final String API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-large";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "API_KEY";
 
     /**
      * @param term
