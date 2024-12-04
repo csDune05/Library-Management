@@ -186,13 +186,10 @@ public class ProfileController {
     @FXML
     private void handleSave() {
         saveUser(currentUser);
-
-        String notification = "You have changed your ptofile.";
+        String notification = "You have changed your profile.";
         MainStaticObjectControl.addNotificationToFile(notification);
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
         MainStaticObjectControl.updateNotificationIcon(notificationImageView);
-
-        System.out.println("Information saved!");
     }
 
     @FXML

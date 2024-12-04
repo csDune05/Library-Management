@@ -120,9 +120,6 @@ public class BookDetailController implements Initializable {
     private Button clearNotificationsButton;
 
     @FXML
-    private ScrollPane desdescriptionScrollPane;
-
-    @FXML
     private AnchorPane CommentPane;
 
     @FXML
@@ -750,5 +747,4 @@ public class BookDetailController implements Initializable {
         resultAlert.setContentText(explanation);
         resultAlert.showAndWait();
     }
-
 }

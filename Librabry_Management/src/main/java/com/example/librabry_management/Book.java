@@ -19,22 +19,11 @@ public class Book {
     private Timestamp mustReturnAt;
     private int view;
 
-    public Timestamp getBorrowAt() {
-        return borrowAt;
-    }
-
-    public void setBorrowAt(Timestamp borrowAt) {
-        this.borrowAt = borrowAt;
-    }
-
-    public Timestamp getMustReturnAt() {
-        return mustReturnAt;
-    }
-
-    public void setMustReturnAt(Timestamp mustReturnAt) {
-        this.mustReturnAt = mustReturnAt;
-    }
-
+    /**
+     * @param o
+     * @return
+     * Equal.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,11 +32,18 @@ public class Book {
         return title.equals(bookTest.title) && author.equals(bookTest.author);
     }
 
+    /**
+     * @return
+     * Hashcode.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(title, author);
     }
-    // Constructor
+
+    /**
+     * Constructor.
+     */
     public Book(String title, String author, String description, String thumbnailUrl, String publisher, String datePublished, String rating, int view) {
         this.title = title;
         this.author = author;
@@ -59,22 +55,18 @@ public class Book {
         this.view = view;
     }
 
-    // Getter cho tiêu đề
     public String getTitle() {
         return title;
     }
 
-    // Getter cho tác giả
     public String getAuthor() {
         return author;
     }
 
-    // Getter cho mô tả
     public String getDescription() {
         return description != null ? description : "No description available.";
     }
 
-    // Getter cho URL ảnh bìa
     public String getThumbnailUrl() {
         return thumbnailUrl != null ? thumbnailUrl : "https://via.placeholder.com/120x180.png?text=No+Image";
     }

@@ -12,32 +12,29 @@ import com.google.gson.JsonParser;
 
 public class HuggingFaceAPIHelper {
     private static final String API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-large";
-    private static final String API_KEY = "YOUR_API"; // Thay bằng token hợp lệ
+    private static final String API_KEY = "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";
 
+    /**
+     * @param term
+     * @return
+     * Create connect with hugging API.
+     */
     public static String explainTerm(String term) {
         try {
-            // Tạo JSON request
             Map<String, String> requestData = Map.of("inputs", "Explain the term: " + term);
             Gson gson = new Gson();
             String jsonRequest = gson.toJson(requestData);
-
-            // Tạo HttpRequest
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_URL))
                     .header("Authorization", "Bearer " + API_KEY)
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonRequest))
                     .build();
-
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // Kiểm tra mã phản hồi HTTP
             if (response.statusCode() != 200) {
                 return "Error: " + response.body();
             }
-
-            // Phân tích phản hồi JSON
             JsonArray jsonArray = JsonParser.parseString(response.body()).getAsJsonArray();
             if (jsonArray.size() > 0) {
                 JsonElement firstElement = jsonArray.get(0);

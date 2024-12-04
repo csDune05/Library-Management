@@ -1,7 +1,7 @@
 package com.example.Feature;
 
 import com.example.librabry_management.*;
-import com.example.Controller.*;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -21,19 +21,17 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library"); // URL kết nối
-        config.setUsername("root"); // Tên người dùng
-        config.setPassword("YOUR_PASSWORD"); // Mật khẩu
-        config.setMaximumPoolSize(20); // Số kết nối tối đa
-        config.setMinimumIdle(10); // Số kết nối tối thiểu
-        config.setIdleTimeout(600000); // Thời gian idle tối đa (10 phút)
-        config.setMaxLifetime(1800000); // Thời gian sống tối đa của kết nối (30 phút)
-        config.setConnectionTimeout(0); // Thời gian chờ kết nối (0 giây)
-        config.setLeakDetectionThreshold(5000); // Phát hiện rò rỉ kết nối trong 5 giây
+        config.setJdbcUrl("jdbc:mysql://localhost:3310/My_Library");
+        config.setUsername("root");
+        config.setPassword("#Matkhau01234");
+        config.setMaximumPoolSize(20);
+        config.setMinimumIdle(10);
+        config.setIdleTimeout(600000);
+        config.setMaxLifetime(1800000);
+        config.setConnectionTimeout(0);
+        config.setLeakDetectionThreshold(5000);
         config.addDataSourceProperty("housekeepingPeriodMs", "60000");
-
-        dataSource = new HikariDataSource(config); // Tạo nguồn kết nối
-
+        dataSource = new HikariDataSource(config);
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement("SELECT 1")) {
             pstmt.execute();
@@ -43,12 +41,18 @@ public class DatabaseHelper extends Application {
         }
     }
 
-    // Hàm kết nối với cơ sở dữ liệu
+    /**
+     * Create Connect.
+     * @return
+     * @throws SQLException
+     */
     public static Connection connect() throws SQLException {
-        return dataSource.getConnection(); // Lấy kết nối từ pool
+        return dataSource.getConnection();
     }
 
-    // Đóng dataSource khi ứng dụng dừng
+    /**
+     * End connect when close program.
+     */
     public static void shutdown() {
         if (dataSource != null) {
             dataSource.close();
@@ -61,11 +65,9 @@ public class DatabaseHelper extends Application {
     public static List<Book> getDefaultBooks() {
         String sql = "SELECT * FROM books ORDER BY RAND() LIMIT 50;";
         List<Book> books = new ArrayList<>();
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("title"),
@@ -84,14 +86,15 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
+    /**
+     * get top book view.
+     */
     public static Book getTopView() {
         String sql = "SELECT * FROM books ORDER BY view DESC LIMIT 1;";
         Book book = null;
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
             while (rs.next()) {
                 book = new Book(
                         rs.getString("title"),
@@ -110,6 +113,9 @@ public class DatabaseHelper extends Application {
         return book;
     }
 
+    /**
+     * Get 5 books top rating.
+     */
     public static List<Book> getTopRateBooks() {
         String sql = """
         SELECT * FROM books
@@ -118,11 +124,9 @@ public class DatabaseHelper extends Application {
         LIMIT 5;
     """;
         List<Book> books = new ArrayList<>();
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("title"),
@@ -141,8 +145,10 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
-    // Tạo bảng Books if chưa tồn tại
-    public static void createTable() {
+    /**
+     * Create table book if not exist.
+     */
+    public static void createBookTable() {
         String sql = """
                 CREATE TABLE IF NOT EXISTS books (
                   id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -164,9 +170,11 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Increment view when see book detail.
+     */
     public static void incrementBookView(int bookId) {
         String sql = "UPDATE books SET view = view + 1 WHERE id = ?";
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, bookId);
@@ -176,6 +184,11 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Save book to database.
+     * @param book
+     * @param query
+     */
     public static void saveBook(Book book, String query) {
         String sql = """
             INSERT INTO books (title, author, description, thumbnail_url, publisher, published_date, average_rating)
@@ -201,6 +214,12 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Recommend same books.
+     * @param title
+     * @param author
+     * @return
+     */
     public static List<Book> getRelatedBooks(String title, String author) {
         List<Book> books = new ArrayList<>();
         String query = """
@@ -216,7 +235,6 @@ public class DatabaseHelper extends Application {
             ORDER BY relevance DESC, title ASC
             LIMIT 5;
             """;
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             String keyword = "%" + title.split(" ")[0] + "%";
@@ -227,9 +245,7 @@ public class DatabaseHelper extends Application {
             pstmt.setString(5, keyword);
             pstmt.setString(6, title);
             pstmt.setString(7, author);
-
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("title"),
@@ -248,7 +264,9 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
-    // Tạo bảng users
+    /**
+     * Create user table if not exist.
+     */
     public static void createUsersTable() {
         String sql = """
         CREATE TABLE IF NOT EXISTS users (
@@ -270,9 +288,10 @@ public class DatabaseHelper extends Application {
         }
     }
 
-    // Tạo bảng user_books
+    /**
+     * Create table have users and books they borrow.
+     */
     public static void createUserBooksTable() {
-        // Khóa ngoài cho id
         String sql = """
         CREATE TABLE IF NOT EXISTS user_books (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -291,13 +310,17 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Save last book user return.
+     * @param userId
+     * @param lastReturnBookInfo
+     */
     public static void saveLastReturnBook(int userId, String lastReturnBookInfo) {
         String sql = """
         UPDATE users
         SET lastReturnBook = ?
         WHERE id = ?;
     """;
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, lastReturnBookInfo);
@@ -308,13 +331,17 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * @param userId
+     * get last book users return.
+     * @return
+     */
     public static String getLastReturnBook(int userId) {
         String sql = """
         SELECT lastReturnBook
         FROM users
         WHERE id = ?;
     """;
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
@@ -329,17 +356,21 @@ public class DatabaseHelper extends Application {
         return null; // Nếu không có dữ liệu
     }
 
+    /**
+     * Search books on database by author and title.
+     * @param title
+     * @param author
+     * @return
+     */
     public static Book getBookByTitleAndAuthor(String title, String author) {
         String sql = """
         SELECT * FROM books
         WHERE title = ? AND author = ?;
     """;
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, title);
             pstmt.setString(2, author);
-
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return new Book(
@@ -360,7 +391,11 @@ public class DatabaseHelper extends Application {
         return null; // Không tìm thấy sách
     }
 
-
+    /**
+     * Search books on database with query.
+     * @param query
+     * @return
+     */
     public static List<Book> searchBooks(String query) {
         String sql = "SELECT * FROM books WHERE title LIKE ?" + "LIMIT 10;";
         List<Book> books = new ArrayList<>();
@@ -388,7 +423,9 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
-    // Thêm user mới vào database;
+    /**
+     * Add user to database.
+     */
     public static void saveUser(User user) {
         String sql = """
     INSERT INTO users (name, email, password, birthdate, phone_number, location, created_at) 
@@ -408,6 +445,11 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Check email when sign up.
+     * @param email
+     * @return
+     */
     public static boolean isEmailExists(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
         try (Connection conn = DatabaseHelper.connect();
@@ -423,6 +465,11 @@ public class DatabaseHelper extends Application {
         return false;
     }
 
+    /**
+     * Get list books user borrow.
+     * @param userId
+     * @return
+     */
     public static List<Book> getBooksForUser(int userId) {
         String sql = """
         SELECT b.title, b.author, b.description, b.thumbnail_url, b.publisher, 
@@ -431,13 +478,11 @@ public class DatabaseHelper extends Application {
         JOIN books b ON ub.book_id = b.id
         WHERE ub.user_id = ?;
     """;
-
         List<Book> books = new ArrayList<>();
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()) {
                 books.add(new Book(
                         rs.getString("title"),
@@ -456,6 +501,11 @@ public class DatabaseHelper extends Application {
         return books;
     }
 
+    /**
+     * Add book user borrow to database.
+     * @param userId
+     * @param bookId
+     */
     public static void borrowBook(int userId, int bookId) {
         String sql = """
         INSERT INTO user_books (user_id, book_id, borrowed_at, must_return_at)
@@ -464,7 +514,6 @@ public class DatabaseHelper extends Application {
         borrowed_at = CURRENT_TIMESTAMP,
         must_return_at = ADDDATE(CURRENT_TIMESTAMP, INTERVAL 30 DAY);                                       
     """;
-
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, userId);
@@ -475,6 +524,12 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Delete book user return.
+     * @param userId
+     * @param bookId
+     * @return
+     */
     public static boolean returnBook(int userId, int bookId) {
         String sql = "DELETE FROM user_books WHERE user_id = ? AND book_id = ?";
         try (Connection conn = connect();
@@ -489,6 +544,12 @@ public class DatabaseHelper extends Application {
         }
     }
 
+    /**
+     * Get book id when have title and author.
+     * @param title
+     * @param author
+     * @return
+     */
     public static int getBookId(String title, String author) {
         String sql = "SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1;";
         try (Connection conn = connect();
@@ -505,6 +566,12 @@ public class DatabaseHelper extends Application {
         return -1;
     }
 
+    /**
+     * search book in user library.
+     * @param userId
+     * @param query
+     * @return
+     */
     public static List<Book> searchBooksForUser(int userId, String query) {
         String sql = """
         SELECT b.id, b.title, b.author, b.description, b.thumbnail_url, 
@@ -514,7 +581,6 @@ public class DatabaseHelper extends Application {
         WHERE ub.user_id = ? AND 
               (b.title LIKE ? OR b.author LIKE ? OR b.description LIKE ?);
     """;
-
         List<Book> books = new ArrayList<>();
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -523,7 +589,6 @@ public class DatabaseHelper extends Application {
             pstmt.setString(2, keyword);
             pstmt.setString(3, keyword);
             pstmt.setString(4, keyword);
-
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     books.add(new Book(
@@ -543,7 +608,14 @@ public class DatabaseHelper extends Application {
         }
         return books;
     }
-        public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
+
+    /**
+     * Check if book already borrowed.
+     * @param userId
+     * @param bookId
+     * @return
+     */
+    public static boolean isBookAlreadyBorrowed(int userId, int bookId) {
         String sql = "SELECT COUNT(*) FROM user_books WHERE user_id = ? AND book_id = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -560,13 +632,16 @@ public class DatabaseHelper extends Application {
         return false;
     }
 
+    /**
+     * Get new member have create account 1 day.
+     * @return
+     */
     public static int getNewMember() {
         String sql = "SELECT COUNT(*) FROM users WHERE DATEDIFF(CURRENT_TIMESTAMP, created_at) <= 1;";
         int count = 0;
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
             while (rs.next()) {
                 count = rs.getInt(1);
             }
@@ -576,13 +651,16 @@ public class DatabaseHelper extends Application {
         return count;
     }
 
+    /**
+     * get total book in library.
+     * @return
+     */
     public static int getTotalBook() {
         String sql = "SELECT COUNT(*) FROM books;";
         int count = 0;
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-
             while (rs.next()) {
                 count = rs.getInt(1);
             }
@@ -592,14 +670,17 @@ public class DatabaseHelper extends Application {
         return count;
     }
 
+    /**
+     * Get user by email.
+     * @param email
+     * @return
+     */
     public static User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
@@ -607,7 +688,6 @@ public class DatabaseHelper extends Application {
                 String phoneNumber = rs.getString("phone_number");
                 String location = rs.getString("location");
                 String password = rs.getString("password");
-
                 User user = new User(name, birthdate, phoneNumber, email, location, password);
                 user.setId(id);
                 return user;
@@ -618,12 +698,15 @@ public class DatabaseHelper extends Application {
         return null;
     }
 
+    /**
+     * get total book users borrow.
+     * @return
+     */
     public static int getTotalBorrowedBooks() {
         String query = "SELECT COUNT(*) FROM user_books";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -633,12 +716,15 @@ public class DatabaseHelper extends Application {
         return 0;
     }
 
+    /**
+     * @return
+     * Get total overdue book.
+     */
     public static int getTotalOverdueBooks() {
         String query = "SELECT COUNT(*) FROM user_books WHERE must_return_at < CURRENT_DATE";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -648,12 +734,15 @@ public class DatabaseHelper extends Application {
         return 0;
     }
 
+    /**
+     * @return
+     * Get total account.
+     */
     public static int getTotalAccounts() {
         String query = "SELECT COUNT(*) FROM users";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -663,18 +752,19 @@ public class DatabaseHelper extends Application {
         return 0;
     }
 
+    /**
+     * @return
+     * Get loan record.
+     */
     public static ObservableList<LoanRecord> getLoanRecords() {
         ObservableList<LoanRecord> data = FXCollections.observableArrayList();
-
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT ub.id, u.name AS member_name, b.title AS book_title, b.author AS book_author, " +
                     "ub.borrowed_at, ub.must_return_at FROM user_books ub " +
                     "JOIN users u ON ub.user_id = u.id " +
                     "JOIN books b ON ub.book_id = b.id";
-
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String memberName = resultSet.getString("member_name");
@@ -682,7 +772,6 @@ public class DatabaseHelper extends Application {
                 String bookAuthor = resultSet.getString("book_author");
                 Date borrowedAt = resultSet.getDate("borrowed_at");
                 Date mustReturnAt = resultSet.getDate("must_return_at");
-
                 // Tính toán số ngày quá hạn (nếu có)
                 String overdue = "";
                 if (mustReturnAt != null) {
@@ -694,22 +783,29 @@ public class DatabaseHelper extends Application {
                         overdue = diffInDays + " days";
                     }
                 }
-
                 // Thêm đối tượng LoanRecord vào ObservableList
                 data.add(new LoanRecord(id, memberName, bookTitle, bookAuthor, overdue, mustReturnAt != null ? mustReturnAt.toString() : ""));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return data;
     }
 
+    /**
+     * @param stage
+     * @throws Exception
+     * Start connection.
+     */
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("Database Start");
     }
 
+    /**
+     * @throws Exception
+     * Stop connection.
+     */
     @Override
     public void stop() throws Exception {
         DatabaseHelper.shutdown();

@@ -4,14 +4,6 @@ public class Note {
     private String title;
     private String content;
 
-    public Note() {}
-
-    public Note(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    // Getters và setters
     public String getTitle() {
         return title;
     }

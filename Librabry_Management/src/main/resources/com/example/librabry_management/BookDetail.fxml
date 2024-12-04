@@ -88,7 +88,7 @@
         <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1005.0" layoutY="14.0" prefHeight="25.0" prefWidth="132.0" promptText="Options" stylesheets="@style.css" />
       <VBox layoutX="523.0" layoutY="151.0" prefHeight="341.0" prefWidth="386.0">
          <children>
-            <Label fx:id="bookTitle" prefHeight="12.0" prefWidth="344.0" text="Xuân Huấn dạy triết lý" wrapText="true">
+            <Label fx:id="bookTitle" prefHeight="46.0" prefWidth="367.0" text="Xuân Huấn dạy triết lý" wrapText="true">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
@@ -110,9 +110,9 @@
                   </Label>
                </children>
             </HBox>
-            <ScrollPane fx:id="desdescriptionScrollPane" hbarPolicy="NEVER" prefHeight="252.0" prefWidth="386.0" styleClass="scroll-pane1" stylesheets="@style.css">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="252.0" prefWidth="386.0" styleClass="scroll-pane1" stylesheets="@style.css">
                <content>
-                  <TextFlow fx:id="bookDescription" prefHeight="247.0" prefWidth="362.0" style="-fx-border-color: transparent;" textAlignment="JUSTIFY" />
+                  <TextFlow fx:id="bookDescription" prefHeight="247.0" prefWidth="357.0" style="-fx-border-color: transparent;" textAlignment="JUSTIFY" />
                </content>
             </ScrollPane>
          </children>
@@ -159,7 +159,7 @@
                   <VBox fx:id="commentListBox" prefHeight="316.0" prefWidth="814.0" />
                </content>
             </ScrollPane>
-            <TextField fx:id="commentTextField" layoutX="23.0" layoutY="382.0" prefHeight="34.0" prefWidth="739.0" promptText="Write your comment" />
+            <TextField fx:id="commentTextField" layoutX="23.0" layoutY="382.0" onAction="#confirmButtonHandler" prefHeight="34.0" prefWidth="739.0" promptText="Write your comment" />
             <Button fx:id="confirmButton" layoutX="769.0" layoutY="382.0" mnemonicParsing="false" onAction="#confirmButtonHandler" prefHeight="30.0" prefWidth="69.0" styleClass="button-base1" stylesheets="@style.css">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
