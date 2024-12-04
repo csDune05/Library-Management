@@ -120,6 +120,7 @@ public class NotesController {
 
     @FXML
     private void addNewNote() {
+
         if (isEditing) {
             // Nếu đang trong chế độ chỉnh sửa, thông báo cho người dùng phải lưu ghi chú trước khi thêm mới
             System.out.println("Please save the current note before adding a new one.");
@@ -135,6 +136,10 @@ public class NotesController {
             // Tạo ghi chú mới
             Note newNote = new Note();
             newNote.setTitle("New Note");
+
+            String currentUserEmail = MainStaticObjectControl.getCurrentUser().getEmail();
+            newNote.setUserEmail(currentUserEmail);
+
             notesListView.getItems().add(newNote);
 
             // Đặt ghi chú mới là đang chọn trong ListView
@@ -147,6 +152,8 @@ public class NotesController {
             // Vô hiệu hóa nút Add trong khi đang chỉnh sửa
             addButton.setDisable(true);
         }
+
+        saveNotes();
     }
 
     @FXML
@@ -190,6 +197,8 @@ public class NotesController {
 
                 // Cho phép nút Add hoạt động trở lại
                 addButton.setDisable(false);
+
+                saveNotes();
             }
         }
     }
@@ -206,6 +215,9 @@ public class NotesController {
     public void saveNotes() {
         NotesStorage.saveNotes(notesList);
     }
+
+    @FXML
+    public void forumProfileButtonHandler() {MainStaticObjectControl.openProfileForumStage(getCurrentStage());}
 
     @FXML
     public void passwordAndSecurityButtonHandler() {MainStaticObjectControl.openProfilePasswordAndSecurityStage(getCurrentStage());}

@@ -17,10 +17,6 @@ public class NotesStorage {
 
     private static final String FILE_PATH = "notes.json";
 
-    /**
-     * @param notes
-     * save note.
-     */
     public static void saveNotes(List<Note> notes) {
         try (FileWriter writer = new FileWriter(FILE_PATH)) {
             Gson gson = new Gson();
@@ -30,23 +26,25 @@ public class NotesStorage {
         }
     }
 
-    /**
-     * @return
-     * load note.
-     */
+
     public static List<Note> loadNotes() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
             Gson gson = new Gson();
             Type noteListType = new TypeToken<List<Note>>(){}.getType();
+
+            // Đọc file vào một String để kiểm tra
             BufferedReader bufferedReader = new BufferedReader(reader);
             StringBuilder jsonContent = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 jsonContent.append(line);
             }
+
+            // Kiểm tra nếu file rỗng
             if (jsonContent.toString().trim().isEmpty()) {
                 return new ArrayList<>();
             }
+
             List<Note> notes = gson.fromJson(jsonContent.toString(), noteListType);
             return notes != null ? notes : new ArrayList<>();
         } catch (IOException | JsonSyntaxException e) {
@@ -54,4 +52,5 @@ public class NotesStorage {
         }
         return new ArrayList<>();
     }
+
 }

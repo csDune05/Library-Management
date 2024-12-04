@@ -19,6 +19,7 @@
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ProfileController">
    <children>
       <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-164.0" />
+      <Line endX="53.0" endY="-77.0" layoutX="894.0" layoutY="154.0" opacity="0.2" startX="53.0" startY="558.0" />
       <ImageView fitHeight="70.0" fitWidth="75.0" layoutX="935.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/avatar.png" />
@@ -27,42 +28,42 @@
       <ComboBox fx:id="optionsComboBox" cache="true" cacheHint="SPEED" layoutX="1005.0" layoutY="19.0" prefHeight="25.0" prefWidth="130.0" promptText="Options" />
       <VBox layoutX="380.0" layoutY="248.0" prefHeight="396.0" prefWidth="420.0">
          <children>
-            <Label prefHeight="43.0" prefWidth="253.0" text="Name" textFill="#8c8686">
+            <Label prefHeight="43.0" prefWidth="253.0" text="Name">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="nameField" prefHeight="43.0" prefWidth="419.0" style="-fx-background-radius: 7; -fx-border-radius: 7; -fx-border-color: #ADD8E6;" />
-            <Label prefHeight="43.0" prefWidth="253.0" text="Birthdate" textFill="#8c8686">
+            <TextField fx:id="nameField" prefHeight="43.0" prefWidth="419.0" />
+            <Label prefHeight="43.0" prefWidth="253.0" text="Birthdate">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="birthdateField" prefHeight="43.0" prefWidth="419.0" style="-fx-background-radius: 7; -fx-border-radius: 7; -fx-border-color: #ADD8E6;" />
-            <Label prefHeight="43.0" prefWidth="253.0" text="Phone Number" textFill="#8c8686">
+            <TextField fx:id="birthdateField" prefHeight="43.0" prefWidth="419.0" />
+            <Label prefHeight="43.0" prefWidth="253.0" text="Phone Number">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="phoneField" prefHeight="43.0" prefWidth="419.0" style="-fx-background-radius: 7; -fx-border-radius: 7; -fx-border-color: #ADD8E6;" />
-            <Label prefHeight="43.0" prefWidth="253.0" text="Email" textFill="#8c8686">
+            <TextField fx:id="phoneField" prefHeight="43.0" prefWidth="419.0" />
+            <Label prefHeight="43.0" prefWidth="253.0" text="Email">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="emailField" prefHeight="43.0" prefWidth="419.0" style="-fx-background-radius: 7; -fx-border-radius: 7; -fx-border-color: #ADD8E6;" />
-            <Label prefHeight="43.0" prefWidth="253.0" text="Location" textFill="#8c8686">
+            <TextField fx:id="emailField" prefHeight="43.0" prefWidth="419.0" />
+            <Label prefHeight="43.0" prefWidth="253.0" text="Location">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="locationField" prefHeight="43.0" prefWidth="419.0" style="-fx-background-radius: 7; -fx-border-radius: 7; -fx-border-color: #ADD8E6;" />
-            <Label prefHeight="43.0" prefWidth="253.0" text="Password" textFill="#8c8686">
+            <TextField fx:id="locationField" prefHeight="43.0" prefWidth="419.0" />
+            <Label prefHeight="43.0" prefWidth="253.0" text="Password">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordField" editable="false" prefHeight="42.0" prefWidth="385.0" style="-fx-background-radius: 7; -fx-border-radius: 7; -fx-border-color: #ADD8E6;" />
+            <PasswordField fx:id="passwordField" editable="false" prefHeight="42.0" prefWidth="385.0" />
          </children>
       </VBox>
       <VBox layoutX="87.0" layoutY="85.0" prefHeight="564.0" prefWidth="196.0">
@@ -77,6 +78,12 @@
                </styleClass>
             </Button>
             <Line endX="345.14007568359375" endY="-0.41421353816986084" opacity="0.2" startX="196.84719848632812" />
+            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="HomeButton" stylesheets="@style.css" text="Notifications">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Line endX="380.81170654296875" endY="7.748603820800781E-7" opacity="0.2" startX="572.1046142578125" startY="-1.2159347534179688E-5" />
             <Button mnemonicParsing="false" onAction="#notesProfileButtonHandler" prefHeight="32.0" prefWidth="235.0" styleClass="HomeButton" stylesheets="@style.css" text="Notes">
                <font>
                   <Font size="18.0" />
