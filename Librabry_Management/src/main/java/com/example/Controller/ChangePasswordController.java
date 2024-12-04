@@ -88,6 +88,10 @@ public class ChangePasswordController {
 
         if (changePassword(oldPassword, newPassword)) {
             showAlert(AlertType.INFORMATION, "Thành công", "Mật khẩu đã được thay đổi!");
+            String notification = "You have changed your password.";
+            MainStaticObjectControl.addNotificationToFile(notification);
+            MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+            MainStaticObjectControl.updateNotificationIcon(notificationImageView);
         } else {
             showAlert(AlertType.ERROR, "Lỗi", "Mật khẩu cũ không đúng!");
         }

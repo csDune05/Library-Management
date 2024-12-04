@@ -14,6 +14,11 @@ import java.nio.file.Path;
 
 public class QRCodeGenerator {
 
+    /**
+     * @param bookData
+     * @param filePath
+     * Generated QR Code.
+     */
         public static void generateQRCode(String bookData, String filePath) {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             try {

@@ -11,6 +11,15 @@ public class LoanRecord {
     private String overdue;
     private String returnDate;
 
+    /**
+     * Constructor.
+     * @param id
+     * @param member
+     * @param title
+     * @param author
+     * @param overdue
+     * @param returnDate
+     */
     public LoanRecord(String id, String member, String title, String author, String overdue, String returnDate) {
         this.id = id;
         this.member = member;

@@ -12,6 +12,9 @@ public class User {
     protected String location;
     protected String password;
 
+    /**
+     * Constructor.
+     */
     public User(String name, String birthdate, String phone_number, String email, String location, String password) {
         this.name = name;
         this.birthdate = birthdate;

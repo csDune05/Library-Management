@@ -14,7 +14,7 @@
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Button layoutX="639.0" layoutY="21.0" mnemonicParsing="false" styleClass="button-base1" text="About us">
+        <Button layoutX="639.0" layoutY="21.0" mnemonicParsing="false" styleClass="button-base5" stylesheets="@style.css" text="About us">
             <font>
                 <Font size="14.0" />
             </font>

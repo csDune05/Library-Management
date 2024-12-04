@@ -78,7 +78,7 @@
                </styleClass>
             </Button>
             <Line endX="345.14007568359375" endY="-0.41421353816986084" opacity="0.2" startX="196.84719848632812" />
-            <Button mnemonicParsing="false" onAction="#forumProfileButtonHandler" prefHeight="37.0" prefWidth="203.0" styleClass="HomeButton" stylesheets="@style.css" text="Forum">
+            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" styleClass="HomeButton" stylesheets="@style.css" text="Notifications">
                <font>
                   <Font size="18.0" />
                </font>
