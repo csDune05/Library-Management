@@ -42,11 +42,34 @@ public class DatabaseHelper extends Application {
     }
 
     /**
+     * Cấu hình lại DataSource để kiểm thử.
+     * @param jdbcUrl
+     * @param username
+     * @param password
+     */
+    public static void configureTestDataSource(String jdbcUrl, String username, String password) {
+        if (dataSource != null) {
+            dataSource.close();
+        }
+        HikariConfig testConfig = new HikariConfig();
+        testConfig.setJdbcUrl(jdbcUrl);
+        testConfig.setUsername(username);
+        testConfig.setPassword(password);
+        testConfig.setMaximumPoolSize(5);
+        testConfig.setMinimumIdle(2);
+        dataSource = new HikariDataSource(testConfig);
+        System.out.println("DataSource configured for testing.");
+    }
+
+    /**
      * Create Connect.
      * @return
      * @throws SQLException
      */
     public static Connection connect() throws SQLException {
+        if (dataSource == null) {
+            throw new IllegalStateException("DataSource not configured");
+        }
         return dataSource.getConnection();
     }
 

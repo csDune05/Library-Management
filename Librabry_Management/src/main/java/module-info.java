@@ -9,7 +9,10 @@ module com.example.librabry_management {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
     requires com.zaxxer.hikari;
-
+    requires org.junit.platform.commons;
+    requires org.junit.jupiter.params;
+    requires org.junit.jupiter.api;
+    requires com.h2database;
     requires json;
     requires javafx.media;
     requires javafx.graphics;
@@ -22,7 +25,7 @@ module com.example.librabry_management {
     requires java.prefs;
     requires java.net.http;
     opens com.example.Controller to javafx.fxml;
-    opens com.example.librabry_management to javafx.fxml, com.google.gson;
+    opens com.example.librabry_management to javafx.fxml, com.google.gson, org.junit.platform.commons, org.junit.jupiter.api;
     exports com.example.librabry_management;
     exports com.example.Controller;
     exports com.example.Feature;
