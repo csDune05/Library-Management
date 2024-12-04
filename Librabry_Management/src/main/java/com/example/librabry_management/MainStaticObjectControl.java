@@ -13,7 +13,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import com.example.Controller.*;
 import com.example.Feature.*;
 
 import java.io.*;
@@ -102,7 +101,7 @@ public class MainStaticObjectControl {
 
     public static void openWelcomeStage(Stage currentStage) {
         try {
-            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Wellcome.fxml"));
+            Parent homeRoot = FXMLLoader.load(MainStaticObjectControl.class.getResource("/com/example/librabry_management/Welcome.fxml"));
             Scene homeScene = new Scene(homeRoot);
 
             // Áp dụng theme từ SceneHelper

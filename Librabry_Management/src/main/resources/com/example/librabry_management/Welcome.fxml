@@ -7,34 +7,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.WellcomeSpaceController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.WelcomeSpaceController">
     <children>
       <ImageView fitHeight="715.0" fitWidth="1200.0">
          <image>
             <Image url="@Images/BackGroundMenu.png" />
          </image>
       </ImageView>
-        <Button fx:id="HomeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" styleClass="button-base5" stylesheets="@style.css" text="Home">
+        <Button fx:id="homeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" styleClass="button-base5" stylesheets="@style.css" text="Home">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="AboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" onAction="#AboutUsButtonHandle" styleClass="HomeButton" stylesheets="@style.css" text="About us">
+        <Button fx:id="aboutUsButton" layoutX="639.0" layoutY="21.0" mnemonicParsing="false" onAction="#aboutUsButtonHandle" styleClass="HomeButton" stylesheets="@style.css" text="About us">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="GetStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" onAction="#GetStartedButtonHandle" prefHeight="25.0" styleClass="button-base5" stylesheets="@style.css" text="Get Started">
+        <Button fx:id="getStartedButton" layoutX="219.0" layoutY="468.0" mnemonicParsing="false" onAction="#getStartedButtonHandle" prefHeight="25.0" styleClass="button-base5" stylesheets="@style.css" text="Get Started">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="SighUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" onAction="#SignUpButtonHandle" styleClass="button-base3" stylesheets="@style.css" text="Sign up">
+        <Button fx:id="signUpButton" layoutX="996.0" layoutY="20.0" mnemonicParsing="false" onAction="#signUpButtonHandle" styleClass="button-base5" stylesheets="@style.css" text="Sign up">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="LoginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" onAction="#LoginButtonHandle" styleClass="button-base3" stylesheets="@style.css" text="Log in">
+        <Button fx:id="loginButton" layoutX="1081.0" layoutY="20.0" mnemonicParsing="false" onAction="#loginButtonHandle" styleClass="button-base5" stylesheets="@style.css" text="Log in">
             <font>
                 <Font size="14.0" />
             </font>
@@ -59,7 +59,7 @@
             <Image url="@Images/LogoMenu.png" />
          </image>
       </ImageView>
-      <Button fx:id="MusicToggleButton" layoutX="889.0" layoutY="21.0" mnemonicParsing="false" onAction="#MusicToggleButtonHandle" prefHeight="30.0" prefWidth="88.0" styleClass="button-base3" stylesheets="@style.css" text="Music Off">
+      <Button fx:id="musicToggleButton" layoutX="889.0" layoutY="21.0" mnemonicParsing="false" onAction="#musicToggleButtonHandle" prefHeight="27.0" prefWidth="88.0" styleClass="button-base5" stylesheets="@style.css" text="Music Off">
          <font>
             <Font size="14.0" />
          </font></Button>

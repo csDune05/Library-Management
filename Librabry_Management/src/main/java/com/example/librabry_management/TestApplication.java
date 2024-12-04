@@ -28,7 +28,7 @@ public class TestApplication extends Application {
             path = path.substring(1, path.length() - 60);
             path += "src/main/resources/vosk-models/vosk-model-small-en-us-0.15";
             VoskManager.getInstance(path);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Wellcome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Welcome.fxml"));
             Parent root = loader.load();
             String musicFile = getClass().getResource("/com/example/librabry_management/Musics/Lofichill.mp3").toString(); // Đường dẫn đến file nhạc
             Media media = new Media(musicFile);

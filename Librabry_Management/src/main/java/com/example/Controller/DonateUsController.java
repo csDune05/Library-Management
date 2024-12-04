@@ -7,7 +7,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
-import com.example.Feature.*;
 
 
 public class DonateUsController {
@@ -47,19 +46,22 @@ public class DonateUsController {
     @FXML
     private VBox notificationList;
 
-    @FXML
-    private TextArea notificationText;
-
     private Stage getCurrentStage() {
         return (Stage) homeButton.getScene().getWindow();
     }
 
+    /**
+     * Initialize donate us scene.
+     */
     public void initialize() {
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
         MainStaticObjectControl.updateNotificationIcon(notificationImageView);
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
+    /**
+     * Handle show notification event.
+     */
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
@@ -67,31 +69,49 @@ public class DonateUsController {
     }
 
 
+    /**
+     * Handle switch to my library event.
+     */
     @FXML
     public void myLibraryButtonHandler() {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to my profile event.
+     */
     @FXML
-    public void ProfileButtonHandler() {
+    public void profileButtonHandler() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
-    public void HomeButtonHandler() {
+    /**
+     * Handle switch to home event.
+     */
+    public void homeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
-    public void BooksButtonHandler() {
+    /**
+     * Handle switch to books event.
+     */
+    public void booksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
+    /**
+     * Handle exit event.
+     */
     @FXML
-    public void LogOutButtonHandler() {
+    public void logOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
+    /**
+     * Handle clear all notification  event.
+     */
     @FXML
-    public void ClearALlButtonHandler() {
+    public void clearALlButtonHandler() {
         MainStaticObjectControl.clearAllNotificationsForUser();
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }

@@ -54,7 +54,7 @@
             <Image url="@Images/avatar.png" />
          </image>
       </ImageView>
-      <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+      <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandle" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -76,7 +76,7 @@
                   <VBox fx:id="notificationList" prefHeight="541.0" prefWidth="255.0" styleClass="notification-pane" stylesheets="@style.css" />
                </content>
             </ScrollPane>
-            <Button fx:id="clearNotificationsButton" layoutX="176.0" layoutY="23.0" mnemonicParsing="false" onAction="#ClearALlButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="clear all">
+            <Button fx:id="clearNotificationsButton" layoutX="176.0" layoutY="23.0" mnemonicParsing="false" onAction="#clearALlButtonHandle" styleClass="button-base1" stylesheets="@style.css" text="clear all">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
@@ -90,7 +90,7 @@
                   <Image url="@Images/logoNew.png" />
                </image>
             </ImageView>
-            <Button fx:id="homeButton" layoutY="111.0" mnemonicParsing="false" onAction="#homeButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="homeButton" layoutY="111.0" mnemonicParsing="false" onAction="#homeButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="65.0" prefWidth="304.0" spacing="3.0">
                      <children>
@@ -118,7 +118,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="myLibraryButton" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="myLibraryButton" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" spacing="3.0" stylesheets="@style.css">
                      <children>
@@ -132,7 +132,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="profileButton" layoutY="369.0" mnemonicParsing="false" onAction="#ProfileButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="profileButton" layoutY="369.0" mnemonicParsing="false" onAction="#profileButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -150,7 +150,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="donateUsButton" layoutY="455.0" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="donateUsButton" layoutY="455.0" mnemonicParsing="false" onAction="#donateUsButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -164,7 +164,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="logoutButton" layoutX="1.0" layoutY="623.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="logoutButton" layoutX="1.0" layoutY="623.0" mnemonicParsing="false" onAction="#logOutButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>

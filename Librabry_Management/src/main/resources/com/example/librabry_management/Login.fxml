@@ -20,7 +20,7 @@
             <Image url="@Images/BackGroundLogin.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="signinButton" defaultButton="true" layoutX="136.0" layoutY="337.0" mnemonicParsing="false" onAction="#SignInButtonHandle" prefHeight="43.0" prefWidth="310.0" styleClass="signInButton" stylesheets="@style.css" text="SIGN IN" textFill="WHITE" wrapText="true">
+      <Button fx:id="signInButton" defaultButton="true" layoutX="136.0" layoutY="337.0" mnemonicParsing="false" onAction="#signInButtonHandle" prefHeight="43.0" prefWidth="310.0" styleClass="signInButton" stylesheets="@style.css" text="SIGN IN" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
@@ -32,16 +32,16 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <CheckBox fx:id="staysignedin" layoutX="141.0" layoutY="288.0" mnemonicParsing="false" text="Stay signed in" />
+      <CheckBox fx:id="staySignedIn" layoutX="141.0" layoutY="288.0" mnemonicParsing="false" stylesheets="@style.css" text="Stay signed in" />
       <Label layoutX="231.0" layoutY="66.0" text="SIGN" textAlignment="CENTER" textFill="#111111">
          <font>
             <Font name="System Bold" size="28.0" />
          </font></Label>
-      <Button fx:id="cancelButton" layoutX="14.0" layoutY="634.0" mnemonicParsing="false" onAction="#handleCancelAction" styleClass="button-base1" stylesheets="@style.css" text="Cancel">
+      <Button fx:id="cancelButton" layoutX="14.0" layoutY="634.0" mnemonicParsing="false" onAction="#cancelButtonHandle" styleClass="button-base1" stylesheets="@style.css" text="Cancel">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Label fx:id="statusLabel" layoutX="200.0" layoutY="112.0" onDragDetected="#SignInButtonHandle" prefHeight="20.0" prefWidth="217.0" textAlignment="CENTER">
+      <Label fx:id="statusLabel" layoutX="200.0" layoutY="112.0" onDragDetected="#signInButtonHandle" prefHeight="20.0" prefWidth="217.0" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -87,13 +87,13 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Button fx:id="signupButton" layoutX="308.0" layoutY="573.0" mnemonicParsing="false" onAction="#SignUpButtonHandle" styleClass="HomeButton" stylesheets="@style.css" text="Sign Up" textFill="#0a74da">
+      <Button fx:id="signUpButton" layoutX="308.0" layoutY="573.0" mnemonicParsing="false" onAction="#signUpButtonHandle" styleClass="HomeButton" stylesheets="@style.css" text="Sign Up" textFill="#0a74da">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="togglePasswordButton" layoutX="474.0" layoutY="227.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="39.0" text="👁" />
+      <Button fx:id="togglePasswordButton" layoutX="474.0" layoutY="227.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="39.0" styleClass="button-base2" stylesheets="@style.css" text="👁" />
       <TextField fx:id="passwordTextField" layoutX="139.0" layoutY="219.0" prefHeight="43.0" prefWidth="310.0" promptText="Password" />
-      <Label fx:id="statusLabel1" layoutX="210.0" layoutY="122.0" onDragDetected="#SignInButtonHandle" prefHeight="20.0" prefWidth="217.0" textAlignment="CENTER">
+      <Label fx:id="statusLabel1" layoutX="210.0" layoutY="122.0" onDragDetected="#signInButtonHandle" prefHeight="20.0" prefWidth="217.0" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
@@ -103,7 +103,7 @@
             <Font size="14.0" />
          </font>
       </PasswordField>
-      <Button fx:id="forgotPasswordButton" layoutX="333.0" layoutY="283.0" mnemonicParsing="false" styleClass="HomeButton" stylesheets="@style.css" text="Forgot password ?" />
+      <Button fx:id="forgotPasswordButton" layoutX="333.0" layoutY="283.0" mnemonicParsing="false" onAction="#forgotPasswordButtonHandle" styleClass="HomeButton" stylesheets="@style.css" text="Forgot password ?" />
       <ListView fx:id="accountListView" layoutX="142.0" layoutY="198.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -38,9 +37,6 @@ public class DashboardController {
 
     @FXML
     private CategoryAxis xAxis;
-
-    @FXML
-    private NumberAxis yAxis;
 
     @FXML
     private Label titleLabel;
@@ -131,10 +127,13 @@ public class DashboardController {
     @FXML
     private Scene dashboardScene;
 
-    private Stage getCurrentStage() {
+    public Stage getCurrentStage() {
         return (Stage) booksButton.getScene().getWindow();
     }
 
+    /**
+     * Initialize the default dashboard scene.
+     */
     @FXML
     public void initialize() {
         totalBookLabel.setText(String.valueOf(DatabaseHelper.getTotalBook()));
@@ -159,41 +158,69 @@ public class DashboardController {
         updateTableView();
     }
 
+    /**
+     * Handle view notifications event.
+     */
     @FXML
-    public void notificationButtonHandler() {
+    public void notificationButtonHandle() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
-        if(!notificationPane.isVisible()) MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+        if(!notificationPane.isVisible()) {
+            MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+        }
     }
 
+    /**
+     * Handle switch to profile scene.
+     */
     @FXML
-    public void ProfileButtonHandler() {
+    public void profileButtonHandle() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to my library scene.
+     */
     @FXML
-    public void myLibraryButtonHandler() {
+    public void myLibraryButtonHandle() {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to books scene.
+     */
     @FXML
-    public void BooksButtonHandler() {
+    public void booksButtonHandle() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
-    public void DonateUsButtonHandler() {
+    /**
+     * Handle switch to donate us scene.
+     */
+    @FXML
+    public void donateUsButtonHandle() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
-    public void LogOutButtonHandler() {
+    /**
+     * Handle exit dashboard stage.
+     */
+    @FXML
+    public void logOutButtonHandle() {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
-    public void ClearALlButtonHandler() {
+    /**
+     * Handle clear all notification event.
+     */
+    public void clearALlButtonHandle() {
         MainStaticObjectControl.clearAllNotificationsForUser();
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
-    private void updateVisitorChart() {
+    /**
+     * update over view chart.
+     */
+    public void updateVisitorChart() {
         visitorChart.getData().clear();
 
         int totalBorrowed = DatabaseHelper.getTotalBorrowedBooks();
@@ -220,6 +247,10 @@ public class DashboardController {
         xAxis.setTickLabelsVisible(false);
     }
 
+    /**
+     * @return visit times.
+     * Get from file txt.
+     */
     private int getVisitTimes() {
         File file = new File("countVisit.txt");
         int visitTimes = 0;
@@ -240,7 +271,10 @@ public class DashboardController {
         return visitTimes;
     }
 
-    private void updateLabels() {
+    /**
+     * Update statistics.
+     */
+    public void updateLabels() {
         int totalBorrowed = DatabaseHelper.getTotalBorrowedBooks();
         int totalOverdue = DatabaseHelper.getTotalOverdueBooks();
         int totalAccounts = DatabaseHelper.getTotalAccounts();
@@ -252,7 +286,10 @@ public class DashboardController {
         membersLabel.setText(String.valueOf(totalAccounts));
     }
 
-    private void updateTableView() {
+    /**
+     * Update table view.
+     */
+    public void updateTableView() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         memberColumn.setCellValueFactory(new PropertyValueFactory<>("member"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -268,8 +305,6 @@ public class DashboardController {
         }
 
         String currentUserName = currentUser.getName();
-
-        // Lấy dữ liệu từ DatabaseHelper và cập nhật TableView
         ObservableList<LoanRecord> allData = DatabaseHelper.getLoanRecords();
         ObservableList<LoanRecord> data = allData.filtered(record ->
                 record.getMember().equals(currentUserName)
@@ -280,6 +315,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Search books in table view.
+     */
     public void performSearch() {
         String query = searchField.getText().trim().toLowerCase();
 
@@ -300,24 +338,32 @@ public class DashboardController {
         loanRecordTableView.setItems(filteredRecords);
     }
 
+    /**
+     * Handle see all data of table view event.
+     */
     @FXML
-    private void SeeAllButtonHandler() {
+    private void seeAllButtonHandle() {
         searchField.clear();
         updateTableView();
     }
 
-    private void loadBookCards() {
+    /**
+     * Load card for book.
+     */
+    public void loadBookCards() {
         try {
             Book sampleBooks = DatabaseHelper.getTopView();
-            VBox bookCard = createBookCard(sampleBooks); // Tạo BookCard cho từng sách
-            bookCardContainer.getChildren().add(bookCard); // Thêm GridPane vào VBox
+            VBox bookCard = createBookCard(sampleBooks);
+            bookCardContainer.getChildren().add(bookCard);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    private VBox createBookCard(Book book) {
+    /**
+     * Create card for book.
+     */
+    public VBox createBookCard(Book book) {
         try {
             VBox card = BookCard.createBookCard(book, this::viewBookDetails);
             card.setPrefHeight(260);
@@ -328,7 +374,10 @@ public class DashboardController {
         return null;
     }
 
-    private void viewBookDetails(Book book) {
+    /**
+     * Handle view all information of book event.
+     */
+    public void viewBookDetails(Book book) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
             Parent root = loader.load();

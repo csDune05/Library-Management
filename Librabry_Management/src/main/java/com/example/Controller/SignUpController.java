@@ -14,101 +14,105 @@ import com.example.Feature.*;
 
 public class SignUpController implements Initializable {
     @FXML
-    private TextField NameField;
+    private TextField nameField;
 
     @FXML
-    private TextField BirthdateField;
+    private TextField birthdateField;
 
     @FXML
-    private TextField PhoneNumberField;
+    private TextField phoneNumberField;
 
     @FXML
-    private TextField LocationField;
+    private TextField locationField;
 
     @FXML
-    private TextField EmailField;
+    private TextField emailField;
 
     @FXML
-    private TextField PasswordField;
+    private TextField passwordField;
 
     @FXML
-    private Button CreateAccountButton;
+    private Button createAccountButton;
 
     @FXML
     private Label statusLabel;
 
     @FXML
-    private Label EmailStatusLabel;
+    private Label emailStatusLabel;
 
     @FXML
-    private Label PhoneStatusLabel;
+    private Label phoneStatusLabel;
 
     @FXML
-    private Label BirthdateStatusLabel;
+    private Label birthDateStatusLabel;
 
     @FXML
-    private Button CancelButton;
+    private Button cancelButton;
 
-    public void CancelActionHandle() {
-        Stage stage = (Stage) CancelButton.getScene().getWindow();
+    /**
+     * Handle cancel button event.
+     */
+    public void cancelButtonHandle() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
-    public void CreateAccountButtonHandle() {
+    /**
+     * Handle create new account event.
+     */
+    public void createAccountButtonHandle() {
         boolean isValid = true;
 
-        if (NameField.getText().isEmpty()) {
-            NameField.setStyle("-fx-border-color: red;");
+        if (nameField.getText().isEmpty()) {
+            nameField.setStyle("-fx-border-color: red;");
             isValid = false;
         }
 
-        if (BirthdateField.getText().isEmpty() || !isValidBirthdate(BirthdateField.getText())) {
-            BirthdateField.setStyle("-fx-border-color: red;");
-            BirthdateStatusLabel.setText("Invalid date or incorrect dd/mm/yyyy format");
+        if (birthdateField.getText().isEmpty() || !isValidBirthdate(birthdateField.getText())) {
+            birthdateField.setStyle("-fx-border-color: red;");
+            birthDateStatusLabel.setText("Invalid date or incorrect dd/mm/yyyy format");
             isValid = false;
         }
 
-        if (PhoneNumberField.getText().isEmpty() || !isPhoneNumberValid(PhoneNumberField.getText())) {
-            PhoneNumberField.setStyle("-fx-border-color: red;");
-            PhoneStatusLabel.setText("Phone number must have exactly 10 digits.");
+        if (phoneNumberField.getText().isEmpty() || !isPhoneNumberValid(phoneNumberField.getText())) {
+            phoneNumberField.setStyle("-fx-border-color: red;");
+            phoneStatusLabel.setText("Phone number must have exactly 10 digits.");
             isValid = false;
         }
 
-        if (LocationField.getText().isEmpty()) {
-            LocationField.setStyle("-fx-border-color: red;");
+        if (locationField.getText().isEmpty()) {
+            locationField.setStyle("-fx-border-color: red;");
             isValid = false;
         }
 
-        if (DatabaseHelper.isEmailExists(EmailField.getText())) {
-            EmailField.setStyle("-fx-border-color: red;");
-            EmailStatusLabel.setText("Email already exists.");
+        if (DatabaseHelper.isEmailExists(emailField.getText())) {
+            emailField.setStyle("-fx-border-color: red;");
+            emailStatusLabel.setText("Email already exists.");
             isValid = false;
         }
 
-        if (EmailField.getText().isEmpty()) {
-            EmailField.setStyle("-fx-border-color: red;");
-            EmailStatusLabel.setText("Invalid email address.");
+        if (emailField.getText().isEmpty()) {
+            emailField.setStyle("-fx-border-color: red;");
+            emailStatusLabel.setText("Invalid email address.");
             isValid = false;
         }
 
-        if (PasswordField.getText().isEmpty()) {
-            PasswordField.setStyle("-fx-border-color: red;");
+        if (passwordField.getText().isEmpty()) {
+            passwordField.setStyle("-fx-border-color: red;");
             isValid = false;
         }
 
         if (isValid) {
             try {
-                // Tạo một đối tượng User
                 User newUser = new User(
-                        NameField.getText(),
-                        formatBirthdate(BirthdateField.getText()),
-                        PhoneNumberField.getText(),
-                        EmailField.getText(),
-                        LocationField.getText(),
-                        PasswordField.getText()
+                        nameField.getText(),
+                        formatBirthdate(birthdateField.getText()),
+                        phoneNumberField.getText(),
+                        emailField.getText(),
+                        locationField.getText(),
+                        passwordField.getText()
                 );
 
-                // Lưu đối tượng User vào cơ sở dữ liệu
                 DatabaseHelper.saveUser(newUser);
 
                 resetAllFields();
@@ -122,32 +126,43 @@ public class SignUpController implements Initializable {
         }
     }
 
-    private void resetAllFields() {
-        NameField.clear();
-        BirthdateField.clear();
-        PhoneNumberField.clear();
-        LocationField.clear();
-        EmailField.clear();
-        PasswordField.clear();
+    /**
+     * Reset all fields.
+     */
+    public void resetAllFields() {
+        nameField.clear();
+        birthdateField.clear();
+        phoneNumberField.clear();
+        locationField.clear();
+        emailField.clear();
+        passwordField.clear();
 
-        NameField.setStyle(null);
-        BirthdateField.setStyle(null);
-        PhoneNumberField.setStyle(null);
-        LocationField.setStyle(null);
-        EmailField.setStyle(null);
-        PasswordField.setStyle(null);
+        nameField.setStyle(null);
+        birthdateField.setStyle(null);
+        phoneNumberField.setStyle(null);
+        locationField.setStyle(null);
+        emailField.setStyle(null);
+        passwordField.setStyle(null);
 
-        EmailStatusLabel.setText("");
-        PhoneStatusLabel.setText("");
-        BirthdateStatusLabel.setText("");
+        emailStatusLabel.setText("");
+        phoneStatusLabel.setText("");
+        birthDateStatusLabel.setText("");
         statusLabel.setText("");
     }
 
-    private boolean isPhoneNumberValid(String phoneNumber) {
+    /**
+     * @return
+     * Check valid phone number.
+     */
+    public boolean isPhoneNumberValid(String phoneNumber) {
         return phoneNumber.matches("\\d{10}");
     }
 
-    private boolean isValidBirthdate(String birthdate) {
+    /**
+     * @return
+     * Check valid birthdate.
+     */
+    public boolean isValidBirthdate(String birthdate) {
         if (!birthdate.matches("\\d{2}/\\d{2}/\\d{4}")) {
             return false;
         }
@@ -160,38 +175,44 @@ public class SignUpController implements Initializable {
         return isValidDate(day, month, year);
     }
 
+    /**
+     * @return
+     * Check date.
+     */
     private boolean isValidDate(int day, int month, int year) {
         if (month < 1 || month > 12) {
             return false;
         }
-
         if (day < 1 || day > daysInMonth(month, year)) {
             return false;
         }
-
-        if (year < 0 || year > Calendar.getInstance().get(Calendar.YEAR)) {
-            return false;
-        }
-
-        return true;
+        return year >= 0 && year <= Calendar.getInstance().get(Calendar.YEAR);
     }
 
+    /**
+     * return days in month.
+     */
     private int daysInMonth(int month, int year) {
-        switch (month) {
-            case 4: case 6: case 9: case 11:
-                return 30;
-            case 2:
-                return (isLeapYear(year)) ? 29 : 28;
-            default:
-                return 31;
-        }
+        return switch (month) {
+            case 4, 6, 9, 11 -> 30;
+            case 2 -> (isLeapYear(year)) ? 29 : 28;
+            default -> 31;
+        };
     }
 
+    /**
+     * @return
+     * Check leap year.
+     */
     private boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
-    private String formatBirthdate(String birthdate) throws IllegalArgumentException {
+    /**
+     * @throws IllegalArgumentException
+     * Format birthdate input for birthdate field.
+     */
+    public String formatBirthdate(String birthdate) throws IllegalArgumentException {
         String[] parts = birthdate.split("/");
         if (parts.length != 3) {
             throw new IllegalArgumentException("Invalid date format");
@@ -200,10 +221,13 @@ public class SignUpController implements Initializable {
         return formattedDate;
     }
 
+    /**
+     * Initialize the default sign up scene.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseHelper.createUsersTable();
-        BirthdateField.textProperty().addListener((observable, oldValue, newValue) -> {
+        birthdateField.textProperty().addListener((observable, oldValue, newValue) -> {
             newValue = newValue.replaceAll("[^\\d/]", "");
 
             if (newValue.length() > 2 && !newValue.contains("/")) {
@@ -216,14 +240,14 @@ public class SignUpController implements Initializable {
             if (newValue.length() > 10) {
                 newValue = newValue.substring(0, 10);
             }
-            BirthdateField.setText(newValue);
+            birthdateField.setText(newValue);
         });
 
-        PhoneNumberField.textProperty().addListener((observable, oldValue, newValue) -> {
+        phoneNumberField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 10) {
                 newValue = newValue.substring(0, 10);
             }
-            PhoneNumberField.setText(newValue);
+            phoneNumberField.setText(newValue);
         });
     }
 }

@@ -30,30 +30,30 @@
                 <Font name="System Bold" size="28.0" />
             </font>
         </Label>
-        <Button fx:id="CreateAccountButton" layoutX="584.0" layoutY="526.0" mnemonicParsing="false" onAction="#CreateAccountButtonHandle" prefHeight="40.0" prefWidth="294.0" styleClass="signInButton" stylesheets="@style.css" text="SIGN UP" />
-        <TextField fx:id="NameField" layoutX="584.0" layoutY="91.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Name" />
-        <TextField fx:id="BirthdateField" layoutX="584.0" layoutY="163.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Birthdate: dd/mm/yy" />
-        <TextField fx:id="PasswordField" layoutX="585.0" layoutY="448.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Password" />
-        <TextField fx:id="PhoneNumberField" layoutX="584.0" layoutY="235.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Phone Number" />
-        <TextField fx:id="LocationField" layoutX="585.0" layoutY="307.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Location" />
-        <TextField fx:id="EmailField" layoutX="585.0" layoutY="380.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Email" />
-        <Button fx:id="CancelButton" layoutX="926.0" layoutY="585.0" mnemonicParsing="false" onAction="#CancelActionHandle" prefHeight="28.0" prefWidth="67.0" styleClass="button-base1" stylesheets="@style.css" text="Cancel" />
+        <Button fx:id="createAccountButton" layoutX="584.0" layoutY="526.0" mnemonicParsing="false" onAction="#createAccountButtonHandle" prefHeight="40.0" prefWidth="294.0" styleClass="signInButton" stylesheets="@style.css" text="SIGN UP" />
+        <TextField fx:id="nameField" layoutX="584.0" layoutY="91.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Name" />
+        <TextField fx:id="birthdateField" layoutX="584.0" layoutY="163.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Birthdate: dd/mm/yy" />
+        <TextField fx:id="passwordField" layoutX="585.0" layoutY="448.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Password" />
+        <TextField fx:id="phoneNumberField" layoutX="584.0" layoutY="235.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Phone Number" />
+        <TextField fx:id="locationField" layoutX="585.0" layoutY="307.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Location" />
+        <TextField fx:id="emailField" layoutX="585.0" layoutY="380.0" opacity="0.8" prefHeight="40.0" prefWidth="294.0" promptText="Email" />
+        <Button fx:id="cancelButton" layoutX="926.0" layoutY="585.0" mnemonicParsing="false" onAction="#cancelButtonHandle" prefHeight="28.0" prefWidth="67.0" styleClass="button-base1" stylesheets="@style.css" text="Cancel" />
         <Label fx:id="statusLabel" layoutX="651.0" layoutY="499.0" prefHeight="17.0" prefWidth="263.0" textFill="#0070ff">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="EmailStatusLabel" layoutX="594.0" layoutY="356.0" prefHeight="17.0" prefWidth="283.0" textFill="#ff0000ed">
+        <Label fx:id="emailStatusLabel" layoutX="594.0" layoutY="356.0" prefHeight="17.0" prefWidth="283.0" textFill="#ff0000ed">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="PhoneStatusLabel" layoutX="590.0" layoutY="211.0" prefHeight="17.0" prefWidth="283.0" textFill="#ff0000ed">
+        <Label fx:id="phoneStatusLabel" layoutX="590.0" layoutY="211.0" prefHeight="17.0" prefWidth="283.0" textFill="#ff0000ed">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="BirthdateStatusLabel" layoutX="591.0" layoutY="139.0" prefHeight="17.0" prefWidth="283.0" textFill="#ff0000ed">
+        <Label fx:id="birthDateStatusLabel" layoutX="591.0" layoutY="139.0" prefHeight="17.0" prefWidth="283.0" textFill="#ff0000ed">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>

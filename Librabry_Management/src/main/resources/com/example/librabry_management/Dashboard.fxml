@@ -43,7 +43,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="190.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Images/newMember%20(2).png" />
+                  <Image url="@Images/newMember (2).png" />
                </image>
             </ImageView>
             <VBox alignment="TOP_CENTER" layoutX="13.0" layoutY="9.0" prefHeight="90.0" prefWidth="130.0" spacing="30.0">
@@ -109,7 +109,7 @@
       <Circle fill="#ffa11f" layoutX="382.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="#21cd32" layoutX="516.0" layoutY="151.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="537.0" layoutY="141.0" text="Visit times" />
-      <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandler" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
+      <Button fx:id="notificationButton" layoutX="1149.0" layoutY="9.0" mnemonicParsing="false" onAction="#notificationButtonHandle" prefHeight="30.0" prefWidth="30.0" styleClass="notificationButton" stylesheets="@style.css">
          <graphic>
             <ImageView fx:id="notificationImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -130,7 +130,7 @@
                </content>
             </ScrollPane>
             <Line endX="159.0" layoutX="101.0" layoutY="47.0" opacity="0.6" startX="-91.0" />
-            <Button fx:id="clearNotificationsButton" layoutX="204.0" layoutY="16.0" mnemonicParsing="false" onAction="#ClearALlButtonHandler" styleClass="button-base1" stylesheets="@style.css" text="clear all">
+            <Button fx:id="clearNotificationsButton" layoutX="204.0" layoutY="16.0" mnemonicParsing="false" onAction="#clearALlButtonHandle" styleClass="button-base1" stylesheets="@style.css" text="clear all">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
@@ -158,7 +158,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="booksButton" layoutY="197.0" mnemonicParsing="false" onAction="#BooksButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="booksButton" layoutY="197.0" mnemonicParsing="false" onAction="#booksButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -172,7 +172,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="myLibraryButton" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="myLibraryButton" layoutY="283.0" mnemonicParsing="false" onAction="#myLibraryButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="35.0" spacing="3.0" stylesheets="@style.css">
                      <children>
@@ -186,7 +186,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="profileButton" layoutY="369.0" mnemonicParsing="false" onAction="#ProfileButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="profileButton" layoutY="369.0" mnemonicParsing="false" onAction="#profileButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -203,7 +203,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="donateUsButton" layoutY="455.0" mnemonicParsing="false" onAction="#DonateUsButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="donateUsButton" layoutY="455.0" mnemonicParsing="false" onAction="#donateUsButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -217,7 +217,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="logoutButton" layoutY="615.0" mnemonicParsing="false" onAction="#LogOutButtonHandler" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
+            <Button fx:id="logoutButton" layoutY="615.0" mnemonicParsing="false" onAction="#logOutButtonHandle" prefHeight="86.0" prefWidth="86.0" styleClass="button-base4" stylesheets="@style.css">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="51.0" prefWidth="84.0" spacing="3.0">
                      <children>
@@ -243,7 +243,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="seeAllButton" layoutX="316.0" layoutY="402.0" mnemonicParsing="false" onAction="#SeeAllButtonHandler" prefHeight="25.0" prefWidth="51.0" styleClass="button-base1" stylesheets="@style.css" text="See all" />
+      <Button fx:id="seeAllButton" layoutX="316.0" layoutY="402.0" mnemonicParsing="false" onAction="#seeAllButtonHandle" prefHeight="25.0" prefWidth="51.0" styleClass="button-base1" stylesheets="@style.css" text="See all" />
       <TextField fx:id="searchField" layoutX="592.0" layoutY="402.0" onAction="#performSearch" prefHeight="25.0" prefWidth="230.0" promptText="Search Books" />
       <Button fx:id="searchButton" layoutX="831.0" layoutY="402.0" mnemonicParsing="false" onAction="#performSearch" prefHeight="25.0" prefWidth="70.0" styleClass="button-base1" stylesheets="@style.css" text="Search" />
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="202.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">

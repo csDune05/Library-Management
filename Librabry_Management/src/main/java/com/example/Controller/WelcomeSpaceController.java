@@ -9,42 +9,60 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import com.example.librabry_management.*;
-import com.example.Feature.*;
 import javafx.scene.media.MediaPlayer;
 
-public class WellcomeSpaceController {
+public class WelcomeSpaceController {
     @FXML
-    private Button HomeButton;
+    private Button homeButton;
 
     @FXML
-    private Button AboutUsButton;
+    private Button aboutUsButton;
 
     @FXML
-    private Button SignUpButton;
+    private Button signUpButton;
 
     @FXML
-    private Button LoginButton;
+    private Button loginButton;
 
     @FXML
-    private Button GetStartedButton;
+    private Button getStartedButton;
 
     @FXML
-    private Button MusicToggleButton;
+    private Button musicToggleButton;
 
     private Stage loginStage;
     private Stage signUpStage;
-
     private MediaPlayer mediaPlayer;
     private boolean isMusicPlaying = true;
 
     public Stage getCurrentStage() {
-        return (Stage) HomeButton.getScene().getWindow();
+        return (Stage) homeButton.getScene().getWindow();
     }
 
-    public void AboutUsButtonHandle() {
+    /**
+     * handle the switch to about us scene event.
+     */
+    public void aboutUsButtonHandle() {
         MainStaticObjectControl.openAboutUsStage(getCurrentStage());
     }
 
+    /**
+     * handle the switch to login stage event.
+     */
+    public void loginButtonHandle() {
+        openLoginStage();
+    }
+
+    /**
+     * handle the switch to login stage event by getStarted button.
+     */
+    public void getStartedButtonHandle() {
+        openLoginStage();
+    }
+
+    /**
+     * open login stage.
+     */
     public void openLoginStage() {
         try {
             if (loginStage == null) {
@@ -52,10 +70,9 @@ public class WellcomeSpaceController {
 
                 loginStage = new Stage();
                 loginStage.initModality(Modality.WINDOW_MODAL);
-                loginStage.initOwner(LoginButton.getScene().getWindow());
+                loginStage.initOwner(loginButton.getScene().getWindow());
                 loginStage.initStyle(StageStyle.UTILITY);
                 loginStage.setTitle("Login");
-
                 Scene loginScene = new Scene(loginRoot);
                 loginStage.setScene(loginScene);
 
@@ -70,31 +87,24 @@ public class WellcomeSpaceController {
         }
     }
 
-    public void LoginButtonHandle() {
-        openLoginStage();
-    }
-
-    public void GetStartedButtonHandle() {
-        openLoginStage();
-    }
-
-    public void SignUpButtonHandle() {
+    /**
+     * handle the switch to sign up stage event.
+     */
+    public void signUpButtonHandle() {
         try {
             if (signUpStage == null) {
                 Parent loginRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/SignUp.fxml"));
 
                 loginStage = new Stage();
                 loginStage.initModality(Modality.WINDOW_MODAL);
-                loginStage.initOwner(LoginButton.getScene().getWindow());
+                loginStage.initOwner(loginButton.getScene().getWindow());
                 loginStage.initStyle(StageStyle.UTILITY);
                 loginStage.setTitle("Sign Up");
-
                 Scene loginScene = new Scene(loginRoot);
                 loginStage.setScene(loginScene);
 
                 loginStage.setOnHidden(event -> loginStage = null);
             }
-
             loginStage.centerOnScreen();
             loginStage.showAndWait();
         } catch (Exception e) {
@@ -102,17 +112,18 @@ public class WellcomeSpaceController {
         }
     }
 
-    public void MusicToggleButtonHandle() {
-
+    /**
+     * handle turn on/off music event.
+     */
+    public void musicToggleButtonHandle() {
         MediaPlayer mediaPlayer = TestApplication.getMediaPlayer();
-
         if (mediaPlayer != null) {
             if (isMusicPlaying) {
                 mediaPlayer.pause();
-                MusicToggleButton.setText("Music On");
+                musicToggleButton.setText("Music On");
             } else {
                 mediaPlayer.play();
-                MusicToggleButton.setText("Music Off");
+                musicToggleButton.setText("Music Off");
             }
             isMusicPlaying = !isMusicPlaying;
         }

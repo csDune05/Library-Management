@@ -90,44 +90,60 @@ public class BookController {
     private ImageView voiceImageView;
 
     private Scene bookScene;
-
     private VoskManager voskManager;
-
     private boolean isRecording = false;
     private TargetDataLine microphone;
     private Thread recordingThread;
 
-    private Stage getCurrentStage() {
+    public Stage getCurrentStage() {
         return (Stage) homeButton.getScene().getWindow();
     }
 
+    /**
+     * Handle switch to my library scene event.
+     */
     @FXML
-    public void myLibraryButtonHandler() {
+    public void myLibraryButtonHandle() {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to home scene event.
+     */
     @FXML
-    public void homeButtonHandler() {
+    public void homeButtonHandle() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to profile scene event.
+     */
     @FXML
-    public void ProfileButtonHandler() {
+    public void profileButtonHandle() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to donate us scene event.
+     */
     @FXML
-    public void DonateUsButtonHandler() {
+    public void donateUsButtonHandle() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
+    /**
+     * Handle exit stage event.
+     */
     @FXML
-    public void LogOutButtonHandler() {
+    public void logOutButtonHandle() {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
+    /**
+     * Handle search by voice event.
+     */
     @FXML
-    private void handleVoiceButton() {
+    public void handleVoiceButton() {
         if (!isRecording) {
             startRecording();
         } else {
@@ -136,13 +152,19 @@ public class BookController {
         }
     }
 
+    /**
+     * Handle clear all notification event.
+     */
     @FXML
-    public void ClearALlButtonHandler() {
+    public void clearALlButtonHandle() {
         MainStaticObjectControl.clearAllNotificationsForUser();
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
-    private void startRecording() {
+    /**
+     * Start recording voice.
+     */
+    public void startRecording() {
         isRecording = true;
         voiceImageView.setImage(new Image(getClass().getResource("/com/example/librabry_management/Images/micOff.png").toExternalForm()));
 
@@ -167,7 +189,10 @@ public class BookController {
         }
     }
 
-    private void stopRecording() {
+    /**
+     * Stop recording voice.
+     */
+    public void stopRecording() {
         isRecording = false;
         voiceImageView.setImage(new Image(getClass().getResource("/com/example/librabry_management/Images/micOn.png").toExternalForm()));
 
@@ -185,15 +210,13 @@ public class BookController {
         }
     }
 
-    private void processAudio() {
+    public void processAudio() {
         new Thread(() -> {
             try {
-                // Lấy kết quả từ Vosk và hiển thị trực tiếp
                 String result = voskManager.transcribeAudio(
                         getClass().getResource("/com/example/librabry_management/Musics/WAVVoskSample.wav").getPath()
                 );
 
-                // Hiển thị kết quả trong searchField trên thread JavaFX
                 Platform.runLater(() -> searchField.setText(result.trim()));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -201,17 +224,25 @@ public class BookController {
         }).start();
     }
 
+    /**
+     * Handle show notification event.
+     */
     @FXML
-    public void notificationButtonHandler() {
+    public void notificationButtonHandle() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
-        if(!notificationPane.isVisible()) MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+        if(!notificationPane.isVisible()){
+            MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
+        }
     }
 
+    /**
+     * Initialize default books scene.
+     */
     @FXML
     public void initialize() {
         loadBookCards();
         try {
-            voskManager = VoskManager.getInstance(null); // Lấy instance đã khởi tạo từ Singleton
+            voskManager = VoskManager.getInstance(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,12 +251,9 @@ public class BookController {
             bookScene = homeButton.getScene();
         });
 
-        List<Book> books = DatabaseHelper.getDefaultBooks(); // Lấy 40 sách từ cơ sở dữ liệu
-        displayBooks(books); // Hiển thị sách lên GridPane
-
+        List<Book> books = DatabaseHelper.getDefaultBooks();
+        displayBooks(books);
         searchButton.setOnAction(e -> performSearch());
-
-        // Khởi tạo gợi ý tìm kiếm
         setupSearchSuggestions();
 
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
@@ -237,41 +265,34 @@ public class BookController {
     public void performSearch() {
         String query = searchField.getText().trim();
         if (query.isEmpty()) {
-            return; // Không tìm kiếm nếu query trống
+            return;
         }
 
-        gridPane.getChildren().clear(); // Xóa các sách cũ khỏi giao diện
+        gridPane.getChildren().clear();
 
-        int totalBooks = 40; // Tổng số sách cần tải
-        int batchSize = 10;  // Số sách mỗi lần tải
-        int booksPerRow = 5; // Số sách trên mỗi hàng
+        int totalBooks = 40;
+        int batchSize = 10;
+        int booksPerRow = 5;
 
-        // Tạo CompletableFuture để tải sách từ API và xử lý đồng thời
         CompletableFuture.runAsync(() -> {
             int row = 0, col = 0;
 
             for (int i = 0; i < totalBooks; i += batchSize) {
                 int startIndex = i;
-                // Lấy dữ liệu sách từ Google Books API
                 String jsonResponse = GoogleBooksApi.searchBooks(query, startIndex, batchSize);
                 List<Book> books = JsonParserEx.parseBooks(jsonResponse);
 
                 if (books != null) {
                     for (Book book : books) {
-                        // Lưu sách vào cơ sở dữ liệu
                         DatabaseHelper.saveBook(book, query);
 
-                        // Đảm bảo cập nhật giao diện trên thread chính
                         final int currentRow = row;
                         final int currentCol = col;
 
-                        // Hiển thị sách trên giao diện
                         Platform.runLater(() -> {
                             VBox bookCard = createBookCard(book);
                             gridPane.add(bookCard, currentCol, currentRow);
                         });
-
-                        // Cập nhật vị trí sách trong GridPane
                         col++;
                         if (col >= booksPerRow) {
                             col = 0;
@@ -281,13 +302,12 @@ public class BookController {
                 }
             }
         }).exceptionally(ex -> {
-            // Xử lý ngoại lệ nếu có lỗi
             ex.printStackTrace();
             return null;
         });
     }
 
-    private void setupSearchSuggestions() {
+    public void setupSearchSuggestions() {
         // Popup để hiển thị gợi ý
         Popup suggestionsPopup = new Popup();
         suggestionsPopup.setAutoHide(true);
@@ -319,7 +339,7 @@ public class BookController {
                             (dbSuggestions, apiSuggestions) -> {
                                 Set<String> allSuggestions = new LinkedHashSet<>(dbSuggestions); // Sử dụng LinkedHashSet để loại bỏ trùng lặp và duy trì thứ tự
                                 allSuggestions.addAll(apiSuggestions);
-                                return new ArrayList<>(allSuggestions); // Chuyển lại thành danh sách
+                                return new ArrayList<>(allSuggestions);
                             })
                     .thenAcceptAsync(suggestions -> {
                         if (suggestions.isEmpty()) {
@@ -342,15 +362,14 @@ public class BookController {
         // Ẩn Popup khi SearchField mất focus
         searchField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                suggestionsPopup.hide(); // Ẩn Popup khi SearchField không còn focus
+                suggestionsPopup.hide();
             }
         });
     }
 
-    private List<String> getSuggestions(String query) {
+    public List<String> getSuggestions(String query) {
         List<String> suggestions = new ArrayList<>();
 
-        // Truy vấn cơ sở dữ liệu để tìm các sách có tên giống với query
         String sql = "SELECT title FROM books WHERE title LIKE ?";
 
         try (Connection conn = DatabaseHelper.connect();
@@ -368,7 +387,7 @@ public class BookController {
         return suggestions;
     }
 
-    private List<String> getSuggestionsFromAPI(String query) {
+    public List<String> getSuggestionsFromAPI(String query) {
         final List<String> suggestions = new ArrayList<>();
         String jsonResponse = GoogleBooksApi.searchBooksForSuggestions(query);  // Lấy phản hồi từ API
         // Log phản hồi từ API
@@ -383,7 +402,7 @@ public class BookController {
                         JsonObject volumeInfo = item.getAsJsonObject().getAsJsonObject("volumeInfo");
                         String title = volumeInfo.has("title") ? volumeInfo.get("title").getAsString() : null;
 
-                        // Nếu tiêu đề sách hợp lệ, thêm vào danh sách gợi ý
+                        // Thêm vào danh sách gợi ý
                         if (title != null && !title.trim().isEmpty()) {
                             suggestions.add(title);
                         }
@@ -398,7 +417,10 @@ public class BookController {
     }
 
 
-    private VBox createBookCard(Book book) {
+    /**
+     * Create book card.
+     */
+    public VBox createBookCard(Book book) {
         ImageView thumbnail = new ImageView();
         thumbnail.setFitWidth(110);
         thumbnail.setFitHeight(160);
@@ -431,7 +453,6 @@ public class BookController {
         VBox card = new VBox(5, thumbnail, title, knowMoreButton);
         card.setPadding(new Insets(10));
 
-        // Áp dụng viền và hiệu ứng bóng cho card
         card.setStyle(
                 "-fx-border-color: lightgray; " +
                         "-fx-border-width: 2px; " +
@@ -441,7 +462,6 @@ public class BookController {
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
         );
 
-        // Thêm hiệu ứng hover cho card
         card.setOnMouseEntered(event -> {
             card.setStyle(
                     "-fx-border-color: #007bff; " +
@@ -489,17 +509,16 @@ public class BookController {
     }
 
 
-    private void displayBooks(List<Book> books) {
-        gridPane.getChildren().clear(); // Xóa giao diện cũ
-
+    public void displayBooks(List<Book> books) {
+        gridPane.getChildren().clear();
         gridPane.setHgap(22);
 
-        int row = 0, col = 0; // Vị trí bắt đầu trong GridPane
-        int booksPerRow = 5; // Số sách trên mỗi hàng
+        int row = 0, col = 0;
+        int booksPerRow = 5;
 
         for (Book book : books) {
-            VBox bookCard = createBookCard(book); // Tạo thẻ sách
-            gridPane.add(bookCard, col, row); // Thêm thẻ sách vào GridPane
+            VBox bookCard = createBookCard(book);
+            gridPane.add(bookCard, col, row);
             col++;
             if (col >= booksPerRow) {
                 col = 0;
@@ -508,21 +527,21 @@ public class BookController {
         }
     }
 
-    private void loadBookCards() {
-        // Lấy danh sách sách mẫu
+    public void loadBookCards() {
         List<Book> sampleBooks = DatabaseHelper.getTopRateBooks();
-
-        // Xóa nội dung cũ nếu có
         topRateBook.getChildren().clear();
 
-        // Thêm từng BookCard vào VBox
+        // Thêm BookCard vào VBox
         for (Book book : sampleBooks) {
             VBox bookCard = createTopBookCard(book);
             topRateBook.getChildren().add(bookCard);
         }
     }
 
-    private VBox createTopBookCard(Book book) {
+    /**
+     * Create top book card.
+     */
+    public VBox createTopBookCard(Book book) {
         VBox card = BookCard.createBookCard(book, this::viewBookDetails);
         card.setStyle(
                 "-fx-border-color: lightgray; " +
@@ -556,7 +575,10 @@ public class BookController {
         return card;
     }
 
-    private void viewBookDetails(Book book) {
+    /**
+     * Handle show book details event.
+     */
+    public void viewBookDetails(Book book) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
             Parent root = loader.load();

@@ -19,7 +19,7 @@
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="HomeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#HomeButtonHandle" styleClass="HomeButton" text="Home">
+        <Button fx:id="homeButton" layoutX="517.0" layoutY="21.0" mnemonicParsing="false" onAction="#homeButtonHandle" styleClass="HomeButton" text="Home">
             <font>
                 <Font size="14.0" />
             </font>

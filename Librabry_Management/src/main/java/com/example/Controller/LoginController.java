@@ -27,13 +27,13 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private TextField passwordTextField; // Trường để hiển thị mật khẩu
+    private TextField passwordTextField;
 
     @FXML
-    private Button togglePasswordButton; // Nút để ẩn/hiện mật khẩu
+    private Button togglePasswordButton;
 
     @FXML
-    private Button signinButton;
+    private Button signInButton;
 
     @FXML
     private Button cancelButton;
@@ -42,41 +42,37 @@ public class LoginController {
     private Label statusLabel;
 
     @FXML
-    private Button signupButton;
+    private Button signUpButton;
 
     @FXML
-    private Button forgotPasswordButton; // Nút để quên mật khẩu
+    private Button forgotPasswordButton;
 
     @FXML
-    private CheckBox staysignedin;
+    private CheckBox staySignedIn;
 
     @FXML
     private ListView<String> accountListView;
 
-    private Preferences prefs;
-
+    private Preferences preferences;
     private Stage signUpStage;
-    private Stage DashboardStage;
+    private Stage dashboardStage;
     private Stage forgotPasswordStage;
-
     private ObservableList<String> accountList;
 
+    /**
+     * @throws JSONException
+     * Initialize the initial login scene.
+     */
     @FXML
     public void initialize() throws JSONException {
-        prefs = Preferences.userNodeForPackage(LoginController.class);
+        preferences = Preferences.userNodeForPackage(LoginController.class);
         accountList = FXCollections.observableArrayList();
         loadSavedAccounts();
 
-        // Ẩn ListView khi khởi tạo
+        // Recommended saved accounts.
         accountListView.setVisible(false);
-
-        // Sự kiện di chuột vào ListView để hiển thị
         accountListView.setOnMouseEntered(event -> accountListView.setVisible(true));
-
-        // Sự kiện di chuột ra khỏi ListView để ẩn
         accountListView.setOnMouseExited(event -> accountListView.setVisible(false));
-
-        // Sự kiện khi chọn một tài khoản trong ListView
         accountListView.setOnMouseClicked(event -> {
             String selectedAccount = accountListView.getSelectionModel().getSelectedItem();
             if (selectedAccount != null) {
@@ -88,38 +84,33 @@ public class LoginController {
             }
         });
 
-        // Lắng nghe thay đổi trong emailField để lọc tài khoản
         emailField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 filterAccounts(newValue);
             } else {
                 accountListView.setItems(accountList);
-                accountListView.setVisible(accountList.size() > 0);
+                accountListView.setVisible(!accountList.isEmpty());
             }
         });
 
-        // Sự kiện hiển thị hoặc ẩn mật khẩu
         togglePasswordButton.setOnAction(event -> {
             if (passwordField.isVisible()) {
-                // Đổi sang hiển thị mật khẩu
                 passwordTextField.setText(passwordField.getText());
                 passwordField.setVisible(false);
                 passwordField.setManaged(false);
                 passwordTextField.setVisible(true);
                 passwordTextField.setManaged(true);
-                togglePasswordButton.setText("🙈"); // Đổi biểu tượng sang "ẩn mật khẩu"
+                togglePasswordButton.setText("🙈");
             } else {
-                // Đổi sang ẩn mật khẩu
                 passwordField.setText(passwordTextField.getText());
                 passwordTextField.setVisible(false);
                 passwordTextField.setManaged(false);
                 passwordField.setVisible(true);
                 passwordField.setManaged(true);
-                togglePasswordButton.setText("👁"); // Đổi biểu tượng sang "hiển mật khẩu"
+                togglePasswordButton.setText("👁");
             }
         });
 
-        // Đồng bộ hóa nội dung giữa passwordField và passwordTextField
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (passwordField.isVisible()) {
                 passwordTextField.setText(newValue);
@@ -131,26 +122,27 @@ public class LoginController {
             }
         });
 
-        // Sự kiện di chuột vào emailField để hiển thị ListView
         emailField.setOnMouseEntered(event -> {
-            if (!emailField.getText().isEmpty() && accountListView.getItems().size() > 0) {
+            if (!emailField.getText().isEmpty() && !accountListView.getItems().isEmpty()) {
                 accountListView.setVisible(true);
             }
         });
 
-        // Sự kiện di chuột ra khỏi emailField để ẩn ListView (nếu không di chuột vào ListView)
         emailField.setOnMouseExited(event -> {
             if (!accountListView.isHover()) {
                 accountListView.setVisible(false);
             }
         });
 
-        // Sự kiện khi nhấn nút 'Forgot Password?'
-        forgotPasswordButton.setOnAction(event -> handleForgotPassword());
+        forgotPasswordButton.setOnAction(event -> forgotPasswordButtonHandle());
     }
 
-    private void loadSavedAccounts() throws JSONException {
-        String accountsJson = prefs.get("accounts", "[]");
+    /**
+     * @throws JSONException
+     * Load saved accounts.
+     */
+    public void loadSavedAccounts() throws JSONException {
+        String accountsJson = preferences.get("accounts", "[]");
         JSONArray accounts = new JSONArray(accountsJson);
 
         accountList.clear();
@@ -161,15 +153,18 @@ public class LoginController {
 
         accountListView.setItems(accountList);
 
-        // Chọn tài khoản cuối cùng nếu có
         if (!accountList.isEmpty()) {
             accountListView.getSelectionModel().select(0);
             populateAccountDetails(accountListView.getSelectionModel().getSelectedItem());
         }
     }
 
-    private void populateAccountDetails(String username) throws JSONException {
-        String accountsJson = prefs.get("accounts", "[]");
+    /**
+     * @throws JSONException
+     * Information of saved accounts.
+     */
+    public void populateAccountDetails(String username) throws JSONException {
+        String accountsJson = preferences.get("accounts", "[]");
         JSONArray accounts = new JSONArray(accountsJson);
 
         for (int i = 0; i < accounts.length(); i++) {
@@ -177,38 +172,41 @@ public class LoginController {
             if (account.getString("username").equals(username)) {
                 emailField.setText(account.getString("username"));
                 passwordField.setText(account.optString("password", ""));
-                staysignedin.setSelected(account.optBoolean("rememberMe", false));
+                staySignedIn.setSelected(account.optBoolean("rememberMe", false));
                 break;
             }
         }
     }
 
-    private void filterAccounts(String searchText) {
+    /**
+     * @param searchText
+     * Account filtering.
+     */
+    public void filterAccounts(String searchText) {
         ObservableList<String> filteredList = FXCollections.observableArrayList();
-
         for (String account : accountList) {
             if (account.toLowerCase().contains(searchText.toLowerCase())) {
                 filteredList.add(account);
             }
         }
-
         accountListView.setItems(filteredList);
         accountListView.setVisible(!filteredList.isEmpty());
     }
 
+    /**
+     * Handle sign in event.
+     */
     @FXML
-    public void SignInButtonHandle() {
+    public void signInButtonHandle() {
         String email = emailField.getText();
         String password = passwordField.isVisible() ? passwordField.getText() : passwordTextField.getText();
 
         try {
-            User user = DatabaseHelper.getUserByEmail(email); // Tìm người dùng theo email
+            User user = DatabaseHelper.getUserByEmail(email);
             if (user != null && user.getPassword().equals(password)) {
                 statusLabel.setText("Login Successful!");
-                MainStaticObjectControl.setCurrentUser(user); // Lưu thông tin User hiện tại
-
-                // Ghi nhớ tài khoản nếu người dùng chọn "Stay signed in"
-                if (staysignedin.isSelected()) {
+                MainStaticObjectControl.setCurrentUser(user);
+                if (staySignedIn.isSelected()) {
                     saveAccount(user.getEmail(), user.getPassword(), true);
                 } else {
                     saveAccount(user.getEmail(), "", false);
@@ -225,8 +223,12 @@ public class LoginController {
         }
     }
 
-    private void saveAccount(String username, String password, boolean rememberMe) throws JSONException {
-        String accountsJson = prefs.get("accounts", "[]");
+    /**
+     * @throws JSONException
+     * Save account.
+     */
+    public void saveAccount(String username, String password, boolean rememberMe) throws JSONException {
+        String accountsJson = preferences.get("accounts", "[]");
         JSONArray accounts = new JSONArray(accountsJson);
 
         boolean accountExists = false;
@@ -248,12 +250,15 @@ public class LoginController {
             accounts.put(newAccount);
         }
 
-        prefs.put("accounts", accounts.toString());
+        preferences.put("accounts", accounts.toString());
         loadSavedAccounts();
     }
 
-    // cap nhat visit times
-    private void updateVisitCount() throws IOException {
+    /**
+     * @throws IOException
+     * Update visit times in countVisit.
+     */
+    public void updateVisitCount() throws IOException {
         int currentCount = readVisitCount();
         currentCount++;
 
@@ -262,17 +267,18 @@ public class LoginController {
         }
     }
 
-    // dem so lan vao app
-    private int readVisitCount() throws IOException {
+    /**
+     * @throws IOException
+     * Read visit times from file.
+     */
+    public int readVisitCount() throws IOException {
         File countFile = new File("countVisit.txt");
-
         if (!countFile.exists()) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(countFile))) {
                 writer.write("0");
             }
         }
 
-        // Đọc giá trị từ file
         try (BufferedReader reader = new BufferedReader(new FileReader(countFile))) {
             String line = reader.readLine(); // Đọc dòng đầu tiên
             if (line == null || line.trim().isEmpty()) {
@@ -285,30 +291,34 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handle cancel event.
+     */
     @FXML
-    public void handleCancelAction() {
+    public void cancelButtonHandle() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Handle switch to sign up stage event.
+     */
     @FXML
-    public void SignUpButtonHandle() {
+    public void signUpButtonHandle() {
         try {
             if (signUpStage == null) {
                 Parent signupRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/SignUp.fxml"));
 
                 signUpStage = new Stage();
                 signUpStage.initModality(Modality.WINDOW_MODAL);
-                signUpStage.initOwner(signinButton.getScene().getWindow());
+                signUpStage.initOwner(signInButton.getScene().getWindow());
                 signUpStage.initStyle(StageStyle.UTILITY);
                 signUpStage.setTitle("Sign Up");
-
                 Scene loginScene = new Scene(signupRoot);
                 signUpStage.setScene(loginScene);
 
                 signUpStage.setOnHidden(event -> signUpStage = null);
             }
-
             signUpStage.centerOnScreen();
             signUpStage.showAndWait();
         } catch (Exception e) {
@@ -316,15 +326,18 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handle forgot password event.
+     */
     @FXML
-    public void handleForgotPassword() {
+    public void forgotPasswordButtonHandle() {
         try {
             if (forgotPasswordStage == null) {
                 Parent forgotPasswordRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/ForgotPasswordForm.fxml"));
 
                 forgotPasswordStage = new Stage();
                 forgotPasswordStage.initModality(Modality.WINDOW_MODAL);
-                forgotPasswordStage.initOwner(signinButton.getScene().getWindow());
+                forgotPasswordStage.initOwner(signInButton.getScene().getWindow());
                 forgotPasswordStage.initStyle(StageStyle.UTILITY);
                 forgotPasswordStage.setTitle("Forgot Password");
 
@@ -341,22 +354,20 @@ public class LoginController {
         }
     }
 
-    private void openDashboard() {
+    /**
+     * Open dashboard stage.
+     */
+    public void openDashboard() {
         try {
-            if (DashboardStage == null) {
+            if (dashboardStage == null) {
                 Parent dashboardRoot = FXMLLoader.load(getClass().getResource("/com/example/librabry_management/Dashboard.fxml"));
                 Scene dashboardScene = new Scene(dashboardRoot);
-
-                // Áp dụng theme từ SceneHelper
                 SceneHelper.applyTheme(dashboardScene);
-
-                Stage currentStage = (Stage) signinButton.getScene().getWindow();
+                Stage currentStage = (Stage) signInButton.getScene().getWindow();
                 currentStage.close();
-
                 Stage dashboardStage = new Stage();
                 dashboardStage.setTitle("Dashboard");
                 dashboardStage.setScene(dashboardScene);
-
                 dashboardStage.show();
             }
         } catch (IOException e) {
