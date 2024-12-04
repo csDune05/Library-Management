@@ -152,6 +152,8 @@ public class NotesController {
             // Vô hiệu hóa nút Add trong khi đang chỉnh sửa
             addButton.setDisable(true);
         }
+
+        saveNotes();
     }
 
     @FXML
@@ -195,6 +197,8 @@ public class NotesController {
 
                 // Cho phép nút Add hoạt động trở lại
                 addButton.setDisable(false);
+
+                saveNotes();
             }
         }
     }
