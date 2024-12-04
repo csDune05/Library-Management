@@ -11,8 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class GoogleBooksApi {
-
-    private static final String API_KEY = "AIzaSyCYoCFtwwbOF4HI6gnkAHJL1dpXSvnKYp8";
+    private static final String API_KEY = "API_Key";
     private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 
     /**
