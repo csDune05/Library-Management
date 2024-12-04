@@ -1,161 +1,21 @@
 {
     "Dung": [
         {
-            "message": "You returned the Messi book.",
+            "message": "You returned the Cristiano Ronaldo book.",
             "read": true,
-            "timestamp": "16h06 03/12/2024"
+            "timestamp": "13h58 04/12/2024"
         },
         {
-            "message": "You returned the The China sea directory. [With] book.",
-            "read": true,
-            "timestamp": "16h08 03/12/2024"
-        },
-        {
-            "message": "You returned the Naruto Ultimate Ninja 2 book.",
-            "read": true,
-            "timestamp": "16h08 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Naruto Ninja Council 3 book.",
-            "read": true,
-            "timestamp": "16h26 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Naruto, Vol. 11 book.",
-            "read": true,
-            "timestamp": "16h26 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Researches Into the Early History of the Violin Family book.",
-            "read": true,
-            "timestamp": "16h26 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Anime and Manga book.",
-            "read": true,
-            "timestamp": "16h27 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Focus On: 100 Most Popular Fantasy Anime and Manga book.",
-            "read": true,
-            "timestamp": "16h27 03/12/2024"
-        },
-        {
-            "message": "You returned the Anime and Manga book.",
-            "read": true,
-            "timestamp": "16h27 03/12/2024"
-        },
-        {
-            "message": "You returned the Naruto Ninja Council 3 book.",
-            "read": true,
-            "timestamp": "16h27 03/12/2024"
-        },
-        {
-            "message": "You returned the Naruto, Vol. 11 book.",
-            "read": true,
-            "timestamp": "16h27 03/12/2024"
-        },
-        {
-            "message": "You returned the Focus On: 100 Most Popular Fantasy Anime and Manga book.",
-            "read": true,
-            "timestamp": "16h30 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Messi book.",
-            "read": true,
-            "timestamp": "16h42 03/12/2024"
-        },
-        {
-            "message": "You borrowed the FC Mezzi 4: FC Mezzi Meets Messi book.",
-            "read": true,
-            "timestamp": "16h42 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Lionel Messi book.",
-            "read": true,
-            "timestamp": "16h42 03/12/2024"
-        },
-        {
-            "message": "You returned the FC Mezzi 4: FC Mezzi Meets Messi book.",
-            "read": true,
-            "timestamp": "16h42 03/12/2024"
-        },
-        {
-            "message": "You returned the Messi book.",
-            "read": true,
-            "timestamp": "16h43 03/12/2024"
-        },
-        {
-            "message": "You returned the Researches Into the Early History of the Violin Family book.",
-            "read": true,
-            "timestamp": "17h12 03/12/2024"
-        },
-        {
-            "message": "You returned the Lionel Messi book.",
-            "read": true,
-            "timestamp": "17h13 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Naruto - Rise of a Ninja book.",
-            "read": true,
-            "timestamp": "17h15 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Naruto book.",
-            "read": true,
-            "timestamp": "17h15 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Messi book.",
-            "read": true,
-            "timestamp": "17h15 03/12/2024"
-        },
-        {
-            "message": "You returned the Naruto book.",
-            "read": true,
-            "timestamp": "17h15 03/12/2024"
-        },
-        {
-            "message": "You returned the Naruto - Rise of a Ninja book.",
-            "read": true,
-            "timestamp": "17h15 03/12/2024"
-        },
-        {
-            "message": "You returned the Messi book.",
-            "read": true,
-            "timestamp": "17h15 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Messi book.",
-            "read": true,
-            "timestamp": "17h44 03/12/2024"
-        },
-        {
-            "message": "You returned the Messi book.",
-            "read": true,
-            "timestamp": "17h46 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Messi book.",
-            "read": true,
-            "timestamp": "17h46 03/12/2024"
-        },
-        {
-            "message": "You returned the Messi book.",
-            "read": true,
-            "timestamp": "17h46 03/12/2024"
-        },
-        {
-            "message": "You borrowed the Messi book.",
-            "read": true,
-            "timestamp": "17h49 03/12/2024"
-        },
-        {
-            "message": "You returned the Messi book.",
-            "read": true,
-            "timestamp": "20h25 03/12/2024"
+            "message": "You returned the Cristiano Ronaldo book.",
+            "read": false,
+            "timestamp": "14h07 04/12/2024"
         }
     ],
+    "DungDepTrai": [{
+        "message": "You borrowed the Messi book.",
+        "read": true,
+        "timestamp": "13h23 04/12/2024"
+    }],
     "csDune": [
         {
             "message": "You borrowed the Focus On: 100 Most Popular Expatriate Footballers in Spain book.",

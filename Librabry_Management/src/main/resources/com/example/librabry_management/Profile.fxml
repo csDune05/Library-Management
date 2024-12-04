@@ -253,5 +253,10 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
+      <ImageView fitHeight="636.0" fitWidth="247.0" layoutX="950.0" layoutY="77.0">
+         <image>
+            <Image url="@Images/Screenshot%202024-12-04%20133936.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

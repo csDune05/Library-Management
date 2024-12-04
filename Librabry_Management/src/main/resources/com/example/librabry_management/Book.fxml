@@ -180,9 +180,9 @@
             </Button>
          </children>
       </Pane>
-           <TextField fx:id="searchField" layoutX="86.0" layoutY="74.0" onAction="#performSearch" prefHeight="38.0" prefWidth="749.0" promptText="Enter book's title or author" />
+           <TextField fx:id="searchField" layoutX="86.0" layoutY="74.0" onAction="#performSearch" prefHeight="38.0" prefWidth="749.0" promptText="Enter book's title or author" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
            <Button fx:id="searchButton" layoutX="874.0" layoutY="74.0" onAction="#performSearch" prefHeight="38.0" prefWidth="70.0" style="-fx-background-color: #5A91C3;" text="Search" textFill="WHITE" />
-      <Button fx:id="voiceButton" layoutX="834.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleVoiceButton" prefHeight="38.0" prefWidth="38.0" style="-fx-background-color: #5A91C3;">
+      <Button fx:id="voiceButton" layoutX="836.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleVoiceButton" prefHeight="38.0" prefWidth="38.0" style="-fx-background-color: #5A91C3;">
          <graphic>
             <ImageView fx:id="voiceImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
