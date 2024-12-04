@@ -21,9 +21,9 @@ public class DatabaseHelper extends Application {
     static {
         // Cấu hình
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/My_Library");
+        config.setJdbcUrl("jdbc:mysql://localhost:your_port/My_Library");
         config.setUsername("root");
-        config.setPassword("dovandung05062005@mysql");
+        config.setPassword("your_password");
         config.setMaximumPoolSize(20);
         config.setMinimumIdle(10);
         config.setIdleTimeout(600000);

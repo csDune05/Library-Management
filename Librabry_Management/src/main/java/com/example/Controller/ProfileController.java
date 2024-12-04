@@ -86,7 +86,10 @@ public class ProfileController {
         return (Stage) homeButton.getScene().getWindow();
     }
 
-    private boolean confirmChangeAvatar() {
+    /**
+     * Handle confirm chang avatar event.
+     */
+    public boolean confirmChangeAvatar() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Change Avatar");
         alert.setHeaderText(null);
@@ -96,7 +99,10 @@ public class ProfileController {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
-    private void handleChangeAvatar() {
+    /**
+     * Handle change avatar.
+     */
+    public void handleChangeAvatar() {
         if (!confirmChangeAvatar()) {
             return;
         }
@@ -107,87 +113,112 @@ public class ProfileController {
 
         File selectedFile = fileChooser.showOpenDialog(avatarImageView.getScene().getWindow());
         if (selectedFile != null) {
-            // Kiểm tra định dạng file hợp lệ
             if (!selectedFile.getName().matches(".*\\.(png|jpg|jpeg)$")) {
                 showAlert("Invalid File", "Please select a valid image file.");
                 return;
             }
 
-            // Hiển thị ảnh đã chọn
             Image newAvatar = new Image(selectedFile.toURI().toString());
             avatarImageView.setImage(newAvatar);
 
-            // Lưu đường dẫn ảnh (nếu cần)
             saveAvatarPath(selectedFile.getAbsolutePath());
         }
     }
 
-    private void showAlert(String title, String content) {
+    public void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
     }
 
-
-    private void saveAvatarPath(String path) {
-        // Thêm logic lưu đường dẫn vào cơ sở dữ liệu hoặc tệp cấu hình
+    public void saveAvatarPath(String path) {
         System.out.println("Avatar path saved: " + path);
     }
 
+    /**
+     * Show forum.
+     */
     @FXML
     public void forumProfileButtonHandler() {MainStaticObjectControl.openProfileForumStage(getCurrentStage());}
 
+    /**
+     * Show note.
+     */
     @FXML
     public void notesProfileButtonHandler() {MainStaticObjectControl.openProfileNotesStage(getCurrentStage());}
 
+    /**
+     * Handle switch to password and security scene.
+     */
     @FXML
     public void passwordAndSecurityButtonHandler() {MainStaticObjectControl.openProfilePasswordAndSecurityStage(getCurrentStage());}
 
+    /**
+     * Handle switch to my library scene.
+     */
     @FXML
     public void myLibraryButtonHandler() {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to home scene.
+     */
     @FXML
     public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to donate us scene.
+     */
     @FXML
     public void DonateUsButtonHandler() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to books scene.
+     */
     @FXML
     public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
+    /**
+     * Handle exit event.
+     */
     @FXML
     public void LogOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
+    /**
+     * Handle clear all notification.
+     */
     @FXML
     public void ClearALlButtonHandler() {
         MainStaticObjectControl.clearAllNotificationsForUser();
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
-    private User getCurrentUser() {
+    public User getCurrentUser() {
         return MainStaticObjectControl.getCurrentUser();
     }
 
-    private void setAvatarRoundedCorners() {
+    public void setAvatarRoundedCorners() {
         Rectangle clip = new Rectangle(avatarImageView.getFitWidth(), avatarImageView.getFitHeight());
         clip.setArcWidth(20); // Độ bo góc
         clip.setArcHeight(20);
         avatarImageView.setClip(clip);
     }
 
+    /**
+     * Handle save change profile make new notification event.
+     */
     @FXML
-    private void handleSave() {
+    public void handleSave() {
         saveUser(currentUser);
         String notification = "You have changed your profile.";
         MainStaticObjectControl.addNotificationToFile(notification);
@@ -195,30 +226,31 @@ public class ProfileController {
         MainStaticObjectControl.updateNotificationIcon(notificationImageView);
     }
 
+    /**
+     * Handle show notification event.
+     */
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
         if(!notificationPane.isVisible()) MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
-
-    private void saveUser(User user) {
-
-        // Lấy thông tin từ các TextField
+    /**
+     * save user.
+     */
+    public void saveUser(User user) {
         String name = nameField.getText();
         String birthdate = birthdateField.getText();
         String phone_number = phoneField.getText();
         String email = emailField.getText();
         String location = locationField.getText();
 
-        // Kiểm tra thông tin nhập vào
         if (name.trim().isEmpty() || birthdate.trim().isEmpty() || phone_number.trim().isEmpty() || email.trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng điền đầy đủ thông tin!");
             alert.showAndWait();
             return;
         }
 
-        // Cập nhật thông tin trong cơ sở dữ liệu
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET name = ?, birthdate = ?, phone_number = ?, email = ?, location = ? WHERE name = ? AND email = ?")) {
 
@@ -248,11 +280,12 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Initialize profile scene.
+     */
     @FXML
     public void initialize() {
-
         currentUser = getCurrentUser();
-
         if (currentUser != null) {
             nameField.setText(currentUser.getName());
             birthdateField.setText(currentUser.getBirthDate());
@@ -261,23 +294,17 @@ public class ProfileController {
             locationField.setText(currentUser.getLocation());
             passwordField.setText(currentUser.getPassword());
         }
-
         Image placeholderImage = new Image(getClass().getResource("/com/example/librabry_management/Images/avatar.png").toExternalForm());
         avatarImageView.setImage(placeholderImage);
-        // combo box options
+
         MainStaticObjectControl.configureOptionsComboBox(optionsComboBox);
-        // notification
         MainStaticObjectControl.updateNotificationIcon(notificationImageView);
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
 
-        // Gắn sự kiện khi nhấn vào ImageView
         avatarImageView.setOnMouseClicked(event -> handleChangeAvatar());
-
-        // Hiệu ứng khi rê chuột qua ImageView
         avatarImageView.setOnMouseEntered(e -> avatarImageView.setStyle("-fx-opacity: 0.8;"));
         avatarImageView.setOnMouseExited(e -> avatarImageView.setStyle("-fx-opacity: 1;"));
 
-        // Hiệu ứng viền khi rê chuột qua
         avatarImageView.setOnMouseEntered(e -> avatarImageView.setStyle("-fx-effect: dropshadow(gaussian, blue, 10, 0.5, 0, 0);"));
         avatarImageView.setOnMouseExited(e -> avatarImageView.setStyle("-fx-effect: null;"));
 

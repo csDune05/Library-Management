@@ -170,6 +170,9 @@ public class BookDetailController implements Initializable {
         return (Stage) booksButton.getScene().getWindow();
     }
 
+    /**
+     * Handle back to previous scene.
+     */
     @FXML
     public void backButtonHandler() {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -185,47 +188,71 @@ public class BookDetailController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Handle clear all notification.
+     */
     @FXML
     public void ClearALlButtonHandler() {
         MainStaticObjectControl.clearAllNotificationsForUser();
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
+    /**
+     * Handle switch to my library scene.
+     */
     @FXML
     public void myLibraryButtonHandler() {
         MainStaticObjectControl.openLibraryStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to books scene.
+     */
     @FXML
     public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to home scene.
+     */
     @FXML
     public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to profile scene.
+     */
     @FXML
     public void ProfileButtonHandler() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to donate scene.
+     */
     @FXML
     public void DonateUsButtonHandler() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
+    /**
+     * Handle exit event.
+     */
     @FXML
     public void LogOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
+    /**
+     * Handle borrow book event.
+     */
     @FXML
     public void borrowBookHandler() {
-        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
+        User currentUser = MainStaticObjectControl.getCurrentUser();
         if (currentUser != null) {
-            int bookId = getCurrentBookId(); // Lấy book_id của sách hiện tại
+            int bookId = getCurrentBookId();
             if (bookId > 0) {
                 if (!DatabaseHelper.isBookAlreadyBorrowed(currentUser.getId(), bookId)) {
                     DatabaseHelper.borrowBook(currentUser.getId(), bookId);
@@ -262,6 +289,9 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    /**
+     * Handle get qr book.
+     */
     @FXML
     public void qrCodeButtonHandler() throws URISyntaxException {
         Book currentBook = getCurrentBook();
@@ -286,6 +316,9 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    /**
+     * Handle show notification event.
+     */
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
@@ -316,12 +349,15 @@ public class BookDetailController implements Initializable {
         return null;
     }
 
+    /**
+     * Handle exit comment event.
+     */
     @FXML
-    private void exitComment() {
+    public void exitComment() {
         CommentPane.setVisible(false);
     }
 
-    private int getCurrentBookId() {
+    public int getCurrentBookId() {
         try (Connection conn = DatabaseHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement("SELECT id FROM books WHERE title = ? AND author = ? LIMIT 1")) {
             pstmt.setString(1, bookTitle.getText()); // Assuming bookTitle is the Label showing the title
@@ -333,7 +369,7 @@ public class BookDetailController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1; // Return -1 if the book is not found
+        return -1;
     }
 
     public void setBookDetail(Book book) {
@@ -341,16 +377,16 @@ public class BookDetailController implements Initializable {
             Image image = new Image(book.getThumbnailUrl(), true);
             Platform.runLater(() -> {
                 bookImage.setImage(image);
-                bookImage.setPreserveRatio(false); // Giữ tỷ lệ hình ảnh
-                bookImage.setFitWidth(220); // Đặt chiều rộng tối đa (hoặc chiều cao nếu cần)
+                bookImage.setPreserveRatio(false);
+                bookImage.setFitWidth(220);
                 bookImage.setFitHeight(330);
             });
         });
-        bookTitle.setText(book.getTitle());// Tiêu đề
+        bookTitle.setText(book.getTitle());
         currentBookName = book.getTitle();
-        bookAuthor.setText(book.getAuthor().toUpperCase()); // Tác giả
-        bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate()); // Năm sáng tác
-        bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher()); // Nhà xuất bản
+        bookAuthor.setText(book.getAuthor().toUpperCase());
+        bookYear.setText(book.getDate().equals("Unknown Date") ? "Unknown Date" : book.getDate());
+        bookPublisher.setText(book.getPublisher().equals("UnKnown Publisher") ? "Unknown Publisher" : book.getPublisher());
         ratingStarLabel.setText(book.getRating().equals("Unrated") ? "Unrated" : book.getRating() + " ★");
         bookView.setText(String.valueOf(book.getView()));
 
@@ -359,25 +395,24 @@ public class BookDetailController implements Initializable {
         Text descriptionTextTitle = new Text(Description + "\n");
         descriptionTextTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14");
         Text descriptionText = new Text("\t" + book.getDescription());
-        descriptionText.setStyle("-fx-font-size: 14;"); // Thiết lập font-size
-        bookDescription.getChildren().clear(); // Xóa nội dung cũ nếu có
+        descriptionText.setStyle("-fx-font-size: 14;");
+        bookDescription.getChildren().clear();
         bookDescription.getChildren().addAll(descriptionTextTitle, descriptionText);
 
         incrementBookView(book);
-        // Gọi loadRelatedBooks để tải sách liên quan
         loadRelatedBooks();
     }
 
-    private void loadRelatedBooks() {
+    public void loadRelatedBooks() {
         CompletableFuture.runAsync(() -> {
             // Lấy danh sách sách liên quan từ cơ sở dữ liệu
             List<Book> relatedBooks = DatabaseHelper.getRelatedBooks(bookTitle.getText(), bookAuthor.getText());
 
             Platform.runLater(() -> {
-                relatedBooksVBox.getChildren().clear(); // Xóa nội dung cũ
+                relatedBooksVBox.getChildren().clear();
                 for (Book book : relatedBooks) {
-                    VBox bookCard = createBookCard(book); // Tạo card sách
-                    relatedBooksVBox.getChildren().add(bookCard); // Thêm card vào VBox
+                    VBox bookCard = createBookCard(book);
+                    relatedBooksVBox.getChildren().add(bookCard);
                 }
             });
         }).exceptionally(ex -> {
@@ -386,19 +421,19 @@ public class BookDetailController implements Initializable {
         });
     }
 
-    private VBox createBookCard(Book book) {
+    public VBox createBookCard(Book book) {
         return BookCard.createBookCard(book, this::openBookDetail);
     }
 
 
-    private void incrementBookView(Book book) {
+    public void incrementBookView(Book book) {
         int bookId = DatabaseHelper.getBookId(book.getTitle(), book.getAuthor());
         if (bookId > 0) {
             DatabaseHelper.incrementBookView(bookId);
         }
     }
 
-    private void openBookDetail(Book book) {
+    public void openBookDetail(Book book) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
             Parent root = loader.load();
@@ -416,6 +451,9 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    /**
+     * Handle show comment scene.
+     */
     @FXML
     public void commentButtonHandler() {
         Book currentBook = getCurrentBook();
@@ -425,6 +463,9 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    /**
+     * Handle push comment.
+     */
     @FXML
     public void confirmButtonHandler() {
         String commentText = commentTextField.getText();
@@ -436,30 +477,30 @@ public class BookDetailController implements Initializable {
         }
     }
 
+    /**
+     * Update comment.
+     */
     public void updateComment(ScrollPane CommentScrollPane, VBox commentListBox) {
         List<String> comments = readCommentsForBook();
 
         String sortOption = sortComboBox.getValue();
         if ("Newest".equals(sortOption)) {
-            // Sắp xếp theo thời gian gần nhất
             comments.sort((c1, c2) -> {
                 String timestamp1 = c1.split("_")[2];
                 String timestamp2 = c2.split("_")[2];
                 return timestamp2.compareTo(timestamp1);
             });
         } else if ("Oldest".equals(sortOption)) {
-            // Sắp xếp theo thời gian cũ nhất
             comments.sort((c1, c2) -> {
                 String timestamp1 = c1.split("_")[2];
                 String timestamp2 = c2.split("_")[2];
-                return timestamp1.compareTo(timestamp2);  // So sánh thời gian
+                return timestamp1.compareTo(timestamp2);
             });
         } else if ("Popular".equals(sortOption)) {
-            // Sắp xếp theo số lượt like
             comments.sort((c1, c2) -> {
                 int likes1 = Integer.parseInt(c1.split("_")[3]);
                 int likes2 = Integer.parseInt(c2.split("_")[3]);
-                return Integer.compare(likes2, likes1);  // So sánh số lượt like
+                return Integer.compare(likes2, likes1);
             });
         }
 
@@ -578,7 +619,7 @@ public class BookDetailController implements Initializable {
         CommentScrollPane.setContent(commentList);
     }
 
-    private void updateLikesInJson(String[] parts, int likeChange, int dislikeChange) {
+    public void updateLikesInJson(String[] parts, int likeChange, int dislikeChange) {
         try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
             StringBuilder jsonContent = new StringBuilder();
             String line;
@@ -611,7 +652,7 @@ public class BookDetailController implements Initializable {
         }
     }
 
-    private void addCommentToFile(String comment, String username, int countLike, int countDislike) {
+    public void addCommentToFile(String comment, String username, int countLike, int countDislike) {
         try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
             StringBuilder jsonContent = new StringBuilder();
             String line;
@@ -648,7 +689,6 @@ public class BookDetailController implements Initializable {
             comments.put(commentObject);
             root.put(currentBookName, comments);
 
-            // Ghi lại vào file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("comments.json"))) {
                 writer.write(root.toString(4));
             }
@@ -657,13 +697,13 @@ public class BookDetailController implements Initializable {
         }
     }
 
-    private String getCurrentTimestamp() {
+    public String getCurrentTimestamp() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH'h'mm dd/MM/yyyy");
         return now.format(formatter);
     }
 
-    private List<String> readCommentsForBook() {
+    public List<String> readCommentsForBook() {
         List<String> comments = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader("comments.json"))) {
@@ -702,6 +742,9 @@ public class BookDetailController implements Initializable {
         return comments;
     }
 
+    /**
+     * Initialize book details.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DatabaseHelper.createUserBooksTable();
@@ -724,8 +767,11 @@ public class BookDetailController implements Initializable {
         updateComment(CommentScrollPane, commentListBox);
     }
 
+    /**
+     * Handle asking mini chat bot.
+     */
     @FXML
-    private void explainButtonHandler() {
+    public void explainButtonHandler() {
         // Lấy truy vấn từ TextField
         String query = queryTextField.getText().trim();
 

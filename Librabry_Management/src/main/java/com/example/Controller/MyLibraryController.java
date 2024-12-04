@@ -17,6 +17,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import com.example.librabry_management.*;
 import com.example.Feature.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -87,37 +89,58 @@ public class MyLibraryController {
         return (Stage) homeButton.getScene().getWindow();
     }
 
+    /**
+     * Handle switch to books scene.
+     */
     @FXML
     public void BooksButtonHandler() {
         MainStaticObjectControl.openBookStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to profile scene.
+     */
     @FXML
     public void ProfileButtonHandler() {
         MainStaticObjectControl.openProfileStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to donate us scene.
+     */
     @FXML
     public void DonateUsButtonHandler() {
         MainStaticObjectControl.openDonateStage(getCurrentStage());
     }
 
+    /**
+     * Handle switch to home scene.
+     */
     @FXML
     public void HomeButtonHandler() {
         MainStaticObjectControl.openDashboardStage(getCurrentStage());
     }
 
+    /**
+     * Handle exit.
+     */
     @FXML
     public void LogOutButtonHandler() {
         MainStaticObjectControl.logOut(getCurrentStage());
     }
 
+    /**
+     * Handle clear all notification event.
+     */
     @FXML
     public void ClearALlButtonHandler() {
         MainStaticObjectControl.clearAllNotificationsForUser();
         MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
+    /**
+     * Handle show notifications.
+     */
     @FXML
     public void notificationButtonHandler() {
         MainStaticObjectControl.showAnchorPane(notificationPane, notificationButton);
@@ -125,6 +148,9 @@ public class MyLibraryController {
             MainStaticObjectControl.updateNotifications(notificationScrollPane, notificationList);
     }
 
+    /**
+     * Initialize my library scene.
+     */
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
@@ -168,17 +194,20 @@ public class MyLibraryController {
         }
     }
 
-    private void updateGridPane() {
-        gridPane.getChildren().clear(); // Xóa toàn bộ nội dung cũ
+    /**
+     * update grid pane.
+     */
+    public void updateGridPane() {
+        gridPane.getChildren().clear();
 
         gridPane.setHgap(22);
 
-        int row = 0, col = 0; // Vị trí bắt đầu trong GridPane
-        int booksPerRow = 5; // Số sách mỗi hàng
+        int row = 0, col = 0;
+        int booksPerRow = 5;
 
         for (Book book : borrowedBooks) {
-            VBox bookCard = createBookCard(book); // Tạo thẻ sách mới
-            gridPane.add(bookCard, col, row); // Thêm vào GridPane
+            VBox bookCard = createBookCard(book);
+            gridPane.add(bookCard, col, row);
             col++;
             if (col >= booksPerRow) {
                 col = 0;
@@ -187,8 +216,11 @@ public class MyLibraryController {
         }
     }
 
+    /**
+     * Handel search event.
+     */
     @FXML
-    private void searchHandler() {
+    public void searchHandler() {
         if (currentUser == null) {
             System.out.println("No user logged in.");
             return;
@@ -203,17 +235,17 @@ public class MyLibraryController {
             return;
         }
 
-        borrowedBooks.clear(); // Xóa danh sách cũ
-        gridPane.getChildren().clear(); // Xóa nội dung cũ trên GridPane
+        borrowedBooks.clear();
+        gridPane.getChildren().clear();
 
         CompletableFuture.supplyAsync(() -> DatabaseHelper.searchBooksForUser(currentUser.getId(), query))
                 .thenAccept(searchResults -> {
                     if (searchResults == null || searchResults.isEmpty()) {
-                        Platform.runLater(this::showNoResultsMessage); // Hiển thị thông báo
+                        Platform.runLater(this::showNoResultsMessage);
                     } else {
                         Platform.runLater(() -> {
-                            borrowedBooks.setAll(searchResults); // Thêm sách tìm được
-                            updateGridPane(); // Cập nhật GridPane
+                            borrowedBooks.setAll(searchResults);
+                            updateGridPane();
                         });
                     }
                 }).exceptionally(ex -> {
@@ -222,23 +254,25 @@ public class MyLibraryController {
                 });
     }
 
-    private void showNoResultsMessage() {
+    public void showNoResultsMessage() {
         Label noResults = new Label("No books found.");
         noResults.setStyle("-fx-font-size: 18px; -fx-text-fill: gray; -fx-font-weight: bold;");
         gridPane.getChildren().clear();
         gridPane.add(noResults, 0, 0);
-        GridPane.setColumnSpan(noResults, 5); // Giãn nhãn ra toàn bộ 5 cột
+        GridPane.setColumnSpan(noResults, 5);
     }
 
-
-    private void loadUserBooks() {
+    /**
+     * Load users_books from database.
+     */
+    public void loadUserBooks() {
         if (currentUser == null) {
             System.out.println("No user logged in.");
             return;
         }
         gridPane.setHgap(20);
 
-        borrowedBooks.clear(); // Xóa danh sách cũ
+        borrowedBooks.clear();
 
         CompletableFuture.supplyAsync(() -> {
             // Tải danh sách sách từ cơ sở dữ liệu trên luồng nền
@@ -249,16 +283,18 @@ public class MyLibraryController {
                 return;
             }
 
-            borrowedBooks.addAll(userBooks); // Thêm sách vào danh sách
-            Platform.runLater(this::updateGridPane); // Cập nhật giao diện
+            borrowedBooks.addAll(userBooks);
+            Platform.runLater(this::updateGridPane);
         }).exceptionally(ex -> {
-            // Xử lý ngoại lệ
             ex.printStackTrace();
             return null;
         });
     }
 
-    private void handleReturnBook(Book book) {
+    /**
+     * Handle return book event.
+     */
+    public void handleReturnBook(Book book) {
         if (currentUser != null) {
             int userId = currentUser.getId();
             int bookId = DatabaseHelper.getBookId(book.getTitle(), book.getAuthor());
@@ -274,7 +310,7 @@ public class MyLibraryController {
                     loadBookCards();
                     loadLikeBookCards();
                     borrowedBooks.remove(book); // Xóa sách khỏi danh sách hiển thị
-                    updateGridPane(); // Cập nhật lại GridPane
+                    updateGridPane();
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Return Book");
@@ -295,7 +331,10 @@ public class MyLibraryController {
         }
     }
 
-    private VBox createBookCard(Book book) {
+    /**
+     * Create card for book.
+     */
+    public VBox createBookCard(Book book) {
         ImageView thumbnail = new ImageView();
         thumbnail.setFitWidth(110);
         thumbnail.setFitHeight(160);
@@ -318,12 +357,12 @@ public class MyLibraryController {
         returnButton.setOnMouseEntered(event -> {
             returnButton.setStyle(
                     "-fx-background-color: #ff7f7f; -fx-text-fill: white; -fx-border-radius: 5px;"
-            ); // Màu khi hover
+            );
         });
         returnButton.setOnMouseExited(event -> {
             returnButton.setStyle(
                     "-fx-background-color: #ff6347; -fx-text-fill: white; -fx-border-radius: 5px;"
-            ); // Màu mặc định
+            );
         });
         returnButton.setPrefWidth(120);
         returnButton.setOnAction(event -> handleReturnBook(book)); // Gắn sự kiện cho nút
@@ -331,7 +370,6 @@ public class MyLibraryController {
         VBox card = new VBox(5, thumbnail, title, returnButton);
         card.setPadding(new Insets(10));
 
-        // Áp dụng viền và hiệu ứng bóng cho card
         card.setStyle(
                 "-fx-border-color: lightgray; " +
                         "-fx-border-width: 2px; " +
@@ -341,7 +379,6 @@ public class MyLibraryController {
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 2);"
         );
 
-        // Thêm hiệu ứng hover cho card
         card.setOnMouseEntered(event -> {
             card.setStyle(
                     "-fx-border-color: #007bff; " +
@@ -371,7 +408,10 @@ public class MyLibraryController {
         return card;
     }
 
-    private void loadBookCards() {
+    /**
+     * Load book card.
+     */
+    public void loadBookCards() {
         try {
             Book sampleBook = MainStaticObjectControl.getLastReturnBook();
             if (sampleBook != null) {
@@ -388,7 +428,10 @@ public class MyLibraryController {
         }
     }
 
-    private VBox createBookReturnCard(Book book) {
+    /**
+     * Create book return card.
+     */
+    public VBox createBookReturnCard(Book book) {
         try {
             // Tạo card ban đầu từ BookCard
             VBox card = BookCard.createBookCard(book, this::viewBookDetails);
@@ -412,28 +455,9 @@ public class MyLibraryController {
             );
             borrowAgainButton.setOnAction(event -> handleBorrowAgain(book));
 
-            // Nút Comment
-            Button commentButton = new Button("Comment");
-            commentButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-border-radius: 5px;");
-            commentButton.setOnMouseEntered(event ->
-                    commentButton.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-border-radius: 5px;")
-            );
-            commentButton.setOnMouseExited(event ->
-                    commentButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-border-radius: 5px;")
-            );
-            commentButton.setOnMousePressed(event ->
-                    commentButton.setStyle("-fx-background-color: #1565C0; -fx-text-fill: white; -fx-border-radius: 5px;")
-            );
-            commentButton.setOnMouseReleased(event ->
-                    commentButton.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-border-radius: 5px;")
-            );
-            commentButton.setOnAction(event -> handleComment(book));
+            HBox buttonContainer = new HBox(10, borrowAgainButton);
+            buttonContainer.setAlignment(Pos.CENTER);
 
-            // Tạo HBox chứa các nút
-            HBox buttonContainer = new HBox(10, borrowAgainButton, commentButton);
-            buttonContainer.setAlignment(Pos.CENTER); // Căn giữa các nút
-
-            // Thêm các nút vào card
             card.getChildren().add(buttonContainer);
 
             return card;
@@ -444,8 +468,11 @@ public class MyLibraryController {
     }
 
 
-    private void handleBorrowAgain(Book book) {
-        User currentUser = MainStaticObjectControl.getCurrentUser(); // Lấy đối tượng User hiện tại
+    /**
+     * Handle borrow again from book return card.
+     */
+    public void handleBorrowAgain(Book book) {
+        User currentUser = MainStaticObjectControl.getCurrentUser();
         if (currentUser != null) {
             Book last = MainStaticObjectControl.getLastReturnBook();
             int bookId = DatabaseHelper.getBookId(last.getTitle(), last.getAuthor());
@@ -458,7 +485,6 @@ public class MyLibraryController {
                     alert.setContentText("Book borrowed successfully!");
                     alert.showAndWait();
 
-                    // Thêm thông báo mượn sách.
                     String bookTitle = last.getTitle();
                     String notification = "You borrowed the " + bookTitle + " book.";
 
@@ -487,24 +513,29 @@ public class MyLibraryController {
         }
     }
 
-    private void handleComment(Book book) {
+    public void handleComment(Book book) {
         System.out.println("Comment clicked for book: " + book.getTitle());
     }
 
-    private void loadLikeBookCards() {
+    /**
+     * Load like book card.
+     */
+    public void loadLikeBookCards() {
         Book last = MainStaticObjectControl.getLastReturnBook();
         List<Book> sampleBooks = DatabaseHelper.getRelatedBooks(last.getTitle(), last.getAuthor());
-        // Xóa nội dung cũ nếu có
+
         likeCardContainer.getChildren().clear();
 
-        // Thêm từng BookCard vào VBox
         for (Book book : sampleBooks) {
             VBox bookCard = createLikeBookCard(book);
             likeCardContainer.getChildren().add(bookCard);
         }
     }
 
-    private VBox createLikeBookCard(Book book) {
+    /**
+     * Create like book card.
+     */
+    public VBox createLikeBookCard(Book book) {
         VBox card = BookCard.createBookCard(book, this::viewBookDetails);
         card.setStyle(
                 "-fx-border-color: lightgray; " +
@@ -538,7 +569,10 @@ public class MyLibraryController {
         return card;
     }
 
-    private void viewBookDetails(Book book) {
+    /**
+     * Handle show book detail event.
+     */
+    public void viewBookDetails(Book book) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/librabry_management/BookDetail.fxml"));
             Parent root = loader.load();
