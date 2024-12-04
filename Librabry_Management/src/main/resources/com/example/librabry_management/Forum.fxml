@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.NotesController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #faffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.Controller.ForumController">
    <children>
       <Line endX="950.0" layoutX="250.0" layoutY="74.0" opacity="0.2" startX="-164.0" />
       <Line endX="53.0" endY="-77.0" layoutX="894.0" layoutY="154.0" opacity="0.2" startX="53.0" startY="558.0" />
@@ -35,13 +33,17 @@
                </font>
             </Button>
             <Line endX="385.64007568359375" endY="0.4142006039619446" opacity="0.2" startX="196.84719848632812" />
-            <Button mnemonicParsing="false" onAction="#forumProfileButtonHandler" prefHeight="37.0" prefWidth="203.0" styleClass="HomeButton" stylesheets="@style.css" text="Forum">
+            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="203.0" stylesheets="@style.css" text="Forum">
                <font>
                   <Font size="18.0" />
                </font>
+               <styleClass>
+                  <String fx:value="HomeButton" />
+                  <String fx:value="button-base" />
+               </styleClass>
             </Button>
             <Line endX="380.81170654296875" endY="7.748603820800781E-7" opacity="0.2" startX="572.1046142578125" startY="-1.2159347534179688E-5" />
-            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="235.0" styleClass="button-base" stylesheets="@style.css" text="Notes">
+            <Button mnemonicParsing="false" onAction="#notesProfileButtonHandler" prefHeight="32.0" prefWidth="235.0" styleClass="HomeButton" stylesheets="@style.css" text="Notes">
                <font>
                   <Font size="18.0" />
                </font>
@@ -58,7 +60,7 @@
       <Line endX="-3.0" endY="-50.0" layoutX="286.0" layoutY="135.0" opacity="0.2" startX="-6.0" startY="572.0" />
       <HBox layoutX="283.0" layoutY="84.0" prefHeight="54.0" prefWidth="654.0">
          <children>
-            <Label prefHeight="54.0" prefWidth="232.0" styleClass="titleLabel" text="     Notes">
+            <Label prefHeight="54.0" prefWidth="232.0" styleClass="titleLabel" text="     Forum">
                <font>
                   <Font size="24.0" />
                </font>
@@ -196,22 +198,12 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <VBox alignment="TOP_LEFT" layoutX="334.0" layoutY="159.0" spacing="10">
-         <padding>
-            <Insets bottom="10" left="10" right="10" top="10" />
-         </padding>
-         <children>
-            <ListView fx:id="notesListView" prefHeight="200.0" />
-            <TextField fx:id="titleTextField" promptText="Title" />
-            <TextArea fx:id="contentTextArea" prefHeight="150.0" promptText="Write your note here..." wrapText="true" />
-            <HBox spacing="10">
-               <children>
-                  <Button fx:id="addButton" onAction="#addNewNote" styleClass="button-base1" stylesheets="@style.css" text="Add" />
-                  <Button fx:id="editSaveButton" onAction="#editSaveNote" styleClass="button-base1" stylesheets="@style.css" text="Edit" />
-                  <Button onAction="#deleteNote" styleClass="button-base1" stylesheets="@style.css" text="Delete" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+      <ScrollPane layoutX="329.0" layoutY="150.0" prefHeight="376.0" prefWidth="572.0">
+         <content>
+            <VBox fx:id="commentList" prefHeight="375.0" prefWidth="570.0" />
+         </content>
+      </ScrollPane>
+      <TextArea fx:id="commentInput" layoutX="329.0" layoutY="546.0" prefHeight="26.0" prefWidth="504.0" />
+      <Button layoutX="843.0" layoutY="546.0" mnemonicParsing="false" onAction="#addComment" prefHeight="37.0" prefWidth="61.0" styleClass="button-base1" stylesheets="@style.css" text="Send" />
    </children>
 </AnchorPane>

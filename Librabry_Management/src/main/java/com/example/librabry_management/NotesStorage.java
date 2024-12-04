@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NotesStorage {
 
@@ -25,7 +26,6 @@ public class NotesStorage {
             e.printStackTrace();
         }
     }
-
 
     public static List<Note> loadNotes() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
@@ -46,7 +46,15 @@ public class NotesStorage {
             }
 
             List<Note> notes = gson.fromJson(jsonContent.toString(), noteListType);
-            return notes != null ? notes : new ArrayList<>();
+            if (notes == null) {
+                return new ArrayList<>();
+            }
+
+            // Lọc các ghi chú theo email của người dùng hiện tại
+            String currentUserEmail = MainStaticObjectControl.getCurrentUser().getEmail();
+            return notes.stream()
+                    .filter(note -> currentUserEmail.equals(note.getUserEmail()))
+                    .collect(Collectors.toList());
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
         }

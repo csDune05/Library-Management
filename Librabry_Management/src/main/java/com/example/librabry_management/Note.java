@@ -3,6 +3,7 @@ package com.example.librabry_management;
 public class Note {
     private String title;
     private String content;
+    private String userEmail;
 
     public Note() {}
 
@@ -26,5 +27,13 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

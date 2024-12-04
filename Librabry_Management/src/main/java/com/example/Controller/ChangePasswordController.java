@@ -132,6 +132,9 @@ public class ChangePasswordController {
     }
 
     @FXML
+    public void forumProfileButtonHandler() {MainStaticObjectControl.openProfileForumStage(getCurrentStage());}
+
+    @FXML
     public void notesProfileButtonHandler() {MainStaticObjectControl.openProfileNotesStage(getCurrentStage());}
 
     @FXML

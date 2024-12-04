@@ -245,6 +245,38 @@
             "timestamp": "20h35 03/12/2024"
         }
     ],
+    "duy": [
+        {
+            "message": "You borrowed the I Conan book.",
+            "read": true,
+            "timestamp": "21h13 03/12/2024"
+        },
+        {
+            "message": "You borrowed the Conan Doyle book.",
+            "read": true,
+            "timestamp": "21h13 03/12/2024"
+        },
+        {
+            "message": "You borrowed the Conan Volume 7: Cimmeria book.",
+            "read": true,
+            "timestamp": "21h13 03/12/2024"
+        },
+        {
+            "message": "You borrowed the Conan Volume 4: The Hall of the Dead and Other Stories book.",
+            "read": true,
+            "timestamp": "21h13 03/12/2024"
+        },
+        {
+            "message": "You returned the Conan Volume 4: The Hall of the Dead and Other Stories book.",
+            "read": true,
+            "timestamp": "21h14 03/12/2024"
+        },
+        {
+            "message": "You borrowed the Conan Volume 4: The Hall of the Dead and Other Stories book.",
+            "read": true,
+            "timestamp": "21h14 03/12/2024"
+        }
+    ],
     "duydz": [
         {
             "message": "You have changed your ptofile.",
